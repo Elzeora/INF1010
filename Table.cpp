@@ -2,12 +2,9 @@
  * Fichier: Table.cpp
  * Auteur: Louis Roberge
  * Date: 24 Janvier 2019
- * Mise a jour : 11 mai 2011
  * Description: Implémentation de la classe Table
  ****************************************************************************/
 #include "Table.h"
-#include "menu.h"
-#include "PolyFood.txt"
 
 
  /****************************************************************************
@@ -37,7 +34,7 @@ Table :: Table (int id, int nbPlaces) {
 	occupee_ = false;
 	Plat** commande_ = new Plat*[MAXCAP];
 	Menu menu;
-	menu.lireMenu("PolyFood");
+
 }
 /****************************************************************************
  * Fonction: Table::getid
@@ -87,7 +84,7 @@ void Table::placerClient() {
 /****************************************************************************
  * Fonction: Table::setId
  * Description: attribue un id a une table selon l'id donnee
- * Paramètres: aucun
+ * Paramètres: - int id : valeur de id_ (IN)
  * Retour:  aucun
  ****************************************************************************/
 void Table::setId(int id) {
