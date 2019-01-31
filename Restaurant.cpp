@@ -17,11 +17,6 @@ Restaurant::Restaurant() {
 //constructeur par paramtere
 Restaurant::Restaurant(string& fichier, string& nom, TypeMenu moment) {
 	lireTable(fichier);
-
-
-
-
-
 }
 
 //setters
@@ -67,10 +62,21 @@ void commanderPlat(string& nom, int idTable) {
 }
 
 void placerClients(int nbClients) {
-
+	
 }
 
 void afficher() {
-
+	if (chiffreAffaire_ = 0) {
+		cout << "Le restaurant " << nom_ << " n'a pas fait de benefice ou le chiffre n'est pas encore calcule." << endl;
+	}else {
+		cout << "Le restaurant " << nom_ << " a fait un chiffre d'affaire de : " << chiffreAffaire_ << "$" << endl;
+	}
+	"-Voici les tables : " << endl;
+	for (int i = 0; i < nbTable_; i++) {
+		tables_[i].afficher();
+	}
+	menuMatin_.afficher();
+	menuMidi_.afficher();
+	menuSoir_.afficher();
 }
 

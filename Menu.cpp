@@ -42,7 +42,6 @@ Plat* Menu::trouverPlat(string& nom) {
 	}
 	return nullptr;
 }
-
 void Menu::ajouterPlat(Plat& plat) {
 	if (unsigned(getNbPlats()) >= capacite_) {
 		capacite_ *= 2;
@@ -54,7 +53,6 @@ void Menu::ajouterPlat(Plat& plat) {
 void Menu::ajouterPlat(string& nom, double montant, double cout) {
 	ajouterPlat(nom, montant, cout);
 }
-
 bool Menu::lireMenu(string& fichier) {
 	ifstream fichierLire(fichier);
 	for (int i = 0; i < type_+1; i++) {
@@ -73,7 +71,6 @@ bool Menu::lireMenu(string& fichier) {
 	}
 	return 0;//////////////////////////////////////check cque tu dois retourner comme bool
 }
-
 void Menu::afficher() {
 	switch (type_) {
 	case Matin: cout << "Matin :\n";

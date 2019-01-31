@@ -1,11 +1,11 @@
-/****************************************************************************
+./****************************************************************************
  * Fichier: Plat.cpp
  * Auteur: Louis Roberge
  * Date: 29 Janvier 2019
  * Description: Implémentation de la classe Plat
  ****************************************************************************/
 #include "Plat.h"
-#include "menu.h"
+
 
 
 /****************************************************************************
@@ -14,10 +14,10 @@
  * Paramètres: aucun
  * Retour: aucun
  ****************************************************************************/
-Plat::Plat() {
+Plat::Plat() const {
 	nom_ = "inconnu";
-	prix_ = 0;
-	cout_ = 0;
+	prix_ = 0.0;
+	cout_ = 0.0;
 }
 /****************************************************************************
  * Fonction: Plat :: Plat
@@ -38,7 +38,7 @@ Plat::Plat(string nom, double prix, double cout) {
  * Paramètres: aucun
  * Retour: (string) le string de nom_
  ****************************************************************************/
-string Plat::getNom() {
+string Plat::getNom() const{
 	return nom_;
 }
 /****************************************************************************
@@ -47,7 +47,7 @@ string Plat::getNom() {
  * Paramètres: aucun
  * Retour: (double) la valeur de prix_
  ****************************************************************************/
-double Plat::getPrix() {
+double Plat::getPrix() const {
 	return prix_;
 }
 /****************************************************************************
@@ -56,7 +56,7 @@ double Plat::getPrix() {
  * Paramètres: aucun
  * Retour: (double) la valeur de cout_
  ****************************************************************************/
-double Plat::getCout() {
+double Plat::getCout() const{
 	return cout_;
 }
 /****************************************************************************
@@ -83,6 +83,6 @@ void Plat::setPrix(double prix) {
  * Paramètres: aucun
  * Retour: rien
  ****************************************************************************/
-void Plat::afficher() {
+void Plat::afficher() const{
 	cout << nom_ << " - " << prix_ << " $ " << "(" << cout_ << "$" << " pour le restaurant)" << endl;
 }

@@ -13,7 +13,7 @@
   * Paramètres: aucun
   * Retour: aucun
   ****************************************************************************/
-Table::Table() {
+Table::Table() const {
 	capacite_ = MAXCAP;
 	id_ = -1;
 	nbPlaces_ = 1;
@@ -37,12 +37,24 @@ Table :: Table (int id, int nbPlaces) {
 
 }
 /****************************************************************************
+ * Fonction: ~Table::Table
+ * Description: Destructeur de Table
+ * Paramètres: aucun
+ * Retour: aucun
+ ****************************************************************************/
+~ Table::Table() {
+	for (int i = 0; i < capacite_; i++) {
+		delete commande_[i];
+	}
+	delete[] commande_;
+}
+/****************************************************************************
  * Fonction: Table::getid
  * Description: Retourne id_
  * Paramètres: aucun
  * Retour: (int) la valeur de id_
  ****************************************************************************/
-int Table::getId() {
+int Table::getId() const{
 	return id_;
 }
 /****************************************************************************
@@ -51,7 +63,7 @@ int Table::getId() {
  * Paramètres: aucun
  * Retour: (int) la valeur de nbPlaces_
  ****************************************************************************/
-int Table::getNbPlaces(){
+int Table::getNbPlaces() const{
 	return nbPlaces_;
 }
 /****************************************************************************
@@ -60,7 +72,7 @@ int Table::getNbPlaces(){
  * Paramètres: aucun
  * Retour: (bool) la valeur de occupee_
  ****************************************************************************/
-bool Table::estOccupee(){
+bool Table::estOccupee() const{
 	return occupee_;
 }
 /****************************************************************************
@@ -117,7 +129,7 @@ void Table::commander(Plat* pla) {
  * Paramètres: aucun
  * Retour:  Double gain : le chiffre d'affaire de la table
  ****************************************************************************/
-double Table::getChiffreAffaire() {
+double Table::getChiffreAffaire() const {
 	double gain;
 	for (int i = 0; i < capacite_; i++) {
 		Plat platTemp;
@@ -132,25 +144,26 @@ double Table::getChiffreAffaire() {
  * Paramètres: aucun
  * Retour:  Double gain : le chiffre d'affaire de la table
  ****************************************************************************/
-void Table::afficher() {
+void Table::afficher() const{
 
 	cout << "la table numero " << id_;
 	if (occupee_) {
 		cout << " est occupee ";
-	}else {
-		cout << " n'est pas occupee ";
-	}
 	if (nbPlats_ == 0) {
-		cout << " Mais ils n'ont rien commande pour l'instant." << endl;
-	}else {
-		cout << " Voici la commande passee par les clients : " << endl;
-		for (int i = 0; i < capacite_; i++) {
-			Plat platTemp;
-			*commande_[i] = platTemp;
-			platTemp.afficher();
+			cout << " Mais ils n'ont rien commande pour l'instant." << endl;
+		}else {
+			cout << " Voici la commande passee par les clients : " << endl;
+			for (int i = 0; i < capacite_; i++) {
+				Plat platTemp;
+				*commande_[i] = platTemp;
+				platTemp.afficher();
 
+			}
 		}
+	}else {
+		cout << " est libre.";
 	}
+
 	cout << endl;
 }
 
