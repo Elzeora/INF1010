@@ -15,20 +15,20 @@ using namespace std;
 class Plat {
 public: 
 	// constructeurs
-	Plat(); 
+	Plat()const; 
 	Plat(string nom, double prix, double cout);
 
 	//getters 
-	string getNom(); 
-	double getPrix(); 
-	double getCout(); 
+	string getNom()const; 
+	double getPrix()const; 
+	double getCout()const; 
 
 	//setters 
 	void setNom(string nom); 
 	void setPrix(double prix); 
 	
 	//affichage
-	void afficher(); 
+	void afficher()const; 
 
 private: 
 	string nom_; 

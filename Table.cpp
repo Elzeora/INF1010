@@ -42,7 +42,7 @@ Table :: Table (int id, int nbPlaces) {
  * Paramètres: aucun
  * Retour: aucun
  ****************************************************************************/
-~ Table::Table() {
+ Table::~Table() {
 	for (int i = 0; i < capacite_; i++) {
 		delete commande_[i];
 	}
@@ -116,6 +116,9 @@ void Table::commander(Plat* pla) {
 
 		for (int i = 0; i < nbPlats_; i++) {
 			platTemp[i] = commande_[i];
+		}
+		for (int i = 0; i < nbPlats_; i++) {
+			delete platTemp[i];
 		}
 		delete[] commande_;
 		commande_ = platTemp;
