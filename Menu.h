@@ -18,6 +18,8 @@ public:
 	Menu(); 
 	Menu(string fichier, TypeMenu type); 
 
+	//destructeur
+	~Menu();
 
 	//getters
 	int getNbPlats(); 
@@ -29,7 +31,8 @@ public:
 	Plat* trouverPlat(string& nom); 
 	void ajouterPlat(Plat & plat); 
 	void ajouterPlat(string& nom, double montant, double cout); 
-	bool lireMenu(string& fichier); 
+	bool lireMenu(string& fichier);
+	void lireBonMenu(string motCherche, string& fichier);//////ajout
 	
 private : 
 	unsigned int capacite_;
