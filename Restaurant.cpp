@@ -153,7 +153,7 @@ void Restaurant::commanderPlat(string& nomPlat, int idTable) {
  * Retour: aucun
  ****************************************************************************/
 void Restaurant::placerClients(int nbClients) {
-	string erreur = "Il n'y a plus/pas de tables disponibles pour le client.";
+	string erreur = "ERREUR : Il n'y a plus/pas de tables disponibles pour le client.";
 	if (nbTables_ > 0) {
 		int difference = 0;
 		int petiteDifference = INT_MAX;
@@ -186,11 +186,11 @@ void Restaurant::placerClients(int nbClients) {
  * Retour: aucun
  ****************************************************************************/
 void Restaurant::afficher() {
-	if (chiffreAffaire_ = 0) {
-		cout << "Le restaurant " << nom_ << " n'a pas fait de benefice ou le chiffre n'est pas encore calcule." << endl;
+	if (chiffreAffaire_ == 0) {
+		cout << "Le restaurant " << *nom_ << " n'a pas fait de benefice ou le chiffre n'est pas encore calcule." << endl;
 	}
 	else {
-		cout << "Le restaurant " << nom_ << " a fait un chiffre d'affaire de : " << chiffreAffaire_ << "$" << endl;
+		cout << "Le restaurant " << *nom_ << " a fait un chiffre d'affaire de : " << chiffreAffaire_ << "$" << endl;
 	}
 	cout << "-Voici les tables : " << endl;
 	for (unsigned int i = 0; i < nbTables_; i++) {

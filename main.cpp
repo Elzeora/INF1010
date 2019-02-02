@@ -16,9 +16,9 @@ int main() {
 	string nom = "PolyFood";
 	Restaurant poly = Restaurant(fichier, nom, Soir);
 	poly.lireTable(fichier);
-	int client1 = 1; 
-	int client2 = 1;
-	int client3 = 1; 
+	int client1 = 15; 
+	int client2 = 6;
+	int client3 = 5; 
 	int client4 = 1; 
 	int client5 = 2; 
 
@@ -45,7 +45,7 @@ int main() {
 	plat = "Muffin";
 	poly.commanderPlat(plat, 4);
 	//Oeud - Table 4 
-	plat = "Oeuf";
+	plat = "oeuf";
 	poly.commanderPlat(plat, 4);
 	
 

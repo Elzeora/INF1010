@@ -50,6 +50,7 @@ Plat* Menu::trouverPlat(string& nom) {
 		if (listePlats_[i]->getNom() == nom)
 			return listePlats_[i];
 	}
+	cout << "ERREUR : table non occuppe ou plat introuvable" << endl;
 	return nullptr;
 }
 /****************************************************************************
