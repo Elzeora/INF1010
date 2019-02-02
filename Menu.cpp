@@ -1,14 +1,7 @@
-/****************************************************************************
- * Fichier: Menu.cpp
- * Auteur: Jean-Sébastien Patenaude
- * Date: 31 Janvier 2019
- * Description: Implémentation de la classe Menu
- ****************************************************************************/
-
 #include "Menu.h"
-#include "polyFood.txt"
+#include <iostream>
+#include <string>
 #include <fstream>
-
 using namespace std;
 
 /****************************************************************************
@@ -23,7 +16,6 @@ Menu::Menu() {
 	nbPlats_ = 0;
 	type_ = Matin;
 }
-
 /****************************************************************************
  * Fonction: Menu::Menu
  * Description: Constructeur par paramètres
@@ -32,39 +24,21 @@ Menu::Menu() {
  * Retour: aucun
  ****************************************************************************/
 Menu::Menu(string fichier, TypeMenu type) {
-type_ = type;
-capacite_ = MAXPLAT;
-lireMenu(fichier);
-listePlats_ = new Plat*[capacite_];
+	type_ = type;
+	capacite_ = MAXPLAT;
+	nbPlats_ = 0;
+	listePlats_ = new Plat*[capacite_];
+	lireMenu(fichier);
 }
-
-
-/****************************************************************************
- * Fonction: ~Menu::Menu
- * Description: Destructeur de Menu
- * Paramètres: aucun
- * Retour: aucun
- ****************************************************************************/
-Menu::~Menu() {
-	for (int i = 0; i < nbPlats_; i++) {
-		delete listePlats_[i];
-	}
-	delete[] listePlats_;
-	listePlats_ = nullptr;
-}
-
-
 /****************************************************************************
  * Fonction: Menu::getNbPlats
  * Description: retourne nbPlats_
  * Paramètres: aucun
  * Retour: (int) la valeur de nbPlats
  ****************************************************************************/
-int Menu::getNbPlats() {
+int Menu::getNbPlats() const {
 	return nbPlats_;
 }
-
-
 /****************************************************************************
  * Fonction: Menu::trouverPlat
  * Description: retourne un pointeur vers un plat dans listePlats_
@@ -78,8 +52,6 @@ Plat* Menu::trouverPlat(string& nom) {
 	}
 	return nullptr;
 }
-
-
 /****************************************************************************
  * Fonction: Menu::ajouterPlat
  * Description: ajoute un plat dans listePlats_ avec un plat en parametre
@@ -87,15 +59,11 @@ Plat* Menu::trouverPlat(string& nom) {
  * Retour: aucun
  ****************************************************************************/
 void Menu::ajouterPlat(Plat& plat) {
-	/*if (unsigned(getNbPlats()) >= capacite_) {
-		capacite_ *= 2;
-		Plat **platsTemp = new Plat*[capacite_];
-	}*/
-	listePlats_[getNbPlats() - 1] = &plat;
-	nbPlats_++;
+	if (capacite_ > nbPlats_) {
+		listePlats_[nbPlats_] = new Plat(plat);
+		nbPlats_++;
+	}
 }
-
-
 /****************************************************************************
  * Fonction: Menu::ajouterPlat
  * Description: ajoute un plat avec le nom, le montant et le cout en parametres
@@ -107,105 +75,83 @@ void Menu::ajouterPlat(Plat& plat) {
 void Menu::ajouterPlat(string& nom, double montant, double cout) {
 	ajouterPlat(nom, montant, cout);
 }
-
-
 /****************************************************************************
  * Fonction: Menu::lireMenu
  * Description: lit le menu selon le moment de la journee
  * Paramètres: - string fichier : le fichier a ouvrir (IN)
  * Retour: un booleen
  ****************************************************************************/
-bool Menu::lireMenu(string& fichier) {
-	//ifstream fichierLire(fichier);
-	bool aEteLu = false;
-	while (!(aEteLu)) {
-		switch (type_) {
-		case Matin: lireBonMenu("-MATIN", fichier);
-			break;
-		case Midi: lireBonMenu("MIDI", fichier);
-			break;
-		case Soir: lireBonMenu("-SOIR", fichier);
-			break;
-		}
+bool Menu::lireMenu(string& nomFichier) {
+	ifstream fichier(nomFichier);
+	string temps, tempsSuivant;
+	switch (type_)
+	{
+	case Matin:
+		temps = "-MATIN";
+		tempsSuivant = "-MIDI";
+		break;
+	case Midi:
+		temps = "-MIDI";
+		tempsSuivant = "-SOIR";
+		break;
+	case Soir:
+		temps = "-SOIR";
+		tempsSuivant = "-TABLES";
+		break;
 	}
-
-
-
-
-
-
-	return 0;
+	if (fichier.is_open()) {
+		bool fini = 1;
+		while (!ws(fichier).eof() && fini) {
+			string chaine;
+			getline(fichier, chaine);
+			string nom;
+			double prix, cout1;
+			if (!chaine.compare(temps)) {
+				while (fini) {
+					fichier >> nom >> cout1 >> prix;
+					if (nom.compare(tempsSuivant)) {
+						Plat plat(nom, cout1, prix);
+						ajouterPlat(plat);
+					}
+					else {
+						fini = 0;
+					}
+				}
+			}
+		}
+		return true;
+	}
+	else {
+		return false;
+	}
 }
-
-
 /****************************************************************************
  * Fonction: Menu::affiche
  * Description: afficher le menu selon le moment de la journee
  * Paramètres: aucun
  * Retour: aucun
  ****************************************************************************/
-void Menu::afficher() {
+void Menu::afficher() const {
 	switch (type_) {
 	case Matin: cout << "Matin :\n";
-	case Midi: cout << "Midi :\n";
-	case Soir: cout << "Soir :\n";
-	}
-	for (int i = 0; i < getNbPlats(); i++) {
-		listePlats_[i]->afficher();
-	}
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
-bool Menu::lireMenu(string& fichier) {
-	ifstream fichierLire(fichier);
-	for (int i = 0; i < type_ + 1; i++) {
-		fichierLire.ignore(INT_MAX, '-');
-	}
-	fichierLire.ignore(INT_MAX, '\n');
-	bool menuVoulu = true;
-	while (menuVoulu) {
-		string nom;
-		double prix;
-		double cout;
-		fichierLire >> nom >> prix >> cout;
-		if (nom.front() == '-')
-			menuVoulu = false;
-		ajouterPlat(nom, prix, cout);
-	}
-	return 0;
-}*/
-
-
-void Menu::lireBonMenu(string motCherche, string& fichier) {
-	ifstream fichierLire(fichier);
-	while (!ws(fichierLire).eof()) {
-		string nom;
-		fichierLire >> nom;
-		if (nom == motCherche) {
-			bool menuVoulu = true;
-			while (menuVoulu) {
-				string nom;
-				double prix;
-				double cout;
-				fichierLire >> nom >> prix >> cout;
-				if (nom.front() == '-')
-					menuVoulu = false;
-				ajouterPlat(nom, prix, cout);
-			}
+		for (int i = 0; i < getNbPlats(); i++) {
+			listePlats_[i]->afficher();
 		}
+		break;
+	case Midi: cout << "Midi :\n";
+		for (int i = 0; i < getNbPlats(); i++) {
+			listePlats_[i]->afficher();
+		}
+		break;
+	case Soir: cout << "Soir :\n";
+		for (int i = 0; i < getNbPlats(); i++) {
+			listePlats_[i]->afficher();
+		}
+		break;
 	}
+	
 }
+
+
+
+

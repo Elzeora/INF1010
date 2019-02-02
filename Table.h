@@ -12,7 +12,7 @@ const  int MAXCAP = 5;
 class Table {
 public: 
 	//constructeurs 
-	Table()const; 
+	Table(); 
 	Table(int id, int nbPlaces);
 
 	//getters 
@@ -33,11 +33,11 @@ public:
 	void afficher()const; 
 private : 
 	Plat** commande_; 
-	unsigned int capacite_; 
-	unsigned int nbPlats_; 
+	 int capacite_; 
+	 int nbPlats_; 
 
 	int id_; 
-	unsigned int nbPlaces_; 
+	int nbPlaces_; 
 	bool occupee_; 
 };
 #endif // !TABLE_H

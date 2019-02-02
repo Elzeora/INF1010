@@ -5,15 +5,18 @@
  * Description: Implémentation de la classe Table
  ****************************************************************************/
 #include "Table.h"
+#include <iostream>
+#include <string>
+using namespace std;
 
 
- /****************************************************************************
-  * Fonction: Table :: Table
-  * Description: Constructeur par défaut
-  * Paramètres: aucun
-  * Retour: aucun
-  ****************************************************************************/
-Table::Table() const {
+/****************************************************************************
+ * Fonction: Table :: Table
+ * Description: Constructeur par défaut
+ * Paramètres: aucun
+ * Retour: aucun
+ ****************************************************************************/
+Table::Table() {
 	capacite_ = MAXCAP;
 	id_ = -1;
 	nbPlaces_ = 1;
@@ -27,26 +30,14 @@ Table::Table() const {
  *             - int nbPlaces : valeur de nbPlaces_ (IN)
  * Retour: aucun
  ****************************************************************************/
-Table :: Table (int id, int nbPlaces) {
-	capacite_ = MAXCAP;
+Table::Table(int id, int nbPlaces) {
 	id_ = id;
 	nbPlaces_ = nbPlaces;
+	nbPlats_ = 0;
+	capacite_ = MAXCAP;
+	commande_ = new Plat*[MAXPLAT];
 	occupee_ = false;
-	Plat** commande_ = new Plat*[MAXCAP];
-	Menu menu;
 
-}
-/****************************************************************************
- * Fonction: ~Table::Table
- * Description: Destructeur de Table
- * Paramètres: aucun
- * Retour: aucun
- ****************************************************************************/
- Table::~Table() {
-	for (int i = 0; i < capacite_; i++) {
-		delete commande_[i];
-	}
-	delete[] commande_;
 }
 /****************************************************************************
  * Fonction: Table::getid
@@ -54,7 +45,7 @@ Table :: Table (int id, int nbPlaces) {
  * Paramètres: aucun
  * Retour: (int) la valeur de id_
  ****************************************************************************/
-int Table::getId() const{
+int Table::getId() const {
 	return id_;
 }
 /****************************************************************************
@@ -63,7 +54,7 @@ int Table::getId() const{
  * Paramètres: aucun
  * Retour: (int) la valeur de nbPlaces_
  ****************************************************************************/
-int Table::getNbPlaces() const{
+int Table::getNbPlaces() const {
 	return nbPlaces_;
 }
 /****************************************************************************
@@ -72,7 +63,7 @@ int Table::getNbPlaces() const{
  * Paramètres: aucun
  * Retour: (bool) la valeur de occupee_
  ****************************************************************************/
-bool Table::estOccupee() const{
+bool Table::estOccupee() const {
 	return occupee_;
 }
 /****************************************************************************
@@ -111,7 +102,7 @@ void Table::setId(int id) {
 void Table::commander(Plat* pla) {
 
 	if (nbPlats_ >= capacite_) {
-		capacite_*=2;
+		capacite_ *= 2;
 		Plat **platTemp = new Plat*[capacite_];
 
 		for (int i = 0; i < nbPlats_; i++) {
@@ -132,12 +123,10 @@ void Table::commander(Plat* pla) {
  * Paramètres: aucun
  * Retour:  Double gain : le chiffre d'affaire de la table
  ****************************************************************************/
-double Table::getChiffreAffaire() const {
-	double gain;
-	for (int i = 0; i < capacite_; i++) {
-		Plat platTemp;
-	    *commande_[i] = platTemp;
-		gain += platTemp.getPrix();
+double Table::getChiffreAffaire()const{
+	double gain = 0;
+	for (int i = 0; i < nbPlats_; i++) {
+		gain += commande_[i]->getPrix() - commande_[i]->getCout();
 	}
 	return gain;
 }
@@ -147,28 +136,33 @@ double Table::getChiffreAffaire() const {
  * Paramètres: aucun
  * Retour:  Double gain : le chiffre d'affaire de la table
  ****************************************************************************/
-void Table::afficher() const{
+void Table::afficher() const {
 
-	cout << "la table numero " << id_;
+	cout << "        la table numero " << id_;
 	if (occupee_) {
 		cout << " est occupee ";
-	if (nbPlats_ == 0) {
+		if (nbPlats_ == 0) {
 			cout << " Mais ils n'ont rien commande pour l'instant." << endl;
-		}else {
-			cout << " Voici la commande passee par les clients : " << endl;
-			for (int i = 0; i < capacite_; i++) {
-				Plat platTemp;
-				*commande_[i] = platTemp;
-				platTemp.afficher();
-
-			}
 		}
-	}else {
+		else {
+			cout << " Voici la commande passee par les clients : " << endl;
+			for (int i = 1; i <= nbPlats_; i++) {
+				commande_[i - 1]->afficher();
+			}
+
+		}
+	}
+	else {
 		cout << " est libre.";
 	}
-
+	cout << endl;
 	cout << endl;
 }
+
+
+
+
+
 
 
 

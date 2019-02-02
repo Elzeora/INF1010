@@ -15,8 +15,7 @@ public:
 	Restaurant(); 
 	Restaurant(string& fichier, string& nom,  TypeMenu moment); 
 
-	//destructeur
-	~Restaurant();
+
 
 	//setters 
 	void setMoment(TypeMenu moment); 
@@ -47,9 +46,9 @@ private:
 	Menu* menuSoir_; 
 
 	//liste des tables 
-	unsigned int capaciteTables_;
+	 int capaciteTables_;
 	Table** tables_; 
-	unsigned int nbTables_; 
+	 int nbTables_; 
 
 };
 #endif // !RESTAURANT_H

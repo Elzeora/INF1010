@@ -15,7 +15,7 @@ using namespace std;
 class Plat {
 public: 
 	// constructeurs
-	Plat()const; 
+	Plat(); 
 	Plat(string nom, double prix, double cout);
 
 	//getters 

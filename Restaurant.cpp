@@ -1,11 +1,7 @@
-/****************************************************************************
- * Fichier: Restaurant.cpp
- * Auteur: Louis Roberge et Jean-Sébastien Patenaude
- * Date: 31 Janvier 2019
- * Description: Implémentation de la classe Restaurant
- ****************************************************************************/
 #include "Restaurant.h"
-
+#include <iostream>
+#include <string>
+#include <fstream>
 using namespace std;
 
 /****************************************************************************
@@ -21,7 +17,6 @@ Restaurant::Restaurant() {
 	nbTables_ = 0;
 	capaciteTables_ = INTTABLES;
 }
-
 /****************************************************************************
  * Fonction: Restaurant::Restaurant
  * Description: Constructeur par paramètres
@@ -30,42 +25,18 @@ Restaurant::Restaurant() {
  *			   - TypeMenu moment : le moment de la journee (IN)
  * Retour: aucun
  ****************************************************************************/
-Restaurant::Restaurant(string& fichier, string& nom, TypeMenu moment) {
+Restaurant::Restaurant(string & fichier, string & nom, TypeMenu moment){
 	nom_ = &nom;
 	momentJournee_ = moment;
-	chiffreAffaire_ = 0.0;
-	menuMatin_ = &Menu(fichier, Matin);
-	menuMidi_ = &Menu(fichier, Midi);
-	menuSoir_ = &Menu(fichier, Soir);
+	chiffreAffaire_ = 0;
 	nbTables_ = 0;
-	lireTable(fichier);
 	capaciteTables_ = INTTABLES;
+	tables_ = new Table*[INTTABLES];
+	lireTable(fichier);
+	menuMatin_ = new Menu(fichier, Matin);
+	menuMidi_  = new Menu(fichier, Midi);
+	menuSoir_  = new Menu(fichier, Soir);
 }
-
-
-/****************************************************************************
- * Fonction: ~Restaurant::Restaurant
- * Description: Destructeur de Restaurant
- * Paramètres: aucun
- * Retour: aucun
- ****************************************************************************/
-Restaurant::~Restaurant() {
-	for (int i = 0; i < nbTables_; i++) {
-		delete tables_[i];
-	}
-	delete[] tables_;
-	tables_ = nullptr;
-	delete menuMatin_;
-	menuMatin_ = nullptr;
-	delete menuMidi_;
-	menuMidi_ = nullptr;
-	delete menuSoir_;
-	menuSoir_ = nullptr;
-	delete nom_;
-	nom_ = nullptr;
-}
-
-
 /****************************************************************************
  * Fonction: Restaurant::setMoment
  * Description: set momentJournee_
@@ -75,7 +46,6 @@ Restaurant::~Restaurant() {
 void Restaurant::setMoment(TypeMenu moment) {
 	momentJournee_ = moment;
 }
-
 /****************************************************************************
  * Fonction: Restaurant::getNom
  * Description: retourne nom_ du restaurant
@@ -85,8 +55,6 @@ void Restaurant::setMoment(TypeMenu moment) {
 string Restaurant::getNom() {
 	return *nom_;
 }
-
-
 /****************************************************************************
  * Fonction: Restaurant::getMoment
  * Description: retourne momentJournee_
@@ -96,29 +64,29 @@ string Restaurant::getNom() {
 TypeMenu Restaurant::getMoment() {
 	return momentJournee_;
 }
-
 /****************************************************************************
  * Fonction: Restaurant::
  * Description: set le moment de la journee
  * Paramètres: string fichier : le fichier a ouvrir (IN)
  * Retour: aucun
  ****************************************************************************/
-void Restaurant::lireTable(string& fichier) {
-	ifstream fichierLire(fichier);
-	const int sectionTable = 4;
-	for (int i = 0; i < sectionTable; i++) {
-		fichierLire.ignore(INT_MAX, '-');
-	}
-	fichierLire.ignore(INT_MAX, '\n');
-	while (!ws(fichierLire).eof()) {
-		int id;
-		int nbPlaces;
-		fichierLire >> id >> nbPlaces;
-		ajouterTable(id, nbPlaces);
+void Restaurant::lireTable(string & nomFichier)
+{
+	ifstream fichier(nomFichier);
+	int i = 0;
+	while (!ws(fichier).eof()) {
+		string chaine;
+		getline(fichier, chaine);
+		if (chaine.compare("-TABLES") == 0) {
+			while (!ws(fichier).eof()) {
+
+				int id, nbPlaces;
+				fichier >> id >> nbPlaces;
+				ajouterTable(id, nbPlaces);
+			}
+		}
 	}
 }
-
-
 /****************************************************************************
  * Fonction: Restaurant::ajouterTable
  * Description: ajouter une table a la liste de tables
@@ -126,25 +94,13 @@ void Restaurant::lireTable(string& fichier) {
  *			   - int nbPlaces : nombre de places de la table (IN)
  * Retour: aucun
  ****************************************************************************/
-void Restaurant::ajouterTable(int id, int nbPlaces) {
-	Table table(id, nbPlaces);
-	if (nbTables_ >= capaciteTables_) {
-		capaciteTables_ *= 2;
-		Table** tablesTemp = new Table*[capaciteTables_];
-		for (int i = 0; i < nbTables_; i++) {
-			tablesTemp[i] = tables_[i];
-		}
-		for (int i = 0; i < nbTables_; i++) {
-			delete tablesTemp[i];
-		}
-		delete[] tables_;
-		tables_ = tablesTemp;
+void Restaurant::ajouterTable(int id, int nbPlaces)
+{
+	if (capaciteTables_ > nbTables_) {
+		tables_[nbTables_] = new Table(id,nbPlaces);
+		nbTables_++;
 	}
-	tables_[nbTables_] = &table;
-	nbTables_++;
 }
-
-
 /****************************************************************************
  * Fonction: Restaurant::libererTable
  * Description: liberer une table
@@ -160,7 +116,6 @@ void Restaurant::libererTable(int id) {
 	}
 }
 
-
 /****************************************************************************
  * Fonction: Restaurant::commanderPlat
  * Description: commander un plat selon le menu
@@ -168,19 +123,29 @@ void Restaurant::libererTable(int id) {
  *			   - int idTable : id de la table (IN)
  * Retour: aucun
  ****************************************************************************/
-void Restaurant::commanderPlat(string& nom, int idTable) {
-	TypeMenu typeMenu = getMoment();
-	switch (typeMenu) {
-	case Matin: tables_[idTable - 1]->commander(menuMatin_->trouverPlat(nom));
+void Restaurant::commanderPlat(string& nomPlat, int idTable) {
+	Menu* menuTemp = new Menu();
+	switch (momentJournee_) {
+	case Matin : 
+		menuTemp = menuMatin_;
 		break;
-	case Midi: tables_[idTable - 1]->commander(menuMidi_->trouverPlat(nom));
+	case Midi:
+		menuTemp = menuMidi_;
 		break;
-	case Soir: tables_[idTable - 1]->commander(menuSoir_->trouverPlat(nom));
+	case Soir:
+		menuTemp = menuSoir_;
 		break;
 	}
+	Plat* platTemp = menuTemp->trouverPlat(nomPlat);
+	if (platTemp) {
+		for (int i = 0; i < nbTables_; i++) {
+			if (tables_[i]->getId() == idTable) {
+				tables_[i]->commander(platTemp);
+			}
+		}
+	}
+	
 }
-
-
 /****************************************************************************
  * Fonction: Restaurant::placerClients
  * Description: placer les clients aux bonnes tables
@@ -211,9 +176,8 @@ void Restaurant::placerClients(int nbClients) {
 	}
 	else
 		cout << erreur << endl;
-	
-}
 
+}
 
 /****************************************************************************
  * Fonction: Restaurant::afficher
@@ -228,16 +192,18 @@ void Restaurant::afficher() {
 	else {
 		cout << "Le restaurant " << nom_ << " a fait un chiffre d'affaire de : " << chiffreAffaire_ << "$" << endl;
 	}
-	cout  << "-Voici les tables : " << endl;
+	cout << "-Voici les tables : " << endl;
 	for (unsigned int i = 0; i < nbTables_; i++) {
 		tables_[i]->afficher();
 	}
+	cout << "-Voici son menu : " << endl;
 	menuMatin_->afficher();
 	menuMidi_->afficher();
 	menuSoir_->afficher();
 
 
 }
+
 
 
 
