@@ -16,7 +16,10 @@ class Menu {
 public: 
 	// constructeurs
 	Menu(); 
-	Menu(string fichier, TypeMenu type); 
+	Menu(string& fichier, const TypeMenu& type); 
+
+	//destructeur
+	~Menu();
 
 
 	//getters
@@ -26,9 +29,9 @@ public:
 	void afficher()const; 
 
 	//methodes en plus
-	Plat* trouverPlat(string& nom); 
-	void ajouterPlat(Plat & plat); 
-	void ajouterPlat(string& nom, double montant, double cout); 
+	Plat* trouverPlat(const string& nom); 
+	void ajouterPlat(const Plat & plat); 
+	void ajouterPlat(const string& nom, const double& montant, const double& cout); 
 	bool lireMenu(string& fichier);
 
 	

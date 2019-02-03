@@ -1,26 +1,25 @@
-/*
-* Titre : main.cpp - Travail Pratique #1
-* Date : 09 Janvier 2019 
-* Auteur : David Dratwa
-*/
+/****************************************************************************
+ * Fichier: Menu.cpp
+ * Auteur: Louis Roberge et Jean-Sébastien Patenaude
+ * Date: 31 Janvier 2019
+ * Description: le fichier main
+ ****************************************************************************/
 
 #include "Restaurant.h"
-#include <string>
 #include <fstream>
-using namespace std; 
+using namespace std;
 
 int main() {
 	//creation du restaurant - avec le fichier donne - le nom : PolyFood - moment de la journee : soir. 
 	string fichier = "polyFood.txt";
-	ifstream file(fichier);
 	string nom = "PolyFood";
 	Restaurant poly = Restaurant(fichier, nom, Soir);
 	poly.lireTable(fichier);
-	int client1 = 15; 
+	int client1 = 15;
 	int client2 = 6;
-	int client3 = 5; 
-	int client4 = 1; 
-	int client5 = 2; 
+	int client3 = 5;
+	int client4 = 1;
+	int client5 = 2;
 
 	//placer les clients 
 	poly.placerClients(client1);
@@ -45,21 +44,21 @@ int main() {
 	plat = "Muffin";
 	poly.commanderPlat(plat, 4);
 	//Oeud - Table 4 
-	plat = "oeuf";
+	plat = "Oeud";
 	poly.commanderPlat(plat, 4);
-	
+
 
 	//afficher le restaurant
-	poly.afficher(); 
+	poly.afficher();
 
-	cout << "-------------------------------------------------" << endl; 
+	cout << "-------------------------------------------------" << endl;
 
 	//liberer les tables 
-	for (int i = 0; i < 10; i++){
+	for (int i = 0; i < INTTABLES; i++) {
 		poly.libererTable(i);
 	}
 	//afficher le restaurant 
-	poly.afficher(); 
+	poly.afficher();
 	return 0;
 
 }

@@ -1,4 +1,4 @@
-	/*
+/*
 * Titre : Plat.h - Travail Pratique #1
 * Date : 09 Janvier 2019
 * Auteur : David Dratwa
@@ -10,30 +10,30 @@
 #include <string>
 #include <iostream>
 
-using namespace std; 
+using namespace std;
 
 class Plat {
-public: 
+public:
 	// constructeurs
-	Plat(); 
-	Plat(string nom, double prix, double cout);
+	Plat();
+	Plat(const string& nom, const double& prix, const double& cout);
 
 	//getters 
-	string getNom()const; 
-	double getPrix()const; 
-	double getCout()const; 
+	string getNom()const;
+	double getPrix()const;
+	double getCout()const;
 
 	//setters 
-	void setNom(string nom); 
-	void setPrix(double prix); 
-	
-	//affichage
-	void afficher()const; 
+	void setNom(const string& nom);
+	void setPrix(const double& prix);
 
-private: 
-	string nom_; 
-	double prix_; 
-	double cout_; 
+	//affichage
+	void afficher()const;
+
+private:
+	string nom_;
+	double prix_;
+	double cout_;
 
 };
 

@@ -10,45 +10,46 @@
 #include "Table.h"
 const int INTTABLES = 6;
 class Restaurant {
-public: 
+public:
 	//constructeurs 
-	Restaurant(); 
-	Restaurant(string& fichier, string& nom,  TypeMenu moment); 
+	Restaurant();
+	Restaurant(string& fichier, string& nom, TypeMenu moment);
 
-
+	//destructeur
+	~Restaurant();
 
 	//setters 
-	void setMoment(TypeMenu moment); 
+	void setMoment(TypeMenu moment);
 
 	//getters 
-	string getNom(); 
-	TypeMenu getMoment(); 
+	string getNom() const;
+	TypeMenu getMoment() const;
 
 	//Autres methodes 
-	void lireTable(string& fichier); 
-	void ajouterTable(int id, int nbPlaces);
-	void libererTable(int id); 
-	void commanderPlat(string& nom, int idTable);
-	void placerClients(int nbClients); 
+	void lireTable(string& fichier);
+	void ajouterTable(const int& id, const int& nbPlaces);
+	void libererTable(const int& id);
+	void commanderPlat(const string& nom, const int& idTable);
+	void placerClients(const int& nbClients);
 
 	//affichage 
-	void afficher();
+	void afficher() const;
 
-private: 
-	string* nom_; 
+private:
+	string* nom_;
 
-	double chiffreAffaire_; 
-	TypeMenu momentJournee_; 
+	double chiffreAffaire_;
+	TypeMenu momentJournee_;
 
 	//differents menus en fonction du moment de la journee
-	Menu* menuMatin_; 
-	Menu* menuMidi_; 
-	Menu* menuSoir_; 
+	Menu* menuMatin_;
+	Menu* menuMidi_;
+	Menu* menuSoir_;
 
 	//liste des tables 
-	 int capaciteTables_;
-	Table** tables_; 
-	 int nbTables_; 
+	int capaciteTables_;
+	Table** tables_;
+	int nbTables_;
 
 };
 #endif // !RESTAURANT_H

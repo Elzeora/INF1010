@@ -10,34 +10,37 @@
 #include "Menu.h"
 const  int MAXCAP = 5;
 class Table {
-public: 
+public:
 	//constructeurs 
-	Table(); 
-	Table(int id, int nbPlaces);
+	Table();
+	Table(const int& id, const int& nbPlaces);
+
+	//desructeur
+	~Table();
 
 	//getters 
-	int getId()const; 
-	int getNbPlaces()const; 
-	bool estOccupee()const; 
+	int getId()const;
+	int getNbPlaces()const;
+	bool estOccupee()const;
 
 	//setters 
-	void libererTable(); 
-	void placerClient(); 
-	void setId(int id); 
+	void libererTable();
+	void placerClient();
+	void setId(const int& id);
 
 	//autres methodes 
-	void commander(Plat* plat); 
-	double getChiffreAffaire()const; 
+	void commander(Plat* plat);
+	double getChiffreAffaire()const;
 
 	//affichage
-	void afficher()const; 
-private : 
-	Plat** commande_; 
-	 int capacite_; 
-	 int nbPlats_; 
+	void afficher()const;
+private:
+	Plat** commande_;
+	int capacite_;
+	int nbPlats_;
 
-	int id_; 
-	int nbPlaces_; 
-	bool occupee_; 
+	int id_;
+	int nbPlaces_;
+	bool occupee_;
 };
 #endif // !TABLE_H
