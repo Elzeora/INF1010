@@ -6,7 +6,6 @@
  ****************************************************************************/
 #include "Plat.h"
 #include <iostream>
-#include <string>
 using namespace std;
 
 /****************************************************************************
@@ -28,7 +27,7 @@ Plat::Plat() {
  *	            - double cout : valeur de cout_ (IN)
  * Retour: aucun
  ****************************************************************************/
-Plat::Plat(string nom, double prix, double cout) {
+Plat::Plat(const string& nom, const double& prix, const double& cout) {
 	nom_ = nom;
 	prix_ = prix;
 	cout_ = cout;
@@ -62,20 +61,20 @@ double Plat::getCout() const {
 }
 /****************************************************************************
  * Fonction: Plat::setNom
- * Description: permet d'attribuer un nouveau nom au plat
+ * Description: permet d'attribuer un nom au plat
  * Paramètres: - string nom : valeur de nom_ (IN)
  * Retour: rien
  ****************************************************************************/
-void Plat::setNom(string nom) {
+void Plat::setNom(const string& nom) {
 	nom_ = nom;
 }
 /****************************************************************************
  * Fonction: Plat::setPrix
- * Description: permet d'attribuer un nouveau prix au plat
+ * Description: permet d'attribuer un prix au plat
  * Paramètres: 	- double prix : valeur de prix_ (IN)
  * Retour: rien
  ****************************************************************************/
-void Plat::setPrix(double prix) {
+void Plat::setPrix(const double& prix) {
 	prix_ = prix;
 }
 /****************************************************************************
@@ -87,8 +86,5 @@ void Plat::setPrix(double prix) {
 void Plat::afficher() const {
 	cout << "        " << nom_ << " - " << prix_ << " $ " << "(" << cout_ << "$" << " pour le restaurant)" << endl;
 }
-
-
-
 
 

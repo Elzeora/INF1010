@@ -1,0 +1,13 @@
+Questions
+
+1. Quel est le lien (agrégation ou composition) entre les classes Menu et Plat ?
+	Il y a un lien d'agrégation entre les classes Menu et Plat, car Plat
+	fait partie de Menu, mais si on détruit Menu, Plat n'est pas détruit,
+	puisque l'objet Menu ne contient que des pointeurs vers Plat. Ainsi,
+	ce sont ces pointeurs qui sont détruits et non Plat.
+
+2. Quel effet aura une méthode si elle a un const ?
+	Une méthode ayant un const est une méthode constante, alors
+	elle ne peut modifier aucun des attributs de l'objet. De plus,
+	une méthode constante ne peut appeller que d'autres méthodes
+	constantes.

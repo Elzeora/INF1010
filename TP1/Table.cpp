@@ -6,7 +6,6 @@
  ****************************************************************************/
 #include "Table.h"
 #include <iostream>
-#include <string>
 using namespace std;
 
 
@@ -20,9 +19,12 @@ Table::Table() {
 	capacite_ = MAXCAP;
 	id_ = -1;
 	nbPlaces_ = 1;
+	nbPlats_ = 0;
 	occupee_ = false;
-	Plat** commande_ = new Plat*[capacite_];
+	commande_ = new Plat*[capacite_];
+	occupee_ = false;
 }
+
 /****************************************************************************
  * Fonction: Table::Table
  * Description: Constructeur par paramètres
@@ -30,15 +32,29 @@ Table::Table() {
  *             - int nbPlaces : valeur de nbPlaces_ (IN)
  * Retour: aucun
  ****************************************************************************/
-Table::Table(int id, int nbPlaces) {
+Table::Table(const int& id, const int& nbPlaces) {
+	capacite_ = MAXCAP;
 	id_ = id;
 	nbPlaces_ = nbPlaces;
 	nbPlats_ = 0;
-	capacite_ = MAXCAP;
 	commande_ = new Plat*[MAXPLAT];
 	occupee_ = false;
-
 }
+
+/****************************************************************************
+ * Fonction: ~Table::Table
+ * Description: Destructeur de Table
+ * Paramètres: aucun
+ * Retour: aucun
+ ****************************************************************************/
+Table::~Table() {
+	for (unsigned int i = 0; i < capacite_; i++) {
+		delete commande_[i];
+	}
+	delete[] commande_;
+	commande_ = nullptr;
+}
+
 /****************************************************************************
  * Fonction: Table::getid
  * Description: Retourne id_
@@ -48,6 +64,7 @@ Table::Table(int id, int nbPlaces) {
 int Table::getId() const {
 	return id_;
 }
+
 /****************************************************************************
  * Fonction: Table::getNbPlaces
  * Description: Retourne nbPlaces_
@@ -57,6 +74,7 @@ int Table::getId() const {
 int Table::getNbPlaces() const {
 	return nbPlaces_;
 }
+
 /****************************************************************************
  * Fonction: Table::estOccupee
  * Description: Retourne occupee_
@@ -66,6 +84,7 @@ int Table::getNbPlaces() const {
 bool Table::estOccupee() const {
 	return occupee_;
 }
+
 /****************************************************************************
  * Fonction: Table::libererTable
  * Description: libere la table donc la table n'est plus occupee
@@ -75,6 +94,7 @@ bool Table::estOccupee() const {
 void Table::libererTable() {
 	occupee_ = false;
 }
+
 /****************************************************************************
  * Fonction: Table::placerCilent
  * Description: place des clients donc la table est occupee
@@ -84,15 +104,17 @@ void Table::libererTable() {
 void Table::placerClient() {
 	occupee_ = true;
 }
+
 /****************************************************************************
  * Fonction: Table::setId
  * Description: attribue un id a une table selon l'id donnee
  * Paramètres: - int id : valeur de id_ (IN)
  * Retour:  aucun
  ****************************************************************************/
-void Table::setId(int id) {
+void Table::setId(const int& id) {
 	id_ = id;
 }
+
 /****************************************************************************
  * Fonction: Table::commander
  * Description: ajoute un Plat a un tableau de plat
@@ -100,8 +122,10 @@ void Table::setId(int id) {
  * Retour:  aucun
  ****************************************************************************/
 void Table::commander(Plat* pla) {
-
-	if (nbPlats_ >= capacite_) {
+	// Cette section en commentaire sert à allouer plus d'espace
+	// dans le tableau de commandes, mais n'est pas nécessaire s'il
+	// n'y a jamais plus de 5 commandes par table.
+	/*if (nbPlats_ >= capacite_) {
 		capacite_ *= 2;
 		Plat **platTemp = new Plat*[capacite_];
 
@@ -113,28 +137,29 @@ void Table::commander(Plat* pla) {
 		}
 		delete[] commande_;
 		commande_ = platTemp;
-	}
+	}*/
 	commande_[nbPlats_] = pla;
 	nbPlats_++;
 }
+
 /****************************************************************************
- * Fonction: Table:: getChiffreAffaire
+ * Fonction: Table::getChiffreAffaire
  * Description: retourne le chiffre d'affaire de la table
  * Paramètres: aucun
  * Retour:  Double gain : le chiffre d'affaire de la table
  ****************************************************************************/
-double Table::getChiffreAffaire()const{
-	double gain = 0;
+double Table::getChiffreAffaire()const {
+	double gain = 0.0;
 	for (int i = 0; i < nbPlats_; i++) {
-		gain += commande_[i]->getPrix() - commande_[i]->getCout();
+		gain += (commande_[i]->getPrix() - commande_[i]->getCout());
 	}
 	return gain;
 }
 /****************************************************************************
- * Fonction: Table:: getChiffreAffaire
- * Description: retourne le chiffre d'affaire de la table
+ * Fonction: Table::afficher
+ * Description: affiche la table
  * Paramètres: aucun
- * Retour:  Double gain : le chiffre d'affaire de la table
+ * Retour:  aucun
  ****************************************************************************/
 void Table::afficher() const {
 
@@ -149,7 +174,6 @@ void Table::afficher() const {
 			for (int i = 1; i <= nbPlats_; i++) {
 				commande_[i - 1]->afficher();
 			}
-
 		}
 	}
 	else {
@@ -158,8 +182,6 @@ void Table::afficher() const {
 	cout << endl;
 	cout << endl;
 }
-
-
 
 
 
