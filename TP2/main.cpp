@@ -41,6 +41,7 @@ int main() {
 	Restaurant poly2(poly);
 	poly2.setNom("PolyFood2");
 
+
 	//Affichage du restaurant poly 
 	cout << poly;
 

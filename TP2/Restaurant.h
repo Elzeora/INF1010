@@ -16,12 +16,13 @@ public:
 	//constructeurs
 	Restaurant();
 	Restaurant(const string& fichier, const string& nom,  TypeMenu moment);
-
+	Restaurant(const Restaurant& restaurantCopie);
 	//destructeur
 	~Restaurant();
 
 	//setters
 	void setMoment(TypeMenu moment);
+	void setNom(string nom);
 
 	//getters
 	string getNom() const;

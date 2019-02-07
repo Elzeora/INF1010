@@ -66,6 +66,9 @@ Restaurant::~Restaurant() {
 void Restaurant::setMoment(TypeMenu moment) {
 	momentJournee_ = moment;
 }
+void Restaurant::setNom(string nom) {
+	*nom_ = nom;
+}
 //getters
 string Restaurant::getNom() const {
 	return *nom_;
@@ -102,6 +105,7 @@ ostream& operator<<(ostream& os, const Restaurant& restaurant) {
 	os << "Matin : " << endl << restaurant.menuMatin_;
 	os << "Midi : " << endl << restaurant.menuMidi_;
 	os << "Soir : " << endl << restaurant.menuSoir_;
+	return os;
 }
 
 void Restaurant::commanderPlat(const string& nom, int idTable) {
@@ -205,7 +209,7 @@ void Restaurant::placerClients(int nbClients) {
  * Retour: (Restaurant) le restaurant avec la nouvelle table
  ****************************************************************************/
 Restaurant& Restaurant::operator+=(Table* table) {
-	this->ajouterTable(table->getId,table->getNbPlaces);
+	this->ajouterTable(table->getId(),table->getNbPlaces());
 	return *this;
 }
 /****************************************************************************

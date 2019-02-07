@@ -119,6 +119,7 @@ ostream& operator<<(ostream& os, const Table& table) {
 	else {
 		os << " est libre. " << endl;
 	}
+	return os;
 }
 
 /*
