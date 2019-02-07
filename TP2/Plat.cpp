@@ -43,13 +43,25 @@ void Plat::setPrix(double prix) {
 }
 
 
-//methodes en plus
+/****************************************************************************
+ * Fonction: operateur<<
+ * Description: surcharge de l'opérateur << pour afficher un plat
+ * Paramètres:	- ostream& os
+				- Plat& plat
+ * Retour: os
+ ****************************************************************************/
 ostream& operator<<(ostream& os, const Plat& plat) {
 	os << plat.getNom() << " - " << plat.getPrix() << " $ (" << plat.getCout() << "$ pour le restaurant)" << endl;
 	return os;
 }
 
-//methode comparaison <
+/****************************************************************************
+ * Fonction: operateur<
+ * Description: surcharge de l'opérateur < pour retourner vrai si le prix du
+				plat courant est plus petit que le plat en parametre
+ * Paramètres:	- Plat& plat
+ * Retour: true ou false
+ ****************************************************************************/
 bool Plat::operator<(const Plat& plat) const {
 	if (prix_ < plat.getPrix())
 		return true;

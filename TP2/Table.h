@@ -15,10 +15,6 @@ public:
 	///constructeurs
 	Table();
 	Table(int id, int nbPlaces);
-	Table(const Table& tableCopie);
-
-	///destructeur
-	~Table();
 
 	///getters
 	int getId() const;
@@ -39,9 +35,6 @@ public:
 	///affichage
 	//void afficher() const; //A MODIFIER
 	friend ostream& operator<<(ostream& os, const Table& table);
-
-	//operateur=
-	Table& operator=(const Table& table);
 
 private :
 	//A MODIFIER
