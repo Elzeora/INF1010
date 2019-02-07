@@ -20,11 +20,7 @@ Restaurant::Restaurant() {
 	menuMidi_ = new Menu("menu.txt", Midi);
 	menuSoir_ = new Menu("menu.txt",  Soir);
 
-	capaciteTables_ = INTTABLES;
 	nbTables_ = 0;
-	tables_ = new Table*[capaciteTables_];
-
-
 }
 
 Restaurant::Restaurant(const string& fichier,  const string& nom, TypeMenu moment) {
@@ -39,11 +35,22 @@ Restaurant::Restaurant(const string& fichier,  const string& nom, TypeMenu momen
 	menuSoir_ = new Menu(fichier,  Soir);
 
 
-	capaciteTables_ = INTTABLES;
 	nbTables_ = 0;
-	tables_ = new Table*[capaciteTables_];
 
 	lireTable(fichier);
+}
+/****************************************************************************
+ * Fonction: Restaurant::Restaurant
+ * Description: constructeur par copie
+ * Paramètres: (IN) restaurantCopie le restaurant que l'on souhaite copier
+ * Retour: rien
+ ****************************************************************************/
+Restaurant::Restaurant(const Restaurant& restaurantCopie) 
+	:nom_(restaurantCopie.nom_), chiffreAffaire_(restaurantCopie.chiffreAffaire_),
+	momentJournee_(restaurantCopie.momentJournee_), menuMatin_(restaurantCopie.menuMatin_),
+	menuMidi_(restaurantCopie.menuMidi_), menuSoir_(restaurantCopie.menuSoir_),
+	tables_(restaurantCopie.tables_), nbTables_(restaurantCopie.nbTables_)
+{
 }
 //destructeur
 Restaurant::~Restaurant() {
@@ -51,16 +58,11 @@ Restaurant::~Restaurant() {
 	delete menuMatin_;
 	delete menuMidi_;
 	delete menuSoir_;
-
-	//A MODIFIER
-	for (int i = 0; i < nbTables_; i++)
+	for (int i = 0; i < nbTables_;i++) {
 		delete tables_[i];
-	delete[] tables_;
+	}
 }
-
-
 //setter
-
 void Restaurant::setMoment(TypeMenu moment) {
 	momentJournee_ = moment;
 }
@@ -68,14 +70,11 @@ void Restaurant::setMoment(TypeMenu moment) {
 string Restaurant::getNom() const {
 	return *nom_;
 }
-
 TypeMenu Restaurant::getMoment() const {
 	return momentJournee_;
 }
 
 //autres methodes
-
-
 void Restaurant::libererTable(int id) {
 	for (int i = 0; i < nbTables_; i++) {
 		if (id == tables_[i]->getId()) {
@@ -84,28 +83,25 @@ void Restaurant::libererTable(int id) {
 		}
 	}
 }
-void Restaurant::afficher() const {
-	cout << "Le restaurant " << *nom_;
-	if (chiffreAffaire_ != 0)
-		cout << " a fait un chiffre d'affaire de : " << chiffreAffaire_ << "$" << endl;
+ostream& operator<<(ostream& os, const Restaurant& restaurant) {
+	os << "Le restaurant " << *restaurant.nom_;
+	if (restaurant.chiffreAffaire_ != 0)
+		os << " a fait un chiffre d'affaire de : " << restaurant.chiffreAffaire_ << "$" << endl;
 	else
-		cout << " n'a pas fait de benefice ou le chiffre n'est pas encore calcule." << endl;
-	cout << "-Voici les tables : " << endl;
-	for (int i = 0; i < nbTables_; i++) {
-		cout << "\t";
-		tables_[i]->afficher();
-		cout << endl;
+		os << " n'a pas fait de benefice ou le chiffre n'est pas encore calcule." << endl;
+	os << "-Voici les tables : " << endl;
+	for (int i = 0; i < restaurant.nbTables_; i++) {
+		os << "\t";
+		os << restaurant.tables_[i];
+		os << endl;
 	}
-	cout << endl;
+	os << endl;
 
 
-	cout << "-Voici son menu : " << endl;
-	cout << "Matin : " << endl;
-	menuMatin_->afficher();
-	cout << "Midi : " << endl;
-	menuMidi_->afficher();
-	cout << "Soir : " << endl;
-	menuSoir_->afficher();
+	os << "-Voici son menu : " << endl;
+	os << "Matin : " << endl << restaurant.menuMatin_;
+	os << "Midi : " << endl << restaurant.menuMidi_;
+	os << "Soir : " << endl << restaurant.menuSoir_;
 }
 
 void Restaurant::commanderPlat(const string& nom, int idTable) {
@@ -173,23 +169,15 @@ void Restaurant::lireTable(const string& fichier) {
 		file.close();
 	}
 }
-
+/****************************************************************************
+ * Fonction: Restaurant::ajouterTable
+ * Description: ajoute une table au restaurant
+ * Paramètres: (IN) id le id d'une table
+ *             (IN) nbPlaces le nbPlaces d'une table
+ * Retour: rien
+ ****************************************************************************/
 void Restaurant::ajouterTable(int id, int nbPlaces) {
-	// A MODIFIER
-	if (nbTables_ == capaciteTables_) {
-		capaciteTables_ *= 2;
-		Table** temp = new Table*[capaciteTables_];
-
-		for (int i = 0; i < nbTables_; i++) {
-			temp[i] = tables_[i];
-		}
-
-		delete[] tables_;
-		tables_ = temp;
-
-	}
-
-	tables_[nbTables_] = new Table(id, nbPlaces);
+	tables_.push_back(new Table(id, nbPlaces));
 	nbTables_++;
 }
 
@@ -208,4 +196,49 @@ void Restaurant::placerClients(int nbClients) {
 		cout << "Erreur : il n'y a plus/pas de table disponible pour le client. " << endl;
 	}else
 	tables_[indexTable]->placerClient(nbClients);
+}
+/****************************************************************************
+ * Fonction: Restaurant::operator+=
+ * Description: renant en paramètre unpointeur à unetable,
+ *              permettant d’ajouter unetableau restaurant
+ * Paramètres: (IN) table le pointeur d'une table
+ * Retour: (Restaurant) le restaurant avec la nouvelle table
+ ****************************************************************************/
+Restaurant& Restaurant::operator+=(Table* table) {
+	this->ajouterTable(table->getId,table->getNbPlaces);
+	return *this;
+}
+/****************************************************************************
+ * Fonction: Restaurant::operator=
+ * Description: écrase les attributs du restaurant par les attributs du restaurant
+ *       passé en parametre et qui renvoie ensuite une référence au restaurant
+ * Paramètres: (IN) restaurant l'adresse du restaurant
+ * Retour: (Restaurant) le restaurant ecrase
+ ****************************************************************************/
+Restaurant& Restaurant::operator=(Restaurant& restaurant) {
+	if (this != &restaurant) {
+		nom_ = restaurant.nom_;
+		chiffreAffaire_ = restaurant.chiffreAffaire_;
+		momentJournee_ = restaurant.momentJournee_;
+		menuMatin_ = restaurant.menuMatin_;
+		menuMidi_ = restaurant.menuMidi_;
+		menuSoir_ = restaurant.menuSoir_;
+		tables_ = restaurant.tables_;
+		nbTables_ = restaurant.nbTables_;
+	}
+	return *this;
+}
+/****************************************************************************
+ * Fonction: Restaurant::operator<
+ * Description: Retourne true ou false selon si le chiffre d'affaire est
+ *	plus grand ou plus petit comparer à un autre restaurant
+ * Paramètres: (IN) restaurant l'adresse du restaurant 
+ * Retour: (bool) le resultat de la comparaison
+ ****************************************************************************/
+bool Restaurant::operator<(const Restaurant& restaurant) const {
+	if (chiffreAffaire_ < restaurant.chiffreAffaire_) {
+		return true;
+	}else{
+		return false;
+	}
 }

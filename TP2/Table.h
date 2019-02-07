@@ -15,7 +15,6 @@ public:
 	///constructeurs
 	Table();
 	Table(int id, int nbPlaces);
-	Table(const Table& tableCopie);
 
 	///destructeur
 	~Table();

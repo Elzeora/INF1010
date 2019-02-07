@@ -18,6 +18,7 @@ public:
 	// constructeurs
 	Menu();
 	Menu(string fichier, TypeMenu type);
+	Menu(const Menu& menu);
 
 	//destructeur
 	~Menu();

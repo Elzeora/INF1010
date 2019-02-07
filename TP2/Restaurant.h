@@ -29,12 +29,16 @@ public:
 
 	//Autres methodes
 	void lireTable(const string& fichier);
-	void ajouterTable(int id, int nbPlaces); // A MODIFIER
+	void ajouterTable(int id, int nbPlaces); // A MODIFIER (FAIT)
 	void libererTable(int id);
-	void afficher() const ; // A MODIFIER
 	void commanderPlat(const string& nom, int idTable); 
 
 	void placerClients(int nbClients);
+
+	friend ostream& operator<<(ostream& os, const Restaurant&); //FAIT
+	Restaurant& operator+=(Table* table);
+	Restaurant& operator=(Restaurant& restaurant);
+	bool operator<(const Restaurant& restaurant) const;
 
 private:
 	string* nom_;
@@ -50,8 +54,7 @@ private:
 	// A MODIFIER
 
 	//liste des tables
-	int capaciteTables_;
-	Table** tables_;
+	vector<Table*> tables_;
 	int nbTables_;
 };
 #endif // !RESTAURANT_H
