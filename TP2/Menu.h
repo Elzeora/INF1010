@@ -20,14 +20,11 @@ public:
 	Menu(string fichier, TypeMenu type);
 	Menu(const Menu& menu);
 
-	//destructeur
-	~Menu();
-
 	//getters
 	int getNbPlats() const;
 
-	//affichage
-	//void afficher() const; //A MODIFIER
+	//nouvel attribut
+	vector<Plat*> getListePlats() const;
 
 	//methodes en plus
 	Plat* trouverPlat(const string& nom) const; // A MODIFIER
@@ -43,9 +40,6 @@ public:
 
 	//operateur+=
 	Menu& operator+=(Plat* plat);
-
-	//nouvel attribut
-	vector<Plat*> getListePlats() const;
 
 private :
 	// A MODIFIER

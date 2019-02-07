@@ -27,19 +27,26 @@ Menu::Menu(string fichier, TypeMenu type) {
 	lireMenu(fichier);
 }
 
-//destructeur
-Menu::~Menu() {
-	// A MODIFIER
-	for (int i = 0; i < listePlats_.size(); i++) {
-		delete listePlats_[i];
-		listePlats_[i] = nullptr;
-	}
+//constructeur par copie
+Menu::Menu(const Menu& menu)
+	: listePlats_(menu.listePlats_), nbPlats_(menu.nbPlats_), type_(menu.type_)
+{
 }
 
 //getters
 
 int Menu::getNbPlats() const {
 	return nbPlats_;
+}
+
+/****************************************************************************
+ * Fonction: Menu::ListePlatss
+ * Description: retourne listePlats_
+ * Paramètres: aucun
+ * Retour: vector<Plat*> listePlats_
+ ****************************************************************************/
+vector<Plat*> Menu::getListePlats() const {
+	return listePlats_;
 }
 
 //autres methodes
@@ -160,16 +167,29 @@ Plat* Menu::trouverPlat(const string& nom) const {
 }
 
 
-//afficher
+/****************************************************************************
+ * Fonction: operateur<<
+ * Description: surcharge de l'opérateur << pour afficher un menu
+ * Paramètres:	- ostream& os
+				- Menu& menu
+ * Retour: os
+ ****************************************************************************/
 ostream& operator<<(ostream& os, const Menu& menu) {
 	for (int i = 0; i < menu.listePlats_.size(); i++) {
 		os << "\t";
 		//listePlats_[i]->afficher();
 		os << menu.listePlats_[i];
 	}
+	return os;
 }
 
-//operateur=
+/****************************************************************************
+ * Fonction: operateur=
+ * Description: surcharge de l'opérateur = pour affecter un les attributs
+				du menu en parametre au menu courant
+ * Paramètres:	- Menu& menu
+ * Retour: le nouveau menu courant
+ ****************************************************************************/
 Menu& Menu::operator=(Menu& menu) {
 	if (this != &menu) {
 		listePlats_ = menu.listePlats_;
@@ -179,7 +199,12 @@ Menu& Menu::operator=(Menu& menu) {
 	return *this;
 }
 
-//operateur+=
+/****************************************************************************
+ * Fonction: operateur+=
+ * Description: surcharge de l'opérateur += pour ajouter une plat au menu
+ * Paramètres:	- Plat* plat
+ * Retour: le nouveau menu courant
+ ****************************************************************************/
 Menu& Menu::operator+=(Plat* plat) {
 	if (this->listePlats_[0] != plat) {
 		listePlats_.push_back(plat);
@@ -187,15 +212,3 @@ Menu& Menu::operator+=(Plat* plat) {
 	}
 	return *this;
 }
-
-//constructeur par copie
-Menu::Menu(const Menu& menu)
-	: listePlats_(menu.listePlats_), nbPlats_(menu.nbPlats_), type_(menu.type_)
-{
-}
-
-//acces au nouvel attribut
-vector<Plat*> Menu::getListePlats() const {
-	return listePlats_;
-}
-

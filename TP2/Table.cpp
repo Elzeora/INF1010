@@ -27,16 +27,6 @@ Table::Table(int id, int nbPlaces) {
 	nbClientsATable_ = 0;
 }
 
-//destructeur
-Table::~Table() {
-	//A MODIFIER
-	for (int i = 0; i < commande_.size(); i++) {
-		delete commande_[i];
-		commande_[i] = nullptr;
-	}
-	//delete[] commande_;
-}
-
 //getters
 int Table::getId() const {
 	return id_;
@@ -71,7 +61,6 @@ void Table::libererTable() {
 	//A MODIFIER
 	for (int i = 0; i < nbPlats_; i++) {
 		commande_.pop_back();
-		commande_[i] = nullptr;/////////////////////////////////////////////faut enlever ou non?
 	}
 	nbPlats_ = 0;
 }
@@ -106,7 +95,13 @@ double Table::getChiffreAffaire() const {
 	return chiffre;
 }
 
-//affichage
+/****************************************************************************
+ * Fonction: operateur<<
+ * Description: surcharge de l'opérateur << pour afficher une table
+ * Paramètres:	- ostream& os
+				- Table& table
+ * Retour: os
+ ****************************************************************************/
 ostream& operator<<(ostream& os, const Table& table) {
 	os << "La table numero " << table.getId();
 	if (table.estOccupee()) {
