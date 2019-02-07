@@ -44,42 +44,6 @@ int Menu::getNbPlats() const {
 
 //autres methodes
 
-void Menu::afficher() const {
-
-	for (int i = 0; i < nbPlats_; i++) {
-		cout << "\t";
-		listePlats_[i]->afficher();
-
-	}
-}
-
-void Menu::ajouterPlat(Plat& plat) {
-	// A MODIFIER
-	/*if (nbPlats_ == capacite_) {
-		if (capacite_ == 0) {
-			capacite_ = 1;
-			delete[] listePlats_;
-			listePlats_ = new Plat*[1];
-
-		}
-		else {
-			capacite_ *= 2;
-			Plat** listeTemp = new Plat*[capacite_];
-			for (int i = 0; i < nbPlats_; i++) {
-				listeTemp[i] = listePlats_[i];
-			}
-
-			delete[] listePlats_;
-			listePlats_ = listeTemp;
-
-		}
-	}*/
-	listePlats_.push_back(&plat);
-	//listePlats_[nbPlats_] = new Plat(plat);
-	nbPlats_++;
-}
-
-
 bool Menu::lireMenu(const string& fichier) {
 	ifstream file(fichier, ios::in);
 
@@ -148,8 +112,13 @@ bool Menu::lireMenu(const string& fichier) {
 					}
 
 					cout =int( stof(coutString.c_str()));
+					
+					Plat* platTemp = new Plat(nom, prix, cout);
+					*this += platTemp;
+					delete platTemp;
 
-					ajouterPlat( Plat(nom, prix, cout));
+
+
 					nom = "";
 					prixString = "";
 					coutString = "";
@@ -189,3 +158,44 @@ Plat* Menu::trouverPlat(const string& nom) const {
 	}
 	return nullptr;
 }
+
+
+//afficher
+ostream& operator<<(ostream& os, const Menu& menu) {
+	for (int i = 0; i < menu.listePlats_.size(); i++) {
+		os << "\t";
+		//listePlats_[i]->afficher();
+		os << menu.listePlats_[i];
+	}
+}
+
+//operateur=
+Menu& Menu::operator=(Menu& menu) {
+	if (this != &menu) {
+		listePlats_ = menu.listePlats_;
+		nbPlats_ = menu.nbPlats_;
+		type_ = menu.type_;
+	}
+	return *this;
+}
+
+//operateur+=
+Menu& Menu::operator+=(Plat* plat) {
+	if (this->listePlats_[0] != plat) {
+		listePlats_.push_back(plat);
+		nbPlats_++;
+	}
+	return *this;
+}
+
+//constructeur par copie
+Menu::Menu(const Menu& menu)
+	: listePlats_(menu.listePlats_), nbPlats_(menu.nbPlats_), type_(menu.type_)
+{
+}
+
+//acces au nouvel attribut
+vector<Plat*> Menu::getListePlats() const {
+	return listePlats_;
+}
+

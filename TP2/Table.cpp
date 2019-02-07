@@ -145,23 +145,3 @@ void Table::afficher() const {
 		cout << " est libre. " << endl;
 	}
 }*/
-
-
-//operateur=
-Table& Table::operator=(const Table& table) {
-	if (this != &table) {
-		commande_ = table.commande_;
-		nbPlats_ = table.nbPlats_;
-		nbPlaces_ = table.nbPlaces_;
-		nbClientsATable_ = table.nbClientsATable_;
-		id_ = table.id_;
-	}
-	return *this;
-}
-
-//constructeur par copie
-Table::Table(const Table& table)
-	: commande_(table.commande_), nbPlats_(table.nbPlats_), nbPlaces_(table.nbPlaces_),
-	nbClientsATable_(table.nbClientsATable_), id_(table.id_)
-{
-}
