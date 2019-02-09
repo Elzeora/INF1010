@@ -4,7 +4,24 @@
 * Auteur : Allan BEDDOUK
 */
 
+/*
+Questions:
+	1. L'opérateur = permet d'attribuer les attributs d'un objet passé
+		en parametres à l'objet courant et le constructeur par copie permet
+		de creer un objet avec un objet passé en parametre. Cela permet de
+		faire une deep copy ou lieu d'une shallow copy, ce qui évite qu'il y
+		ait deux pointeurs qui pointent la meme chose.
+
+	2. La différence est que l'opérateur = donne les attributs de l'objet en parametre
+		lors de l'exécution du programme, tandis que le constructeur par copie crée
+		un nouvel objet avec les memes attributs que l'objet en parametre avant
+		l'exécution du programme.
+*/
+
+
+
 #include "Restaurant.h"
+#include <vector>
 
 using namespace std; 
 
@@ -67,6 +84,4 @@ int main() {
 	cout << "--------------------------------------------------------------------------------------------------" << endl;
 	// Le restaurant Poly2 doit maintenant avoir toutes ses tables libérées
 	cout << poly2;
-
-	system("pause"); 
 }

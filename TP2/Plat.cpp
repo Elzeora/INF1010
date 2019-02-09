@@ -51,7 +51,7 @@ void Plat::setPrix(double prix) {
  * Retour: os
  ****************************************************************************/
 ostream& operator<<(ostream& os, const Plat& plat) {
-	os << plat.getNom() << " - " << plat.getPrix() << " $ (" << plat.getCout() << "$ pour le restaurant)" << endl;
+	os << plat.nom_ << " - " << plat.prix_ << " $ (" << plat.cout_ << "$ pour le restaurant)" << endl;
 	return os;
 }
 
@@ -63,7 +63,7 @@ ostream& operator<<(ostream& os, const Plat& plat) {
  * Retour: true ou false
  ****************************************************************************/
 bool Plat::operator<(const Plat& plat) const {
-	if (prix_ < plat.getPrix())
+	if (prix_ < plat.prix_)
 		return true;
 	else
 		return false;

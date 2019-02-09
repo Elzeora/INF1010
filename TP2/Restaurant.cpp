@@ -19,8 +19,6 @@ Restaurant::Restaurant() {
 	menuMatin_ = new Menu("menu.txt", Matin);
 	menuMidi_ = new Menu("menu.txt", Midi);
 	menuSoir_ = new Menu("menu.txt",  Soir);
-
-	nbTables_ = 0;
 }
 
 Restaurant::Restaurant(const string& fichier,  const string& nom, TypeMenu moment) {
@@ -34,9 +32,6 @@ Restaurant::Restaurant(const string& fichier,  const string& nom, TypeMenu momen
 	menuMidi_ = new Menu(fichier,  Midi);
 	menuSoir_ = new Menu(fichier,  Soir);
 
-
-	nbTables_ = 0;
-
 	lireTable(fichier);
 }
 /****************************************************************************
@@ -45,22 +40,43 @@ Restaurant::Restaurant(const string& fichier,  const string& nom, TypeMenu momen
  * Paramètres: (IN) restaurantCopie le restaurant que l'on souhaite copier
  * Retour: rien
  ****************************************************************************/
-Restaurant::Restaurant(const Restaurant& restaurantCopie) 
+/*Restaurant::Restaurant(const Restaurant& restaurantCopie) 
 	:nom_(restaurantCopie.nom_), chiffreAffaire_(restaurantCopie.chiffreAffaire_),
 	momentJournee_(restaurantCopie.momentJournee_), menuMatin_(restaurantCopie.menuMatin_),
 	menuMidi_(restaurantCopie.menuMidi_), menuSoir_(restaurantCopie.menuSoir_),
 	tables_(restaurantCopie.tables_), nbTables_(restaurantCopie.nbTables_)
 {
+}*/
+
+
+Restaurant::Restaurant(Restaurant& restaurantCopie)
+	:chiffreAffaire_(restaurantCopie.chiffreAffaire_),
+	momentJournee_(restaurantCopie.momentJournee_)
+{
+	nom_ = new string;
+	*nom_ = *restaurantCopie.nom_;
+
+	menuMatin_ = new Menu(*restaurantCopie.menuMatin_);
+	menuMidi_ = new Menu(*restaurantCopie.menuMidi_);
+	menuSoir_ = new Menu(*restaurantCopie.menuSoir_);
+
+	for (int i = 0; i < restaurantCopie.tables_.size(); i++)
+	{
+		tables_.push_back(new Table(*restaurantCopie.tables_[i]));
+	}
+
 }
+
 //destructeur
 Restaurant::~Restaurant() {
 	delete nom_;
 	delete menuMatin_;
 	delete menuMidi_;
 	delete menuSoir_;
-	for (int i = 0; i < nbTables_;i++) {
+	/*for (int i = 0; i < tables_.size();i++) {
 		delete tables_[i];
-	}
+	}*/
+	tables_.clear();
 }
 //setter
 void Restaurant::setMoment(TypeMenu moment) {
@@ -79,39 +95,39 @@ TypeMenu Restaurant::getMoment() const {
 
 //autres methodes
 void Restaurant::libererTable(int id) {
-	for (int i = 0; i < nbTables_; i++) {
+	for (int i = 0; i < tables_.size(); i++) {
 		if (id == tables_[i]->getId()) {
 			chiffreAffaire_ += tables_[i]->getChiffreAffaire();
 			tables_[i]->libererTable();
 		}
 	}
 }
-ostream& operator<<(ostream& os, const Restaurant& restaurant) {
+ostream& operator<<(ostream& os, Restaurant& restaurant) {
 	os << "Le restaurant " << *restaurant.nom_;
 	if (restaurant.chiffreAffaire_ != 0)
 		os << " a fait un chiffre d'affaire de : " << restaurant.chiffreAffaire_ << "$" << endl;
 	else
 		os << " n'a pas fait de benefice ou le chiffre n'est pas encore calcule." << endl;
 	os << "-Voici les tables : " << endl;
-	for (int i = 0; i < restaurant.nbTables_; i++) {
+	for (int i = 0; i < restaurant.tables_.size(); i++) {
 		os << "\t";
-		os << restaurant.tables_[i];
+		os << *restaurant.tables_[i];
 		os << endl;
 	}
 	os << endl;
 
 
 	os << "-Voici son menu : " << endl;
-	os << "Matin : " << endl << restaurant.menuMatin_;
-	os << "Midi : " << endl << restaurant.menuMidi_;
-	os << "Soir : " << endl << restaurant.menuSoir_;
+	os << "Matin : " << endl << *restaurant.menuMatin_;
+	os << "Midi : " << endl << *restaurant.menuMidi_;
+	os << "Soir : " << endl << *restaurant.menuSoir_;
 	return os;
 }
 
 void Restaurant::commanderPlat(const string& nom, int idTable) {
 	Plat* plat = nullptr;
 	int index;
-	for (int i = 0; i < nbTables_; i++) {
+	for (int i = 0; i < tables_.size(); i++) {
 		if (idTable == tables_[i]->getId()) {
 			index = i;
 			switch (momentJournee_) {
@@ -164,7 +180,9 @@ void Restaurant::lireTable(const string& fichier) {
 					nbPersonnesString = ligne.substr(curseur + 1);
 					nbPersonnes = stoi(nbPersonnesString);
 
-					ajouterTable(id, nbPersonnes);
+					Table tableTemp(id, nbPersonnes);
+					*this += tableTemp;
+					
 					nbPersonnesString = "";
 					idString = "";
 				}
@@ -180,17 +198,13 @@ void Restaurant::lireTable(const string& fichier) {
  *             (IN) nbPlaces le nbPlaces d'une table
  * Retour: rien
  ****************************************************************************/
-void Restaurant::ajouterTable(int id, int nbPlaces) {
-	tables_.push_back(new Table(id, nbPlaces));
-	nbTables_++;
-}
 
 void Restaurant::placerClients(int nbClients) {
 	int indexTable = -1;
 	int minimum = 100;
 
 
-	for (int i = 0; i < nbTables_; i++) {
+	for (int i = 0; i < tables_.size(); i++) {
 		if (tables_[i]->getNbPlaces() >= nbClients && !tables_[i]->estOccupee() && tables_[i]->getNbPlaces() < minimum) {
 			indexTable = i;
 			minimum = tables_[i]->getNbPlaces();
@@ -208,8 +222,8 @@ void Restaurant::placerClients(int nbClients) {
  * Paramètres: (IN) table le pointeur d'une table
  * Retour: (Restaurant) le restaurant avec la nouvelle table
  ****************************************************************************/
-Restaurant& Restaurant::operator+=(Table* table) {
-	this->ajouterTable(table->getId(),table->getNbPlaces());
+Restaurant& Restaurant::operator+=(const Table& table) {
+	tables_.push_back(new Table(table));
 	return *this;
 }
 /****************************************************************************
@@ -219,16 +233,24 @@ Restaurant& Restaurant::operator+=(Table* table) {
  * Paramètres: (IN) restaurant l'adresse du restaurant
  * Retour: (Restaurant) le restaurant ecrase
  ****************************************************************************/
-Restaurant& Restaurant::operator=(Restaurant& restaurant) {
+Restaurant& Restaurant::operator=(const Restaurant& restaurant) {
 	if (this != &restaurant) {
-		nom_ = restaurant.nom_;
+		*nom_ = *restaurant.nom_;
 		chiffreAffaire_ = restaurant.chiffreAffaire_;
 		momentJournee_ = restaurant.momentJournee_;
 		menuMatin_ = restaurant.menuMatin_;
 		menuMidi_ = restaurant.menuMidi_;
 		menuSoir_ = restaurant.menuSoir_;
-		tables_ = restaurant.tables_;
-		nbTables_ = restaurant.nbTables_;
+		
+		for (int i = 0; i < tables_.size(); i++)
+			delete tables_[i];
+		tables_.clear();
+
+		for (int i = 0; i < restaurant.tables_.size(); i++)
+		{
+			Table* table = new Table(*restaurant.tables_[i]);
+			tables_.push_back(table);
+		}
 	}
 	return *this;
 }

@@ -16,6 +16,9 @@ public:
 	Table();
 	Table(int id, int nbPlaces);
 
+	//destructeur
+	~Table();
+
 
 	///getters
 	int getId() const;
@@ -38,11 +41,7 @@ public:
 	friend ostream& operator<<(ostream& os, const Table& table);
 
 private :
-	//A MODIFIER
-	//int capacite_;
-	//Plat** commande_;
 	vector<Plat*>commande_;
-	int nbPlats_;
 	int id_;
 	int nbPlaces_;
 	int nbClientsATable_;

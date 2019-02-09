@@ -16,7 +16,7 @@ public:
 	//constructeurs
 	Restaurant();
 	Restaurant(const string& fichier, const string& nom,  TypeMenu moment);
-	Restaurant(const Restaurant& restaurantCopie);
+	Restaurant(Restaurant& restaurantCopie);
 	//destructeur
 	~Restaurant();
 
@@ -36,9 +36,9 @@ public:
 
 	void placerClients(int nbClients);
 
-	friend ostream& operator<<(ostream& os, const Restaurant&); //FAIT
-	Restaurant& operator+=(Table* table);
-	Restaurant& operator=(Restaurant& restaurant);
+	friend ostream& operator<<(ostream& os, Restaurant&); //FAIT
+	Restaurant& operator+=(const Table& table);
+	Restaurant& operator=(const Restaurant& restaurant);
 	bool operator<(const Restaurant& restaurant) const;
 
 private:
@@ -56,6 +56,5 @@ private:
 
 	//liste des tables
 	vector<Table*> tables_;
-	int nbTables_;
 };
 #endif // !RESTAURANT_H
