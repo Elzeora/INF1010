@@ -20,6 +20,7 @@ Table::Table(int id, int nbPlaces) {
 	nbPlaces_ = nbPlaces;
 	nbClientsATable_ = 0;
 }
+
 //destructeur
 Table::~Table() {
 	for (int i = 0; i < commande_.size(); i++) {

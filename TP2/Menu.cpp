@@ -21,10 +21,16 @@ Menu::Menu(string fichier, TypeMenu type) {
 }
 
 //constructeur par copie
-Menu::Menu(const Menu& menu) : type_(menu.type_){
+Menu::Menu(const Menu& menu) : type_(menu.type_) {
 	for (int i = 0; i < menu.listePlats_.size(); i++)
 		listePlats_.push_back(new Plat(*menu.listePlats_[i]));
 }
+
+/*Menu::Menu(const Menu& menu)
+	: listePlats_(menu.listePlats_), nbPlats_(menu.nbPlats_), type_(menu.type_)
+{
+}*/
+
 //destructeur
 Menu::~Menu() {
 	for (int i = 0; i < listePlats_.size(); i++) {
@@ -33,8 +39,20 @@ Menu::~Menu() {
 }
 
 //getters
+
+//getters
 int Menu::getNbPlats() const {
 	return listePlats_.size();
+}
+
+/****************************************************************************
+ * Fonction: Menu::getListePlatss
+ * Description: retourne listePlats_
+ * Paramètres: aucun
+ * Retour: vector<Plat*> listePlats_
+ ****************************************************************************/
+vector<Plat*> Menu::getListePlats() const {
+	return listePlats_;
 }
 
 //autres methodes
@@ -48,13 +66,13 @@ bool Menu::lireMenu(const string& fichier) {
 	else {
 		string type;
 		switch (type_) {
-		case Matin :
+		case Matin:
 			type = "-MATIN";
 			break;
-		case Midi :
+		case Midi:
 			type = "-MIDI";
 			break;
-		case Soir :
+		case Soir:
 			type = "-SOIR";
 			break;
 		}
@@ -73,7 +91,7 @@ bool Menu::lireMenu(const string& fichier) {
 		while (!file.eof()) {
 			getline(file, ligne);
 			//trouver le bon type de menu (section)
-			if (ligne == type){
+			if (ligne == type) {
 				//commencer a lire -- s'arrete si fin du fichier ou encore si on arrive a une nouvelle section du menu
 				getline(file, ligne);
 				int curseur;
@@ -105,8 +123,8 @@ bool Menu::lireMenu(const string& fichier) {
 						coutString += ligne[i];
 					}
 
-					cout =int( stof(coutString.c_str()));
-				
+					cout = int(stof(coutString.c_str()));
+
 
 					*this += (Plat(nom, prix, cout));
 
@@ -175,11 +193,12 @@ ostream& operator<<(ostream& os, Menu& menu) {
  * Retour: le nouveau menu courant
  ****************************************************************************/
 Menu& Menu::operator=(const Menu& menu) {
-
-		for (int i = 0; i < menu.listePlats_.size(); i++)	{
+	if (this != &menu) {
+		for (int i = 0; i < menu.listePlats_.size(); i++) {
 			listePlats_.push_back(new Plat(*menu.listePlats_[i]));
 		}
 		type_ = menu.type_;
+	}
 	return *this;
 }
 

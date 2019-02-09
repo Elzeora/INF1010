@@ -25,15 +25,16 @@ public:
 
 	//getters
 	int getNbPlats() const;
-	
+
+	//nouvel attribut
+	vector<Plat*> getListePlats() const;
 
 	//methodes en plus
 	Plat* trouverPlat(const string& nom) const; // A MODIFIER
 	Plat * trouverPlatMoinsCher() const; // Utilise les vecteurs (NE PAS MODIFIER)
-	//void ajouterPlat(Plat& plat); // A MODIFIER
 	bool lireMenu(const string& fichier);
 
-	//operateur<<
+	//void afficher() const; //A MODIFIER
 	friend ostream& operator<<(ostream& os, Menu& menu);
 
 	//operateur=

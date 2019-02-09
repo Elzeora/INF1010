@@ -34,7 +34,7 @@ public:
 	void commanderPlat(const string& nom, int idTable); 
 	void placerClients(int nbClients);
 
-	friend ostream& operator<<(ostream& os, const Restaurant& restaurant); //FAIT
+	friend ostream& operator<<(ostream& os, const Restaurant&); //FAIT
 	Restaurant& operator+=(Table* table);
 	Restaurant& operator=(const Restaurant& restaurant);
 	bool operator<(const Restaurant& restaurant);

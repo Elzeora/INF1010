@@ -18,10 +18,10 @@ Restaurant::Restaurant() {
 
 	menuMatin_ = new Menu("menu.txt", Matin);
 	menuMidi_ = new Menu("menu.txt", Midi);
-	menuSoir_ = new Menu("menu.txt",  Soir);
+	menuSoir_ = new Menu("menu.txt", Soir);
 }
 
-Restaurant::Restaurant(const string& fichier,  const string& nom, TypeMenu moment) {
+Restaurant::Restaurant(const string& fichier, const string& nom, TypeMenu moment) {
 	nom_ = new string(nom);
 
 	chiffreAffaire_ = 0;
@@ -29,8 +29,8 @@ Restaurant::Restaurant(const string& fichier,  const string& nom, TypeMenu momen
 	momentJournee_ = moment;
 
 	menuMatin_ = new Menu(fichier, Matin);
-	menuMidi_ = new Menu(fichier,  Midi);
-	menuSoir_ = new Menu(fichier,  Soir);
+	menuMidi_ = new Menu(fichier, Midi);
+	menuSoir_ = new Menu(fichier, Soir);
 
 	lireTable(fichier);
 }
@@ -59,7 +59,7 @@ Restaurant::~Restaurant() {
 	delete menuMatin_;
 	delete menuMidi_;
 	delete menuSoir_;
-	for (int i = 0; i < tables_.size();i++) {
+	for (int i = 0; i < tables_.size(); i++) {
 		delete tables_[i];
 	}
 }
@@ -87,7 +87,7 @@ void Restaurant::libererTable(int id) {
 		}
 	}
 }
-ostream& operator<<(ostream& os,const Restaurant& restaurant) {
+ostream& operator<<(ostream& os, const Restaurant& restaurant) {
 	os << "Le restaurant " << *restaurant.nom_;
 	if (restaurant.chiffreAffaire_ != 0)
 		os << " a fait un chiffre d'affaire de : " << restaurant.chiffreAffaire_ << "$" << endl;
@@ -116,13 +116,13 @@ void Restaurant::commanderPlat(const string& nom, int idTable) {
 		if (idTable == tables_[i]->getId()) {
 			index = i;
 			switch (momentJournee_) {
-			case Matin :
+			case Matin:
 				plat = menuMatin_->trouverPlat(nom);
 				break;
-			case Midi :
+			case Midi:
 				plat = menuMidi_->trouverPlat(nom);
 				break;
-			case Soir :
+			case Soir:
 				plat = menuSoir_->trouverPlat(nom);
 				break;
 			}
@@ -166,7 +166,7 @@ void Restaurant::lireTable(const string& fichier) {
 					nbPersonnes = stoi(nbPersonnesString);
 
 					*this += new Table(id, nbPersonnes);
-					
+
 					nbPersonnesString = "";
 					idString = "";
 				}
@@ -175,13 +175,6 @@ void Restaurant::lireTable(const string& fichier) {
 		file.close();
 	}
 }
-/****************************************************************************
- * Fonction: Restaurant::ajouterTable
- * Description: ajoute une table au restaurant
- * Paramètres: (IN) id le id d'une table
- *             (IN) nbPlaces le nbPlaces d'une table
- * Retour: rien
- ****************************************************************************/
 
 void Restaurant::placerClients(int nbClients) {
 	int indexTable = -1;
@@ -199,6 +192,7 @@ void Restaurant::placerClients(int nbClients) {
 	}else
 	tables_[indexTable]->placerClient(nbClients);
 }
+
 /****************************************************************************
  * Fonction: Restaurant::operator+=
  * Description: renant en paramètre unpointeur à unetable,
@@ -218,19 +212,21 @@ Restaurant& Restaurant::operator+=(Table* table) {
  * Retour: (Restaurant) le restaurant ecrase
  ****************************************************************************/
 Restaurant& Restaurant::operator=(const Restaurant& restaurant) {
+	if (this != &restaurant) {
 		nom_ = new string(*restaurant.nom_);
 		chiffreAffaire_ = restaurant.chiffreAffaire_;
 		momentJournee_ = restaurant.momentJournee_;
 		menuMatin_ = new Menu(*restaurant.menuMatin_),
-		menuMidi_  = new Menu(*restaurant.menuMidi_),
-		menuSoir_  = new Menu(*restaurant.menuSoir_);
-		
-		for (int i = 0; i < restaurant.tables_.size(); i++)	{
+		menuMidi_ = new Menu(*restaurant.menuMidi_),
+		menuSoir_ = new Menu(*restaurant.menuSoir_);
+
+		for (int i = 0; i < restaurant.tables_.size(); i++) {
 			tables_.push_back(new Table(*restaurant.tables_[i]));
 		}
-	
+	}
 	return *this;
 }
+
 /****************************************************************************
  * Fonction: Restaurant::operator<
  * Description: Retourne true ou false selon si le chiffre d'affaire est
