@@ -16,7 +16,7 @@ public:
 	//constructeurs
 	Restaurant();
 	Restaurant(const string& fichier, const string& nom,  TypeMenu moment);
-	Restaurant(Restaurant& restaurantCopie);
+	Restaurant(const Restaurant& restaurantCopie);
 	//destructeur
 	~Restaurant();
 
@@ -30,16 +30,14 @@ public:
 
 	//Autres methodes
 	void lireTable(const string& fichier);
-	void ajouterTable(int id, int nbPlaces); // A MODIFIER (FAIT)
 	void libererTable(int id);
 	void commanderPlat(const string& nom, int idTable); 
-
 	void placerClients(int nbClients);
 
-	friend ostream& operator<<(ostream& os, Restaurant&); //FAIT
-	Restaurant& operator+=(const Table& table);
+	friend ostream& operator<<(ostream& os, const Restaurant& restaurant); //FAIT
+	Restaurant& operator+=(Table* table);
 	Restaurant& operator=(const Restaurant& restaurant);
-	bool operator<(const Restaurant& restaurant) const;
+	bool operator<(const Restaurant& restaurant);
 
 private:
 	string* nom_;

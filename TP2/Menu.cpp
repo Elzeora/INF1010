@@ -11,56 +11,38 @@ using namespace std;
 //constructeurs
 
 Menu::Menu() {
-	nbPlats_ = 0;
 	type_ = Matin;
 }
 
 Menu::Menu(string fichier, TypeMenu type) {
-	nbPlats_ = 0;
 	type_ = type;
 	//lecture du fichier -- creation du menu
 	lireMenu(fichier);
 }
 
 //constructeur par copie
-Menu::Menu(Menu& menu)
-	: nbPlats_(menu.nbPlats_), type_(menu.type_)
-{
+Menu::Menu(const Menu& menu) : type_(menu.type_){
 	for (int i = 0; i < menu.listePlats_.size(); i++)
 		listePlats_.push_back(new Plat(*menu.listePlats_[i]));
 }
-
-/*Menu::Menu(const Menu& menu)
-	: listePlats_(menu.listePlats_), nbPlats_(menu.nbPlats_), type_(menu.type_)
-{
-}*/
-
+//destructeur
 Menu::~Menu() {
-	listePlats_.clear();
+	for (int i = 0; i < listePlats_.size(); i++) {
+		delete listePlats_[i];
+	}
 }
 
 //getters
-
 int Menu::getNbPlats() const {
-	return nbPlats_;
-}
-
-/****************************************************************************
- * Fonction: Menu::getListePlatss
- * Description: retourne listePlats_
- * Paramètres: aucun
- * Retour: vector<Plat*> listePlats_
- ****************************************************************************/
-vector<Plat*> Menu::getListePlats() const {
-	return listePlats_;
+	return listePlats_.size();
 }
 
 //autres methodes
 bool Menu::lireMenu(const string& fichier) {
 	ifstream file(fichier, ios::in);
 
-	if (!file) {
-		//cout << "ERREUR : le fichier n'a pas pu etre ouvert" << endl;
+	if (file.fail()) {
+		cout << "ERREUR : le fichier n'a pas pu etre ouvert" << endl;
 		return false;
 	}
 	else {
@@ -124,10 +106,9 @@ bool Menu::lireMenu(const string& fichier) {
 					}
 
 					cout =int( stof(coutString.c_str()));
-					
-					Plat platTemp(nom, prix, cout);
+				
 
-					*this += platTemp;
+					*this += (Plat(nom, prix, cout));
 
 
 					nom = "";
@@ -194,19 +175,11 @@ ostream& operator<<(ostream& os, Menu& menu) {
  * Retour: le nouveau menu courant
  ****************************************************************************/
 Menu& Menu::operator=(const Menu& menu) {
-	if (this != &menu) {
-		for (int i = 0; i < listePlats_.size(); i++)
-			delete listePlats_[i];
-		listePlats_.clear();
 
-		for (int i = 0; i < menu.listePlats_.size(); i++)
-		{
-			Plat* plat = new Plat(*menu.listePlats_[i]);
-			listePlats_.push_back(plat);
+		for (int i = 0; i < menu.listePlats_.size(); i++)	{
+			listePlats_.push_back(new Plat(*menu.listePlats_[i]));
 		}
-		nbPlats_ = menu.nbPlats_;
 		type_ = menu.type_;
-	}
 	return *this;
 }
 
@@ -218,6 +191,5 @@ Menu& Menu::operator=(const Menu& menu) {
  ****************************************************************************/
 Menu& Menu::operator+=(const Plat& plat) {
 	listePlats_.push_back(new Plat(plat));
-	nbPlats_++;
 	return *this;
 }

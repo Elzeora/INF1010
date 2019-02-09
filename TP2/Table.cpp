@@ -20,9 +20,11 @@ Table::Table(int id, int nbPlaces) {
 	nbPlaces_ = nbPlaces;
 	nbClientsATable_ = 0;
 }
-
+//destructeur
 Table::~Table() {
-	commande_.clear();
+	for (int i = 0; i < commande_.size(); i++) {
+		delete commande_[i];
+	}
 }
 
 //getters

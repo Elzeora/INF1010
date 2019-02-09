@@ -18,16 +18,14 @@ public:
 	// constructeurs
 	Menu();
 	Menu(string fichier, TypeMenu type);
-	Menu(Menu& menu);
+	Menu(const Menu& menu);
 
 	//destructeur
 	~Menu();
 
 	//getters
 	int getNbPlats() const;
-
-	//nouvel attribut
-	vector<Plat*> getListePlats() const;
+	
 
 	//methodes en plus
 	Plat* trouverPlat(const string& nom) const; // A MODIFIER
@@ -35,7 +33,7 @@ public:
 	//void ajouterPlat(Plat& plat); // A MODIFIER
 	bool lireMenu(const string& fichier);
 
-	//void afficher() const; //A MODIFIER
+	//operateur<<
 	friend ostream& operator<<(ostream& os, Menu& menu);
 
 	//operateur=
@@ -46,7 +44,6 @@ public:
 
 private :
 	vector<Plat*> listePlats_;
-	int nbPlats_;
 	TypeMenu type_;
 };
 
