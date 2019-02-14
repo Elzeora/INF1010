@@ -19,36 +19,33 @@ Menu::Menu(string fichier, TypeMenu type) {
 	lireMenu(fichier); 
 }
 
-Menu::Menu(const Menu & menu): type_(menu.type_)
-{
+Menu::Menu(const Menu & menu): type_(menu.type_){
 	///TODO 
 	///Modifier
-	for (unsigned i = 0; i < menu.listePlats_.size(); ++i)
-	{			listePlats_.push_back(new Plat(*menu.listePlats_[i]));
-
+	for (unsigned i = 0; i < menu.listePlats_.size(); ++i){
+		listePlats_.push_back(new Plat(*menu.listePlats_[i]));
 	}
 }
 
 
 //getters
 
-vector<Plat*> Menu::getListePlats() const
-{
+vector<Plat*> Menu::getListePlats() const{
 	return listePlats_;
 }
 
 //autres methodes 
 
 
-ostream& operator<<(ostream& os, const Menu& menu)
-{
-	for (unsigned i = 0; i < menu.listePlats_.size(); ++i) {
-		
+ostream& operator<<(ostream& os, const Menu& menu){
+	for (unsigned i = 0; i < menu.listePlats_.size(); ++i) {	
 		if(menu.listePlats_[i]->getType()==Regulier)
 			os << "\t" << *menu.listePlats_[i];
-
+		if (menu.listePlats_[i]->getType() == Bio) //A vérifier
+			os << "\t" << *menu.listePlats_[i];
+		if (menu.listePlats_[i]->getType() == Custom)
+			os << "\t" << *menu.listePlats_[i];
 	}
-
 	return os;
 }
 
@@ -60,15 +57,12 @@ Menu& Menu::operator+=(const Plat& plat) {
 }
 
 
-Menu & Menu::operator=(const Menu & menu)
-{
+Menu & Menu::operator=(const Menu & menu){
 	///TODO
 	/// A Modifier
-	if (this != &menu)
-	{
+	if (this != &menu){
 		this->type_ = menu.type_;
 		listePlats_.clear();
-
 		for (unsigned i = 0; i < menu.listePlats_.size(); ++i)
 			listePlats_.push_back(new Plat(*menu.listePlats_[i]));
 	}
@@ -199,8 +193,7 @@ void Menu::lireMenu(const string& fichier) {
 	}
 }
 
-Plat * Menu::trouverPlatMoinsCher() const
-{
+Plat * Menu::trouverPlatMoinsCher() const {
 	Plat minimum(*listePlats_[0]);
 	int found = -1;
 

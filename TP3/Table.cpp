@@ -28,8 +28,7 @@ int Table::getNbPlaces() const {
 	return nbPlaces_;
 }
 
-bool Table::estOccupee() const
-{
+bool Table::estOccupee() const{
 	return nbClientsATable_!=0;
 }
 
@@ -37,21 +36,35 @@ bool Table::estPleine() const {
 	return nbPlaces_ == 0;
 }
 
-int Table::getNbClientsATable() const
-{
+int Table::getNbClientsATable() const{
 	return nbClientsATable_;
 }
-vector<Plat*> Table::getCommande() const
-{
+vector<Plat*> Table::getCommande() const{
 	return commande_;
 }
+Client* Table::getCliengtPrincipal() const {
+	return  clientPrincipal_;
+}
 
+double Table::getChiffreAffaire() const {
+	///TODO
+	///Modifier pour que le chiffre d'Affaire prenne en compte le type de plat
+	///voir Énoncé
+	double chiffre = 0;
+	for (unsigned i = 0; i < commande_.size(); ++i) {
+		chiffre += commande_[i]->getType.getPrix() - commande_[i]->getType.getCout();
+	}
+	return chiffre;
+}
 
 //setters
 void Table::setId(int id) {
 	id_ = id;
 }
 
+void Table::setClientPrincipal(Client* clientPrincipal) {
+	clientPrincipal_ = clientPrincipal;
+}
 
 void Table::libererTable() {
 	nbPlaces_ += nbClientsATable_;
@@ -69,15 +82,7 @@ void Table::commander(Plat* plat) {
 	commande_.push_back(plat);
 }
 
-double Table::getChiffreAffaire() const {
-	///TODO
-	///Modifier pour que le chiffre d'Affaire prenne en compte le type de plat
-	///voir Énoncé
-	double chiffre = 0;
-	for (unsigned i = 0; i < commande_.size(); ++i) 
-			chiffre += commande_[i]->getPrix() - commande_[i]->getCout();
-	return chiffre;
-}
+
 
 //affichage
 
