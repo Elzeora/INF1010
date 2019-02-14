@@ -4,6 +4,30 @@
 * Auteur : Fatou S. Mounzeo
 */
 
+/*
+Questions:
+
+1.
+
+
+
+2.
+
+
+
+
+3.(bonus)Pourquoi est-il intéressant de dériver ClientPrestige de ClientRégulier?
+	C'est interessant, car ClientPrestige contient les mêmes attributs et méthodes
+	que ClientRégulier, en plus de d'autres. On peut donc voir ClientPrestige comme
+	une sorte de ClientRégulier, mais plus "spécialisé". Ainsi, en faisant dériver
+	la classe ClientPrestige de ClientRégulier, on évite de se répéter.
+*/
+
+
+
+
+
+
 #include "Restaurant.h"
 #include "ClientPrestige.h"
 

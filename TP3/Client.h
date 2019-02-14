@@ -3,8 +3,7 @@
 * Date : 11  Février 2019
 * Auteur : Fatou S. Mounzeo
 */
-#ifndef CLIENT
-#define CLIENT
+#pragma once
 
 #include <string>
 #include <iostream>
@@ -37,6 +36,4 @@ protected:
 	int tailleGroupe_;
 	StatutClient statut_;
 };
-
-#endif
 
