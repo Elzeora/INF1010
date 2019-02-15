@@ -19,12 +19,31 @@ Menu::Menu(string fichier, TypeMenu type) {
 	lireMenu(fichier); 
 }
 
+/****************************************************************************
+ * Fonction: Menu::Menu
+ * Description: Constructeur par copie de Menu
+ * Paramètres: - Menu& menu
+ ****************************************************************************/
 Menu::Menu(const Menu & menu): type_(menu.type_){
-	///TODO 
-	///Modifier
 	for (unsigned i = 0; i < menu.listePlats_.size(); ++i){
-		listePlats_.push_back(new Plat(*menu.listePlats_[i]));
+		if (menu.listePlats_[i]->getType() == Regulier)
+			listePlats_.push_back(new Plat(*menu.listePlats_[i]));
+		else {
+			PlatBio* platBio = static_cast<PlatBio*>(menu.listePlats_[i]);
+			listePlats_.push_back(new PlatBio(*platBio));
+		}
 	}
+}
+
+/****************************************************************************
+ * Fonction: ~Menu
+ * Description: Destructeur de Menu
+ * Paramètres: aucun
+ * Retour: aucun
+ ****************************************************************************/
+Menu::~Menu() {
+	for (unsigned i = 0; i < listePlats_.size(); i++)
+		delete listePlats_[i];
 }
 
 
@@ -36,19 +55,26 @@ vector<Plat*> Menu::getListePlats() const{
 
 //autres methodes 
 
-
+/****************************************************************************
+ * Fonction: operateur<<
+ * Description: surcharge de l'opérateur << pour afficher un menu
+ * Paramètres:	- ostream& os
+ *				- Menu& menu
+ * Retour: os
+ ****************************************************************************/
 ostream& operator<<(ostream& os, const Menu& menu){
 	for (unsigned i = 0; i < menu.listePlats_.size(); ++i) {	
-		if(menu.listePlats_[i]->getType()==Regulier)
-			os << "\t" << *menu.listePlats_[i];
-		if (menu.listePlats_[i]->getType() == Bio) //A vérifier
-			os << "\t" << *menu.listePlats_[i];
-		if (menu.listePlats_[i]->getType() == Custom)
-			os << "\t" << *menu.listePlats_[i];
+		if(menu.listePlats_[i]->getType() == Regulier)
+			os << "\t" << *menu.listePlats_[i] << endl;
+		else {
+			PlatBio* platBio = static_cast<PlatBio*>(menu.listePlats_[i]);
+			os << "\t" << *platBio << endl;
+		}
+		/*if (menu.listePlats_[i]->getType() == Custom)
+			os << "\t" << *menu.listePlats_[i];*///n'est pas affiche dans le menu du restaurant
 	}
 	return os;
 }
-
 
 
 Menu& Menu::operator+=(const Plat& plat) {
@@ -56,18 +82,41 @@ Menu& Menu::operator+=(const Plat& plat) {
 	return *this;
 }
 
+/****************************************************************************
+ * Fonction: operateur+=
+ * Description: surcharge de l'opérateur += pour ajouter un PlatBio
+ * Paramètres:	- PlatBio& plat
+ * Retour: Menu&
+ ****************************************************************************/
+Menu& Menu::operator+=(const PlatBio& plat) {
+	PlatBio platBio = static_cast<PlatBio>(plat);//pas certain////////////////////////////////////////
+	listePlats_.push_back(new PlatBio(platBio));
+	return *this;
+}
 
+/****************************************************************************
+ * Fonction: operateur=
+ * Description: surcharge de l'opérateur = pour assigner les attributs du menu
+				en parametre au menu courant
+ * Paramètres:	- Menu& menu
+ * Retour: Menu&
+ ****************************************************************************/
 Menu & Menu::operator=(const Menu & menu){
-	///TODO
-	/// A Modifier
 	if (this != &menu){
 		this->type_ = menu.type_;
 		listePlats_.clear();
-		for (unsigned i = 0; i < menu.listePlats_.size(); ++i)
-			listePlats_.push_back(new Plat(*menu.listePlats_[i]));
+		for (unsigned i = 0; i < menu.listePlats_.size(); ++i) {
+			if(menu.listePlats_[i]->getType() == Regulier)
+				listePlats_.push_back(new Plat(*menu.listePlats_[i]));
+			else {
+				PlatBio* platBio = static_cast<PlatBio*>(menu.listePlats_[i]);
+				listePlats_.push_back(new PlatBio(*platBio));
+			}
+		}
 	}
 	return *this;
 }
+
 
 
 void Menu::lireMenu(const string& fichier) {

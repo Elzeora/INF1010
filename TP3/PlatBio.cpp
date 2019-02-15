@@ -39,12 +39,12 @@ void PlatBio::setEcoTaxe(double ecoTaxe) {
 /****************************************************************************
  * Fonction: operator<<
  * description: surcharge de l'operateur <<
- * Paramètres:	- ostream &os
- *				- PlatBio &plat
+ * Paramètres:	- ostream& os
+ *				- PlatBio& plat
  * retour os
  ****************************************************************************/
 ostream& operator<<(ostream& os, const PlatBio& plat) {
 	os << plat << endl;
-	os << "      comprend une Taxe ecologique de :" << plat.ecoTaxe_ << "$" <<endl;
+	os << "      comprend une Taxe ecologique de : " << plat.ecoTaxe_ << "$" <<endl;
 	return os;
 }

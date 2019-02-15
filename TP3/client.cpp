@@ -11,7 +11,6 @@
   * Fonction: Client::Client
   * Description: Constructeur par défaut
   * Paramètres: aucun
-  * Retour: aucun
   ****************************************************************************/
 Client::Client() {
 	nom_ = "inconnu";
@@ -23,8 +22,9 @@ Client::Client() {
 /****************************************************************************
  * Fonction: Client::Client
  * Description: Constructeur par parametre
- * Paramètres: aucun
- * Retour: aucun
+ * Paramètres: - string nom
+ *			   - string prenom
+ *			   - int tailleGroupe
  ****************************************************************************/
 Client::Client(string nom, string prenom, int tailleGroupe) {
 	nom_ = nom;
@@ -33,35 +33,75 @@ Client::Client(string nom, string prenom, int tailleGroupe) {
 	statut_ = Occasionnel;
 }
 
+/****************************************************************************
+ * Fonction: ~Client
+ * Description: Destructeur de Client
+ * Paramètres: aucun
+ * Retour: aucun
+ ****************************************************************************/
 Client::~Client() {
 	//aucun pointeur donc destructeur vide
 }
 
-// Accesseurs
-StatutClient Client::getStatut() {
+/****************************************************************************
+ * Fonction: getStatus
+ * Description: accesseur du statut du client
+ * Paramètres: aucun
+ * Retour: statut_
+ ****************************************************************************/
+StatutClient Client::getStatut() const {
 	return statut_;
 }
 
-int Client::getTailleGroupe() {
+/****************************************************************************
+ * Fonction: getTailleGroupe
+ * Description: accesseur de la taille du groupe
+ * Paramètres: aucun
+ * Retour: tailleGroupe_
+ ****************************************************************************/
+int Client::getTailleGroupe() const {
 	return tailleGroupe_;
 }
 
-string Client::getNom() {
+/****************************************************************************
+ * Fonction: getNom
+ * Description: accesseur du nom du client
+ * Paramètres: aucun
+ * Retour: nom_
+ ****************************************************************************/
+string Client::getNom() const {
 	return nom_;
 }
 
-string Client::getPrenom() {
+/****************************************************************************
+ * Fonction: getPrenom
+ * Description: accesseur du prenom du client
+ * Paramètres: aucun
+ * Retour: prenom_
+ ****************************************************************************/
+string Client::getPrenom() const {
 	return prenom_;
 }
 
-//Autes méthodes
-
+/****************************************************************************
+ * Fonction: operateur<<
+ * Description: surcharge de l'opérateur << pour afficher un client
+ * Paramètres:	- ostream& os
+ *				- Client& client
+ * Retour: os
+ ****************************************************************************/
 ostream& operator<<(ostream& os, const Client& client) {
 	os << "Le client principal est: " << endl;
 	os << "\t -" << client.nom_ << " " << client.prenom_ << " statut: " 
 		<< client.convertirStatutString;
 }
 
+/****************************************************************************
+ * Fonction: convertirStatutString
+ * Description: convertir le statut en string
+ * Paramètres:	aucun
+ * Retour: statut du client (en string)
+ ****************************************************************************/
 string Client::convertirStatutString() const {
 	switch (statut_) {
 	case Occasionnel:

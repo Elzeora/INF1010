@@ -11,30 +11,55 @@
   * Fonction: ClientPrestige::ClientPrestige
   * Description: Constructeur par défaut
   * Paramètres: aucun
-  * Retour: aucun
   ****************************************************************************/
-ClientPrestige::ClientPrestige() :ClientRegulier()
+ClientPrestige::ClientPrestige() : ClientRegulier()
 {
 	addresse_ = Zone3;
 }
 
+/****************************************************************************
+ * Fonction: ClientPrestige::ClientPrestige
+ * Description: Constructeur par parametre
+ * Paramètres: - string nom
+ *				- string prenom
+ *				- int tailleGroupe
+ *				- int nbPoints
+ *				- AdressCode adresse
+ ****************************************************************************/
 ClientPrestige::ClientPrestige(string nom, string prenom, int tailleGroupe, int nbPoints, AddressCode addresse) 
 	: ClientRegulier(nom, prenom, tailleGroupe, nbPoints)
 {
 	addresse_ = addresse;
 }
 
-//Accesseur 
-AddressCode ClientPrestige::getAddresseCode() {
+/****************************************************************************
+ * Fonction: getAdresseCode
+ * Description: accesseur de l'adresse du client
+ * Paramètres: aucun
+ * Retour: adresse_
+ ****************************************************************************/
+AddressCode ClientPrestige::getAddresseCode() const{
 	return addresse_;
 }
 
-//Autres Fonctions??
+/****************************************************************************
+ * Fonction: operateur<<
+ * Description: surcharge de l'opérateur << pour afficher un client prestige
+ * Paramètres:	- ostream& os
+ *				- ClientPrestige& client
+ * Retour: os
+ ****************************************************************************/
 ostream & operator<<(ostream & os, ClientPrestige client) {
 	os << client << "Habite dans la " << client.getAddressCodeString << endl;
 }
 
-string ClientPrestige::getAddressCodeString() {
+/****************************************************************************
+ * Fonction: getAdresseCodeString
+ * Description: convertir la zone d'adresse en string
+ * Paramètres: aucun
+ * Retour: zone d'adresse
+ ****************************************************************************/
+string ClientPrestige::getAddressCodeString() const{
 	switch (addresse_) {
 	case Zone1:
 		return "Zone1";
