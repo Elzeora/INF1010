@@ -42,10 +42,23 @@ int Table::getNbClientsATable() const{
 vector<Plat*> Table::getCommande() const{
 	return commande_;
 }
+
+/****************************************************************************
+ * Fonction: getClientPrincipal
+ * Description: get le client principal
+ * Paramètres:	rien
+ * Retour: Client* clientPrincipal_
+ ****************************************************************************/
 Client* Table::getCliengtPrincipal() const {
 	return  clientPrincipal_;
 }
 
+/****************************************************************************
+ * Fonction: getChiffreAffaire
+ * Description: get le chiffre d'affaire
+ * Paramètres:	rien
+ * Retour: double chiffre
+ ****************************************************************************/
 double Table::getChiffreAffaire() const {
 	///TODO
 	///Modifier pour que le chiffre d'Affaire prenne en compte le type de plat
@@ -65,26 +78,6 @@ double Table::getChiffreAffaire() const {
 		}
 		else
 			chiffre += (commande_[i]->getPrix() - commande_[i]->getCout());
-		
-		
-		
-		/*
-		switch (commande_[i]->getType())
-		{
-		case Bio:
-			PlatBio* platBio = static_cast<PlatBio*>(commande_[i]);
-			chiffre += (platBio->getPrix() - platBio->getCout());
-			chiffre += platBio->getEcoTaxe();
-			break;
-		case Custom:
-			PlatCustom* platCustom = static_cast<PlatCustom*>(commande_[i]);
-			chiffre += (platCustom->getPrix() - platCustom->getCout());
-			chiffre += platCustom->getSupplement();
-			break;
-		case Regulier:
-			chiffre += (commande_[i]->getPrix() - commande_[i]->getCout());
-			break;
-		}*/
 	}
 	return chiffre;
 }
@@ -94,8 +87,23 @@ void Table::setId(int id) {
 	id_ = id;
 }
 
+/****************************************************************************
+ * Fonction: setClientPrincipal
+ * Description: set le client principal
+ * Paramètres:	- Client* clientPrincipal
+ * Retour: rien
+ ****************************************************************************/
 void Table::setClientPrincipal(Client* clientPrincipal) {
-	clientPrincipal_ = clientPrincipal;
+	if (clientPrincipal->getStatut() == Fidele) {
+		ClientRegulier* clientRegulier = static_cast<ClientRegulier*>(clientPrincipal);
+		clientPrincipal_ = clientRegulier;
+	}
+	if (clientPrincipal->getStatut() == Prestige) {
+		ClientPrestige* clientPrestige = static_cast<ClientPrestige*>(clientPrincipal);
+		clientPrincipal_ = clientPrestige;
+	}
+	else
+		clientPrincipal_ = clientPrincipal;
 }
 
 void Table::libererTable() {
@@ -118,12 +126,20 @@ void Table::commander(Plat* plat) {
 
 //affichage
 
+/****************************************************************************
+ * Fonction: operateur<<
+ * Description: surcharge de l'opérateur << pour afficher une table
+ * Paramètres:	- ostream& os
+ *				- Table& table
+ * Retour: os
+ ****************************************************************************/
 ostream& operator<<(ostream& os, const Table& table)
 {
 	os << "La table numero " << table.id_;
 	if (table.estOccupee())
 	{
 		os << " est occupee. ";
+		os << *table.getCliengtPrincipal() << endl;
 		if (!table.commande_.empty())
 		{
 			os << "Voici la commande passee par les clients : " << endl;

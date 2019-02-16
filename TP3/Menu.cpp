@@ -70,8 +70,6 @@ ostream& operator<<(ostream& os, const Menu& menu){
 			PlatBio* platBio = static_cast<PlatBio*>(menu.listePlats_[i]);
 			os << "\t" << *platBio << endl;
 		}
-		/*if (menu.listePlats_[i]->getType() == Custom)
-			os << "\t" << *menu.listePlats_[i];*///n'est pas affiche dans le menu du restaurant
 	}
 	return os;
 }

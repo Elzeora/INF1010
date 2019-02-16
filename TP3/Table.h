@@ -26,8 +26,7 @@ public:
 	bool estPleine() const; 
 	int getNbClientsATable() const; 
 	vector<Plat*> getCommande() const;
-	///TODO
-	Client* getCliengtPrincipal() const; 
+	Client* getCliengtPrincipal() const; //TODO --> fait
 	double getChiffreAffaire() const;//A Modifier --> fait
 
 
@@ -35,15 +34,13 @@ public:
 	void libererTable(); 
 	void placerClients(int nbClients);
 	void setId(int id);
-	///TODO
-	void setClientPrincipal(Client* clientPrincipal); 
+	void setClientPrincipal(Client* clientPrincipal); //TODO --> fait
 
 	//autres methodes
 	void commander(Plat* plat);
 
 	//affichage
-	///TODO
-	friend ostream& operator<<(ostream& os, const Table& table); /// A Modifier
+	friend ostream& operator<<(ostream& os, const Table& table); //A Modifier --> fait
 
 private :
 	vector<Plat*> commande_;

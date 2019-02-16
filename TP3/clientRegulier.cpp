@@ -15,6 +15,7 @@
 ClientRegulier::ClientRegulier() :Client()
 {
 	nbPoints_ = 0;
+	statut_ = Fidele;
 }
 
 /****************************************************************************
@@ -61,6 +62,6 @@ void ClientRegulier::augmenterNbPoints(int bonus) {
  * Retour: os
  ****************************************************************************/
 ostream& operator<<(ostream & os, const ClientRegulier& client) {
-	os << client << " Possede " << client.nbPoints_ << " Points." << endl;
+	os << client << " Possede " << client.getNbPoints() << " Points." << endl;
 	return os;
 }

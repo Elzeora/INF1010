@@ -121,7 +121,8 @@ void Restaurant::libererTable(int id) {
 				livraison = true;
 			}
 			chiffreAffaire_ += calculerReduction(tables_[i]->getCliengtPrincipal(), prixClient, livraison);
-			tables_[i]->libererTable(); 
+			tables_[i]->libererTable();
+			tables_[i]->setClientPrincipal(nullptr);
 			break;
 		}
 	}
@@ -129,7 +130,13 @@ void Restaurant::libererTable(int id) {
 
 
 
-
+/****************************************************************************
+ * Fonction: operateur<<
+ * Description: surcharge de l'opérateur << pour afficher un restaurant
+ * Paramètres:	- ostream& os
+ *				- Restaurant& restau
+ * Retour: os
+ ****************************************************************************/
 ostream& operator<<(ostream& os, const Restaurant& restau)
 {
 	os << "Le restaurant " << *restau.nom_;
@@ -311,8 +318,10 @@ void Restaurant::placerClients(Client* client) {
 	if (indexTable == -1) {
 		cout << "Erreur : il n'y a plus/pas de table disponible pour les clients. " << endl;
 	}
-	else
+	else {
 		tables_[indexTable]->placerClients(client->getTailleGroupe());
+		tables_[indexTable]->setClientPrincipal(client);
+	}
 }
 
 /****************************************************************************
@@ -331,17 +340,22 @@ void Restaurant::livrerClient(Client * client, vector<string> commande)
 	///Effectuer la commande
 
 	if (client->getStatut() == Prestige) {
+		cout << "Livraison en cours" << endl;
+		double fraisLivraison = 0.0;
+		ClientPrestige* clientPrestige = static_cast<ClientPrestige*>(client);
+		fraisLivraison = getFraisTransports(clientPrestige->getAddresseCode());
+		tables_[INDEX_TABLE_LIVRAISON]->setClientPrincipal(clientPrestige);
 		tables_[INDEX_TABLE_LIVRAISON]->placerClients(1);
 		for (unsigned int i = 0; i < commande.size(); i++) {
 			commanderPlat(commande[i], INDEX_TABLE_LIVRAISON);
 		}
-		double fraisLivraison = 0.0;
-		ClientPrestige* clientPrestige = static_cast<ClientPrestige*>(client);
-		fraisLivraison = getFraisTransports(clientPrestige->getAddresseCode());
+
+		cout << "Statut de la table de livraison (table numero " << INDEX_TABLE_LIVRAISON + 1 << "):" << endl;
+		cout << *tables_[INDEX_TABLE_LIVRAISON] << endl;
+		cout << "Livraison terminee." << endl;
 
 		//ceci est la liberation systematique de la table, soit dès que la livraison a ete effectuée
 		libererTable(INDEX_TABLE_LIVRAISON);
-		cout << "Livraison terminee." << endl;
 	}
 	else {
 		cout << "Le client " << client->getNom() << " " << client->getPrenom()
@@ -418,27 +432,6 @@ double Restaurant::calculerReduction(Client* client, double montant, bool livrai
 	}
 	else
 		cout << "Ce client n'a pas de reduction." << endl;
-
-
-
-/*
-	switch (client->getStatut()) {
-	case Fidele:
-		ClientRegulier* clientRegulier = static_cast<ClientRegulier*>(client);
-		if (clientRegulier->getNbPoints() > SEUIL_DEBUT_REDUCTION)
-			reduction = (-1 * montant * TAUX_REDUC_REGULIER);
-		break;
-	case Prestige:
-		ClientPrestige* clientPrestige = static_cast<ClientPrestige*>(client);
-		if (clientPrestige->getNbPoints() > SEUIL_DEBUT_REDUCTION) {
-			reduction = (-1 * montant * TAUX_REDUC_PRESTIGE);
-			if ((clientPrestige->getNbPoints() > SEUIL_LIVRAISON_GRATUITE) && livraison)
-				reduction -= getFraisTransports(clientPrestige->getAddresseCode());
-		}
-		break;
-	default:
-		cout << "Ce client n'a pas de reduction." << endl;
-	}*/
 	return reduction;
 }
 
