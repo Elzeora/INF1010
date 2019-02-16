@@ -50,7 +50,8 @@ AddressCode ClientPrestige::getAddresseCode() const{
  * Retour: os
  ****************************************************************************/
 ostream & operator<<(ostream & os, ClientPrestige client) {
-	os << client << "Habite dans la " << client.getAddressCodeString << endl;
+	os << client << "Habite dans la " << client.getAddressCodeString() << endl;
+	return os;
 }
 
 /****************************************************************************
@@ -68,4 +69,5 @@ string ClientPrestige::getAddressCodeString() const{
 	case Zone3:
 		return "Zone3";
 	}
+	return "";
 }

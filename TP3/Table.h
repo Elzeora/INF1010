@@ -28,8 +28,7 @@ public:
 	vector<Plat*> getCommande() const;
 	///TODO
 	Client* getCliengtPrincipal() const; 
-	///TODO
-	double getChiffreAffaire() const;/// A Modifier
+	double getChiffreAffaire() const;//A Modifier --> fait
 
 
 	//setters

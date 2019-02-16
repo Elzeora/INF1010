@@ -93,7 +93,8 @@ string Client::getPrenom() const {
 ostream& operator<<(ostream& os, const Client& client) {
 	os << "Le client principal est: " << endl;
 	os << "\t -" << client.nom_ << " " << client.prenom_ << " statut: " 
-		<< client.convertirStatutString;
+		<< client.convertirStatutString();
+	return os;
 }
 
 /****************************************************************************
@@ -111,4 +112,5 @@ string Client::convertirStatutString() const {
 	case Prestige:
 		return "Prestige";
 	}
+	return "";
 }

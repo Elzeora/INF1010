@@ -38,18 +38,14 @@ public:
 	void lireAdresses(const string& fichier);
 
 	Restaurant& operator+=(Table* table); 
-	///TODO
-	void libererTable(int id); /// A Modifier
-	///TODO 
-	void commanderPlat(const string& nom, int idTable, TypePlat type= Regulier,int nbIngredients = 0); ///A modifier
+	void libererTable(int id); // A Modifier --> fait
+	//A modifier --> fait
+	void commanderPlat(const string& nom, int idTable, TypePlat type= Regulier,int nbIngredients = 0);
 	bool operator < (const Restaurant& restau) const ;
 	Restaurant& operator = (const Restaurant& restau); 
-	///TODO 
-	void placerClients(int nbClients);///A Modifier
-	///TODO
-	void livrerClient(Client * client, vector<string>nomPlats);
-	///TODO
-	double calculerReduction(Client* client, double montant, bool livraison);
+	void placerClients(Client* client);//A Modifier --> fait
+	void livrerClient(Client * client, vector<string>nomPlats);//TODO --> fait
+	double calculerReduction(Client* client, double montant, bool livraison);//TODO --> fait
 	//TODO
 	friend ostream& operator<<(ostream& os, const Restaurant& restau); 
 

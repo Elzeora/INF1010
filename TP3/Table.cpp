@@ -50,9 +50,41 @@ double Table::getChiffreAffaire() const {
 	///TODO
 	///Modifier pour que le chiffre d'Affaire prenne en compte le type de plat
 	///voir Énoncé
-	double chiffre = 0;
+	double chiffre = 0.0;
 	for (unsigned i = 0; i < commande_.size(); ++i) {
-		chiffre += commande_[i]->getType.getPrix() - commande_[i]->getType.getCout();
+		
+		if (commande_[i]->getType() == Bio) {
+			PlatBio* platBio = static_cast<PlatBio*>(commande_[i]);
+			chiffre += (platBio->getPrix() - platBio->getCout());
+			chiffre += platBio->getEcoTaxe();
+		}
+		if (commande_[i]->getType() == Custom) {
+			PlatCustom* platCustom = static_cast<PlatCustom*>(commande_[i]);
+			chiffre += (platCustom->getPrix() - platCustom->getCout());
+			chiffre += platCustom->getSupplement();
+		}
+		else
+			chiffre += (commande_[i]->getPrix() - commande_[i]->getCout());
+		
+		
+		
+		/*
+		switch (commande_[i]->getType())
+		{
+		case Bio:
+			PlatBio* platBio = static_cast<PlatBio*>(commande_[i]);
+			chiffre += (platBio->getPrix() - platBio->getCout());
+			chiffre += platBio->getEcoTaxe();
+			break;
+		case Custom:
+			PlatCustom* platCustom = static_cast<PlatCustom*>(commande_[i]);
+			chiffre += (platCustom->getPrix() - platCustom->getCout());
+			chiffre += platCustom->getSupplement();
+			break;
+		case Regulier:
+			chiffre += (commande_[i]->getPrix() - commande_[i]->getCout());
+			break;
+		}*/
 	}
 	return chiffre;
 }

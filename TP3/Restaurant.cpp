@@ -88,16 +88,39 @@ double Restaurant::getFraisTransports(int index) const
 
 //autres methodes 
 
-
+/****************************************************************************
+ * Fonction: libererTable
+ * Description: liberer une table
+ * Paramètres:	- int id
+ * Retour: rien
+ ****************************************************************************/
 void Restaurant::libererTable(int id) {
-
 	///TODO
 	///Modifier pour prendre en compte les différents types de clients et leurs privilèges
 	///Voir Énoncé
-
 	for (unsigned i = 0; i < tables_.size(); ++i) {
 		if (id == tables_[i]->getId()) {
-			chiffreAffaire_ += tables_[i]->getChiffreAffaire(); 
+			chiffreAffaire_ += tables_[i]->getChiffreAffaire();
+			double prixClient = 0.0;
+			for (unsigned int j = 0; j < tables_[i]->getCommande().size(); j++) {
+				if (tables_[i]->getCommande()[j]->getType() == Bio) {
+					PlatBio* platBio = static_cast<PlatBio*>(tables_[i]->getCommande()[j]);
+					prixClient += platBio->getPrix();
+					prixClient += platBio->getEcoTaxe();
+				}
+				if (tables_[i]->getCommande()[j]->getType() == Custom) {
+					PlatCustom* platCustom = static_cast<PlatCustom*>(tables_[i]->getCommande()[j]);
+					prixClient += platCustom->getPrix();
+					prixClient += platCustom->getSupplement();
+				}
+				else
+					prixClient += tables_[i]->getCommande()[j]->getPrix();
+			}
+			bool livraison = false;
+			if (id == INDEX_TABLE_LIVRAISON) {
+				livraison = true;
+			}
+			chiffreAffaire_ += calculerReduction(tables_[i]->getCliengtPrincipal(), prixClient, livraison);
 			tables_[i]->libererTable(); 
 			break;
 		}
@@ -132,14 +155,22 @@ ostream& operator<<(ostream& os, const Restaurant& restau)
 	os << "Soir : " << endl
 		<< *restau.menuSoir_<<endl << "Le plat le moins cher est : " << *restau.menuSoir_->trouverPlatMoinsCher() <<endl;
 
+	//ajouter un affichage "contient X ingredients modifies pour un supplement de: X$"
 
 	return os;
 }
 
 
-
+/****************************************************************************
+ * Fonction: commanderPlat
+ * Description: liberer une table
+ * Paramètres:	- string& nom
+ *				- int idTable
+ *				- TypePlat type
+ *				- int nbIngredients
+ * Retour: rien
+ ****************************************************************************/
 void Restaurant::commanderPlat(const string& nom, int idTable,TypePlat type, int nbIngredients) {
-
 	///TODO
 	/// Modifier la fonction pour ajouter des plats customisés aux commandes
 	Plat* plat = nullptr; 
@@ -158,7 +189,6 @@ void Restaurant::commanderPlat(const string& nom, int idTable,TypePlat type, int
 				plat = menuSoir_->trouverPlat(nom); 
 				break; 
 			}
-
 			break;
 		}
 	}
@@ -167,13 +197,15 @@ void Restaurant::commanderPlat(const string& nom, int idTable,TypePlat type, int
 
 		cout << "Erreur : table vide ou plat introuvable" << endl << endl;
 	}
-	else
-	{
-		tables_[index]->commander(plat);
-
+	else {
+		if (type == Custom) {
+			PlatCustom* platCustom = static_cast<PlatCustom*>(plat);
+			platCustom->setNbIngredients(nbIngredients);
+			tables_[index]->commander(platCustom);
+		}
+		else 
+			tables_[index]->commander(plat);
 	}
-
- 
 }
 
 
@@ -254,23 +286,24 @@ Restaurant& Restaurant::operator+=(Table* table) {
 	return *this;
 }
 
-Restaurant& Restaurant::operator+=(Table* table) {
-	tables_.push_back(new Table(*table));
-	return *this;
-}
 
-void Restaurant::placerClients(int nbClients) {
+/****************************************************************************
+ * Fonction: placerClient
+ * Description: placer un client
+ * Paramètres:	- Client* client
+ * Retour: rien
+ ****************************************************************************/
+void Restaurant::placerClients(Client* client) {
 
 	/// TODO 
 	///Modifier Afin qu'elle utilise un objet de la classe clients 
 	///voir Énoncé
+	//client->getTailleGroupe ajouter
 	int indexTable = -1;
 	int minimum = 100;
 
-
-
 	for (unsigned i = 0; i < tables_.size(); i++) {
-		if (tables_[i]->getNbPlaces() >= nbClients && !tables_[i]->estOccupee() && tables_[i]->getNbPlaces() < minimum) {
+		if (tables_[i]->getNbPlaces() >= client->getTailleGroupe() && !tables_[i]->estOccupee() && tables_[i]->getNbPlaces() < minimum) {
 			indexTable = i;
 			minimum = tables_[i]->getNbPlaces();
 		}
@@ -279,9 +312,16 @@ void Restaurant::placerClients(int nbClients) {
 		cout << "Erreur : il n'y a plus/pas de table disponible pour les clients. " << endl;
 	}
 	else
-		tables_[indexTable]->placerClients(nbClients);
+		tables_[indexTable]->placerClients(client->getTailleGroupe());
 }
 
+/****************************************************************************
+ * Fonction: livrerClient
+ * Description: faire la livraison pour un client
+ * Paramètres:	- Client* client
+ *				- vector<string> commande
+ * Retour: rien
+ ****************************************************************************/
 void Restaurant::livrerClient(Client * client, vector<string> commande)
 {
 	///TODO
@@ -290,7 +330,23 @@ void Restaurant::livrerClient(Client * client, vector<string> commande)
 	///Si oui lui assigner la table des livraisons 
 	///Effectuer la commande
 
+	if (client->getStatut() == Prestige) {
+		tables_[INDEX_TABLE_LIVRAISON]->placerClients(1);
+		for (unsigned int i = 0; i < commande.size(); i++) {
+			commanderPlat(commande[i], INDEX_TABLE_LIVRAISON);
+		}
+		double fraisLivraison = 0.0;
+		ClientPrestige* clientPrestige = static_cast<ClientPrestige*>(client);
+		fraisLivraison = getFraisTransports(clientPrestige->getAddresseCode());
 
+		//ceci est la liberation systematique de la table, soit dès que la livraison a ete effectuée
+		libererTable(INDEX_TABLE_LIVRAISON);
+		cout << "Livraison terminee." << endl;
+	}
+	else {
+		cout << "Le client " << client->getNom() << " " << client->getPrenom()
+			<< " n'est pas admissible a la livraison." << endl;
+	}
 }
 
 
@@ -323,23 +379,66 @@ void Restaurant::lireAdresses(const string & fichier)
 
 						}
 
-
 						fraisStrg = ligne.substr(curseur + 1);
 						frais = stod(fraisStrg);
 						fraisTransport_[addressCode] = frais;
 
 						addresseCodeStr = "";
 						fraisStrg = "";
-
-
-
-					}
-
-					
+					}				
 				}
 			}
 			file.close();
 		}
 	}
 
+
+/****************************************************************************
+ * Fonction: calculerReduction
+ * Description: calculer les reductions possibles pour le client
+ * Paramètres:	- Client* client
+ *				- double montant
+ *				- bool livraison
+ * Retour: double reduction
+ ****************************************************************************/
+double Restaurant::calculerReduction(Client* client, double montant, bool livraison) {
+	double reduction = 0.0;
+	if (client->getStatut() == Fidele) {
+		ClientRegulier* clientRegulier = static_cast<ClientRegulier*>(client);
+		if (clientRegulier->getNbPoints() > SEUIL_DEBUT_REDUCTION)
+			reduction = (-1 * montant * TAUX_REDUC_REGULIER);
+	}
+	if (client->getStatut() == Prestige) {
+		ClientPrestige* clientPrestige = static_cast<ClientPrestige*>(client);
+		if (clientPrestige->getNbPoints() > SEUIL_DEBUT_REDUCTION) {
+			reduction = (-1 * montant * TAUX_REDUC_PRESTIGE);
+			if ((clientPrestige->getNbPoints() > SEUIL_LIVRAISON_GRATUITE) && livraison)
+				reduction -= getFraisTransports(clientPrestige->getAddresseCode());
+		}
+	}
+	else
+		cout << "Ce client n'a pas de reduction." << endl;
+
+
+
+/*
+	switch (client->getStatut()) {
+	case Fidele:
+		ClientRegulier* clientRegulier = static_cast<ClientRegulier*>(client);
+		if (clientRegulier->getNbPoints() > SEUIL_DEBUT_REDUCTION)
+			reduction = (-1 * montant * TAUX_REDUC_REGULIER);
+		break;
+	case Prestige:
+		ClientPrestige* clientPrestige = static_cast<ClientPrestige*>(client);
+		if (clientPrestige->getNbPoints() > SEUIL_DEBUT_REDUCTION) {
+			reduction = (-1 * montant * TAUX_REDUC_PRESTIGE);
+			if ((clientPrestige->getNbPoints() > SEUIL_LIVRAISON_GRATUITE) && livraison)
+				reduction -= getFraisTransports(clientPrestige->getAddresseCode());
+		}
+		break;
+	default:
+		cout << "Ce client n'a pas de reduction." << endl;
+	}*/
+	return reduction;
+}
 
