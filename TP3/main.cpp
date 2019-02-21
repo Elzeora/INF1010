@@ -1,21 +1,13 @@
 /*
 * Titre : main.cpp - Travail Pratique #3
-* Date : 11 Février 2019 
+* Date : 11 Février 2019
 * Auteur : Fatou S. Mounzeo
 */
 
 /*
 Questions:
-
 1.
-
-
-
 2.
-
-
-
-
 3.(bonus)Pourquoi est-il intéressant de dériver ClientPrestige de ClientRégulier?
 	C'est interessant, car ClientPrestige contient les mêmes attributs et méthodes
 	que ClientRégulier, en plus de d'autres. On peut donc voir ClientPrestige comme
@@ -32,14 +24,14 @@ Questions:
 #include "ClientPrestige.h"
 
 
-using namespace std; 
+using namespace std;
 
 int main() {
 
 
 
 	//creation du restaurant 
-	Restaurant poly("polyFood.txt", "PolyFood", Soir); 
+	Restaurant poly("polyFood.txt", "PolyFood", Soir);
 
 	///creer plusieurs clients  
 
@@ -50,16 +42,16 @@ int main() {
 	commandeMartin.push_back("Muffin");
 	commandeMartin.push_back("Poisson");
 	Client * cl2 = new Client("Amy", "wh", 15);
-	Client * cl3 = new ClientRegulier("Jonh", "sm", 5,25);
-	Client * cl4 = new ClientRegulier("Moussa", "T", 3,45);
-	Client * cl5 = new ClientPrestige("Andree", "F", 2,150, Zone2);
-	Client * cl6 = new ClientPrestige("Marie", "C", 1,125, Zone1);
+	Client * cl3 = new ClientRegulier("Jonh", "sm", 5, 25);
+	Client * cl4 = new ClientRegulier("Moussa", "T", 3, 45);
+	Client * cl5 = new ClientPrestige("Andree", "F", 2, 150, Zone2);
+	Client * cl6 = new ClientPrestige("Marie", "C", 1, 125, Zone1);
 	vector<string> commandeMarie;
 	commandeMarie.push_back("Quesadillas");
 	commandeMarie.push_back("Ratatouille");
 	commandeMarie.push_back("Pancake");
 	commandeMarie.push_back("Pizza");
-	
+
 	cout << "\t\t\t\t\tLIVRAISONS" << endl;
 	cout << "--------------------------------------------------------------------------------------------------" << endl;
 
@@ -74,18 +66,18 @@ int main() {
 	//placer les clients 
 	poly.placerClients(cl1);
 	poly.placerClients(cl2);
-	poly.placerClients(cl3); 
-	poly.placerClients(cl4); 
-	poly.placerClients(cl5); 
+	poly.placerClients(cl3);
+	poly.placerClients(cl4);
+	poly.placerClients(cl5);
 
 	// commander des plats 
 
-	poly.commanderPlat("Poisson", 1,Custom,3);
-	poly.commanderPlat("Pizza", 2, Custom,4);
+	poly.commanderPlat("Poisson", 1, Custom, 3);
+	poly.commanderPlat("Pizza", 2, Custom, 4);
 	poly.commanderPlat("Poulet", 2);
-	poly.commanderPlat("Poulet", 4); 
-	poly.commanderPlat("Muffin", 4); 
-	poly.commanderPlat("Oeuf", 4); 
+	poly.commanderPlat("Poulet", 4);
+	poly.commanderPlat("Muffin", 4);
+	poly.commanderPlat("Oeuf", 4);
 
 
 	//Creation d'une copie du poly restaurant 

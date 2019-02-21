@@ -15,7 +15,7 @@
  *				- int nbIngredients
  ****************************************************************************/
 PlatCustom::PlatCustom(string nom, double prix, double cout, int nbIngredients) : Plat(nom, prix, cout), nbIngredients_(nbIngredients) {
-	supplement_ = calculerSupplement(); 
+	supplement_ = calculerSupplement();
 	type_ = Custom;
 }
 
@@ -56,7 +56,7 @@ void PlatCustom::setNbIngredients(int nbIngredients) {
  * retour: le resultat en double du supplement
  ****************************************************************************/
 double PlatCustom::calculerSupplement() const {
-	return nbIngredients_*FRAIS_CUSTOMISATION;
+	return nbIngredients_ * FRAIS_CUSTOMISATION;
 }
 
 /****************************************************************************
@@ -66,6 +66,6 @@ double PlatCustom::calculerSupplement() const {
  *				- plat
  ****************************************************************************/
 ostream& operator<<(ostream& os, const PlatCustom& plat) {
-	os << plat.nom_ << " - " << plat.prix_ << " $ (" << (plat.cout_+plat.getSupplement()) << "$ pour le restaurant)" << endl;
+	os << plat.nom_ << " - " << plat.prix_ << " $ (" << (plat.cout_ + plat.getSupplement()) << "$ pour le restaurant)" << endl;
 	return os;
 }

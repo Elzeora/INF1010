@@ -25,8 +25,8 @@ ClientPrestige::ClientPrestige() : ClientRegulier(), addresse_(Zone3) {
  *				- int nbPoints
  *				- AdressCode adresse
  ****************************************************************************/
-ClientPrestige::ClientPrestige(string nom, string prenom, int tailleGroupe, int nbPoints, AddressCode addresse) 
-	: ClientRegulier(nom, prenom, tailleGroupe, nbPoints), addresse_(addresse){
+ClientPrestige::ClientPrestige(string nom, string prenom, int tailleGroupe, int nbPoints, AddressCode addresse)
+	: ClientRegulier(nom, prenom, tailleGroupe, nbPoints), addresse_(addresse) {
 	statut_ = Prestige;
 }
 
@@ -36,7 +36,7 @@ ClientPrestige::ClientPrestige(string nom, string prenom, int tailleGroupe, int 
  * Paramètres: aucun
  * Retour: adresse_
  ****************************************************************************/
-AddressCode ClientPrestige::getAddresseCode() const{
+AddressCode ClientPrestige::getAddresseCode() const {
 	return addresse_;
 }
 
@@ -58,7 +58,7 @@ ostream & operator<<(ostream & os, ClientPrestige client) {
  * Paramètres: aucun
  * Retour: zone d'adresse
  ****************************************************************************/
-string ClientPrestige::getAddressCodeString() const{
+string ClientPrestige::getAddressCodeString() const {
 	switch (addresse_) {
 	case Zone1:
 		return "Zone1";

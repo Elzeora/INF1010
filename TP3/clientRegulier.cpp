@@ -12,7 +12,7 @@
   * Description: Constructeur par défaut
   * Paramètres: aucun
   ****************************************************************************/
-ClientRegulier::ClientRegulier() :Client(), nbPoints_(0){
+ClientRegulier::ClientRegulier() :Client(), nbPoints_(0) {
 	statut_ = Fidele;
 }
 
@@ -25,7 +25,7 @@ ClientRegulier::ClientRegulier() :Client(), nbPoints_(0){
  *				- int nbPoints
  ****************************************************************************/
 ClientRegulier::ClientRegulier(string nom, string prenom, int tailleGroupe, int nbPoints)
-	: Client(nom,prenom,tailleGroupe),nbPoints_(nbPoints){
+	: Client(nom, prenom, tailleGroupe), nbPoints_(nbPoints) {
 	statut_ = Fidele;
 }
 
@@ -36,7 +36,7 @@ ClientRegulier::ClientRegulier(string nom, string prenom, int tailleGroupe, int 
  * Paramètres: aucun
  * Retour: nbPoints_
  ****************************************************************************/
-int ClientRegulier::getNbPoints() const{
+int ClientRegulier::getNbPoints() const {
 	return nbPoints_;
 }
 

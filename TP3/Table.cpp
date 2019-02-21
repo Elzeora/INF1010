@@ -30,18 +30,18 @@ int Table::getNbPlaces() const {
 	return nbPlaces_;
 }
 
-bool Table::estOccupee() const{
-	return nbClientsATable_!=0;
+bool Table::estOccupee() const {
+	return nbClientsATable_ != 0;
 }
 
 bool Table::estPleine() const {
 	return nbPlaces_ == 0;
 }
 
-int Table::getNbClientsATable() const{
+int Table::getNbClientsATable() const {
 	return nbClientsATable_;
 }
-vector<Plat*> Table::getCommande() const{
+vector<Plat*> Table::getCommande() const {
 	return commande_;
 }
 
@@ -67,10 +67,10 @@ double Table::getChiffreAffaire() const {
 	///voir Énoncé
 	double chiffre = 0.0;
 	for (unsigned i = 0; i < commande_.size(); ++i) {
-		
+
 		if (commande_[i]->getType() == Bio) {
 			PlatBio* platBio = static_cast<PlatBio*>(commande_[i]);
-			chiffre += (platBio->getPrix()* (1+platBio->getEcoTaxe())) - platBio->getCout();
+			chiffre += (platBio->getPrix()* (1 + platBio->getEcoTaxe())) - platBio->getCout();
 
 		}
 		if (commande_[i]->getType() == Custom) {
