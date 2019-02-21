@@ -11,12 +11,14 @@ Table::Table() {
 	id_ = -1;
 	nbPlaces_ = 1;
 	nbClientsATable_ = 0;
+	clientPrincipal_ = nullptr;
 }
 
 Table::Table(int id, int nbPlaces) {
 	id_ = id;
 	nbPlaces_ = nbPlaces;
 	nbClientsATable_ = 0;
+	clientPrincipal_ = nullptr;
 }
 
 //getters
@@ -68,13 +70,12 @@ double Table::getChiffreAffaire() const {
 		
 		if (commande_[i]->getType() == Bio) {
 			PlatBio* platBio = static_cast<PlatBio*>(commande_[i]);
-			chiffre += (platBio->getPrix() - platBio->getCout());
-			chiffre += platBio->getEcoTaxe();
+			chiffre += (platBio->getPrix()* (1+platBio->getEcoTaxe())) - platBio->getCout();
+
 		}
 		if (commande_[i]->getType() == Custom) {
 			PlatCustom* platCustom = static_cast<PlatCustom*>(commande_[i]);
-			chiffre += (platCustom->getPrix() - platCustom->getCout());
-			chiffre += platCustom->getSupplement();
+			chiffre += (platCustom->getPrix() - platCustom->getCout()) + platCustom->getSupplement();
 		}
 		else
 			chiffre += (commande_[i]->getPrix() - commande_[i]->getCout());

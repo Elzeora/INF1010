@@ -14,9 +14,9 @@
  *				- double cout
  *				- int nbIngredients
  ****************************************************************************/
-PlatCustom::PlatCustom(string nom, double prix, double cout, int nbIngredients) : Plat(nom, prix, cout) {
-	nbIngredients_ = nbIngredients;
+PlatCustom::PlatCustom(string nom, double prix, double cout, int nbIngredients) : Plat(nom, prix, cout), nbIngredients_(nbIngredients) {
 	supplement_ = calculerSupplement(); 
+	type_ = Custom;
 }
 
 /****************************************************************************

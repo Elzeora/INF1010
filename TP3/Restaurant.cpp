@@ -199,33 +199,27 @@ void Restaurant::commanderPlat(const string& nom, int idTable,TypePlat type, int
 			break;
 		}
 	}
-
 	if (plat == nullptr || !tables_[index]->estOccupee()) {
 
 		cout << "Erreur : table vide ou plat introuvable" << endl << endl;
-	}
-	else {
-		if (type == Custom) {
+	}else if (type == Custom) {
 			PlatCustom* platCustom = static_cast<PlatCustom*>(plat);
 			platCustom->setNbIngredients(nbIngredients);
 			tables_[index]->commander(platCustom);
-		}
-		else 
-			tables_[index]->commander(plat);
+	}else {
+		tables_[index]->commander(plat);
 	}
+	
 }
 
 
 
-bool Restaurant::operator<(const Restaurant & restau) const 
-{
+bool Restaurant::operator<(const Restaurant & restau) const {
 	return this->chiffreAffaire_ < restau.chiffreAffaire_;
 }
 
-Restaurant & Restaurant::operator=(const Restaurant & restau)
-{
-	if (this != &restau)
-	{
+Restaurant & Restaurant::operator=(const Restaurant & restau){
+	if (this != &restau){
 		chiffreAffaire_ = restau.chiffreAffaire_;
 		momentJournee_ = restau.momentJournee_;
 		menuMatin_ = new Menu(*restau.menuMatin_);
@@ -317,8 +311,7 @@ void Restaurant::placerClients(Client* client) {
 	}
 	if (indexTable == -1) {
 		cout << "Erreur : il n'y a plus/pas de table disponible pour les clients. " << endl;
-	}
-	else {
+	}else {
 		tables_[indexTable]->placerClients(client->getTailleGroupe());
 		tables_[indexTable]->setClientPrincipal(client);
 	}
@@ -344,18 +337,18 @@ void Restaurant::livrerClient(Client * client, vector<string> commande)
 		double fraisLivraison = 0.0;
 		ClientPrestige* clientPrestige = static_cast<ClientPrestige*>(client);
 		fraisLivraison = getFraisTransports(clientPrestige->getAddresseCode());
-		tables_[INDEX_TABLE_LIVRAISON]->setClientPrincipal(clientPrestige);
 		tables_[INDEX_TABLE_LIVRAISON]->placerClients(1);
+		tables_[INDEX_TABLE_LIVRAISON]->setClientPrincipal(clientPrestige);
 		for (unsigned int i = 0; i < commande.size(); i++) {
-			commanderPlat(commande[i], INDEX_TABLE_LIVRAISON);
+			commanderPlat(commande[i], tables_[INDEX_TABLE_LIVRAISON]->getId() );
 		}
 
-		cout << "Statut de la table de livraison (table numero " << INDEX_TABLE_LIVRAISON + 1 << "):" << endl;
-		cout << *tables_[INDEX_TABLE_LIVRAISON] << endl;
-		cout << "Livraison terminee." << endl;
+		cout << "Statut de la table de livraison (table numero " << INDEX_TABLE_LIVRAISON + 1 << "):" << endl
+			 << *tables_[INDEX_TABLE_LIVRAISON] << endl
+			 << "Livraison terminee." << endl;
 
 		//ceci est la liberation systematique de la table, soit dès que la livraison a ete effectuée
-		libererTable(INDEX_TABLE_LIVRAISON);
+		tables_[INDEX_TABLE_LIVRAISON]->libererTable();
 	}
 	else {
 		cout << "Le client " << client->getNom() << " " << client->getPrenom()
@@ -416,22 +409,22 @@ void Restaurant::lireAdresses(const string & fichier)
  * Retour: double reduction
  ****************************************************************************/
 double Restaurant::calculerReduction(Client* client, double montant, bool livraison) {
-	double reduction = 0.0;
 	if (client->getStatut() == Fidele) {
-		ClientRegulier* clientRegulier = static_cast<ClientRegulier*>(client);
-		if (clientRegulier->getNbPoints() > SEUIL_DEBUT_REDUCTION)
-			reduction = (-1 * montant * TAUX_REDUC_REGULIER);
+		ClientRegulier* clientReg = static_cast<ClientRegulier*>(client);
+		if (clientReg->getNbPoints() > SEUIL_DEBUT_REDUCTION) {
+			return montant * TAUX_REDUC_REGULIER;
+		}
+
 	}
 	if (client->getStatut() == Prestige) {
-		ClientPrestige* clientPrestige = static_cast<ClientPrestige*>(client);
-		if (clientPrestige->getNbPoints() > SEUIL_DEBUT_REDUCTION) {
-			reduction = (-1 * montant * TAUX_REDUC_PRESTIGE);
-			if ((clientPrestige->getNbPoints() > SEUIL_LIVRAISON_GRATUITE) && livraison)
-				reduction -= getFraisTransports(clientPrestige->getAddresseCode());
+		ClientPrestige* clientP = static_cast<ClientPrestige*>(client);
+		if (livraison == true && clientP->getNbPoints() < SEUIL_LIVRAISON_GRATUITE ) {
+			return montant * TAUX_REDUC_PRESTIGE + getFraisTransports(clientP->getAddresseCode());
+		}else {
+			return montant * TAUX_REDUC_PRESTIGE;
 		}
 	}
-	else
-		cout << "Ce client n'a pas de reduction." << endl;
-	return reduction;
+	
+	return 0;
 }
 

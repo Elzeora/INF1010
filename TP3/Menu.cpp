@@ -28,9 +28,10 @@ Menu::Menu(const Menu & menu): type_(menu.type_){
 	for (unsigned i = 0; i < menu.listePlats_.size(); ++i){
 		if (menu.listePlats_[i]->getType() == Regulier)
 			listePlats_.push_back(new Plat(*menu.listePlats_[i]));
-		else {
+		if (menu.listePlats_[i]->getType() == Bio) {
 			PlatBio* platBio = static_cast<PlatBio*>(menu.listePlats_[i]);
-			listePlats_.push_back(new PlatBio(*platBio));
+			listePlats_.push_back(new PlatBio(platBio->getNom(),
+				platBio->getPrix(), platBio->getCout(), platBio->getEcoTaxe()));
 		}
 	}
 }
@@ -66,7 +67,7 @@ ostream& operator<<(ostream& os, const Menu& menu){
 	for (unsigned i = 0; i < menu.listePlats_.size(); ++i) {	
 		if(menu.listePlats_[i]->getType() == Regulier)
 			os << "\t" << *menu.listePlats_[i] << endl;
-		else {
+		if (menu.listePlats_[i]->getType() == Bio) {
 			PlatBio* platBio = static_cast<PlatBio*>(menu.listePlats_[i]);
 			os << "\t" << *platBio << endl;
 		}
@@ -87,8 +88,8 @@ Menu& Menu::operator+=(const Plat& plat) {
  * Retour: Menu&
  ****************************************************************************/
 Menu& Menu::operator+=(const PlatBio& plat) {
-	PlatBio platBio = static_cast<PlatBio>(plat);//pas certain////////////////////////////////////////
-	listePlats_.push_back(new PlatBio(platBio));
+	listePlats_.push_back(new PlatBio(plat.getNom(), plat.getPrix(),
+		plat.getCout(), plat.getEcoTaxe()));
 	return *this;
 }
 
@@ -106,9 +107,10 @@ Menu & Menu::operator=(const Menu & menu){
 		for (unsigned i = 0; i < menu.listePlats_.size(); ++i) {
 			if(menu.listePlats_[i]->getType() == Regulier)
 				listePlats_.push_back(new Plat(*menu.listePlats_[i]));
-			else {
+			if (menu.listePlats_[i]->getType() == Bio) {
 				PlatBio* platBio = static_cast<PlatBio*>(menu.listePlats_[i]);
-				listePlats_.push_back(new PlatBio(*platBio));
+				listePlats_.push_back(new PlatBio(platBio->getNom(),
+					platBio->getPrix(), platBio->getCout(), platBio->getEcoTaxe()));
 			}
 		}
 	}

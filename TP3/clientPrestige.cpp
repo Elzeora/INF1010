@@ -12,9 +12,7 @@
   * Description: Constructeur par défaut
   * Paramètres: aucun
   ****************************************************************************/
-ClientPrestige::ClientPrestige() : ClientRegulier()
-{
-	addresse_ = Zone3;
+ClientPrestige::ClientPrestige() : ClientRegulier(), addresse_(Zone3) {
 	statut_ = Prestige;
 }
 
@@ -28,9 +26,7 @@ ClientPrestige::ClientPrestige() : ClientRegulier()
  *				- AdressCode adresse
  ****************************************************************************/
 ClientPrestige::ClientPrestige(string nom, string prenom, int tailleGroupe, int nbPoints, AddressCode addresse) 
-	: ClientRegulier(nom, prenom, tailleGroupe, nbPoints)
-{
-	addresse_ = addresse;
+	: ClientRegulier(nom, prenom, tailleGroupe, nbPoints), addresse_(addresse){
 	statut_ = Prestige;
 }
 
