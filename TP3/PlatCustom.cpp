@@ -66,6 +66,8 @@ double PlatCustom::calculerSupplement() const {
  *				- plat
  ****************************************************************************/
 ostream& operator<<(ostream& os, const PlatCustom& plat) {
-	os << plat.nom_ << " - " << plat.prix_ << " $ (" << (plat.cout_ + plat.getSupplement()) << "$ pour le restaurant)" << endl;
+	os << "contient " << plat.nbIngredients_ 
+	   << " element(s) en plus pour un supplement total de : "
+	   << plat.supplement_ << endl;
 	return os;
 }

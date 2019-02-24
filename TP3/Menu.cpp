@@ -25,13 +25,14 @@ Menu::Menu(string fichier, TypeMenu type) {
  * Paramètres: - Menu& menu
  ****************************************************************************/
 Menu::Menu(const Menu & menu) : type_(menu.type_) {
-	for (unsigned i = 0; i < menu.listePlats_.size(); ++i) {
-		if (menu.listePlats_[i]->getType() == Regulier)
+	for (unsigned i = 0; i < menu.listePlats_.size(); ++i){
+		switch (menu.listePlats_[i]->getType()) {
+		case Bio:
+			listePlats_.push_back(static_cast<PlatBio*>(menu.listePlats_[i]));
+			break;
+		case Regulier:
 			listePlats_.push_back(new Plat(*menu.listePlats_[i]));
-		if (menu.listePlats_[i]->getType() == Bio) {
-			PlatBio* platBio = static_cast<PlatBio*>(menu.listePlats_[i]);
-			listePlats_.push_back(new PlatBio(platBio->getNom(),
-				platBio->getPrix(), platBio->getCout(), platBio->getEcoTaxe()));
+			break;
 		}
 	}
 }
@@ -68,8 +69,8 @@ ostream& operator<<(ostream& os, const Menu& menu) {
 		if (menu.listePlats_[i]->getType() == Regulier)
 			os << "\t" << *menu.listePlats_[i] << endl;
 		if (menu.listePlats_[i]->getType() == Bio) {
-			PlatBio* platBio = static_cast<PlatBio*>(menu.listePlats_[i]);
-			os << "\t" << *platBio << endl;
+			os << "comprend une taxe ecologique de : " << static_cast<PlatBio*>(menu.listePlats_[i])->getEcoTaxe()
+			   << '$' << endl;
 		}
 	}
 	return os;
@@ -88,8 +89,8 @@ Menu& Menu::operator+=(const Plat& plat) {
  * Retour: Menu&
  ****************************************************************************/
 Menu& Menu::operator+=(const PlatBio& plat) {
-	listePlats_.push_back(new PlatBio(plat.getNom(), plat.getPrix(),
-		plat.getCout(), plat.getEcoTaxe()));
+	PlatBio* platB = new PlatBio(plat);
+	listePlats_.push_back(static_cast<Plat*>(platB));
 	return *this;
 }
 
@@ -108,9 +109,7 @@ Menu & Menu::operator=(const Menu & menu) {
 			if (menu.listePlats_[i]->getType() == Regulier)
 				listePlats_.push_back(new Plat(*menu.listePlats_[i]));
 			if (menu.listePlats_[i]->getType() == Bio) {
-				PlatBio* platBio = static_cast<PlatBio*>(menu.listePlats_[i]);
-				listePlats_.push_back(new PlatBio(platBio->getNom(),
-					platBio->getPrix(), platBio->getCout(), platBio->getEcoTaxe()));
+				listePlats_.push_back(static_cast<PlatBio*>(menu.listePlats_[i]));
 			}
 		}
 	}

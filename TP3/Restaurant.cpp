@@ -95,34 +95,29 @@ double Restaurant::getFraisTransports(int index) const
  * Retour: rien
  ****************************************************************************/
 void Restaurant::libererTable(int id) {
-	///TODO
-	///Modifier pour prendre en compte les différents types de clients et leurs privilèges
-	///Voir Énoncé
+
+	bool livraison = false;
+	double reduction = 0.0;
+
 	for (unsigned i = 0; i < tables_.size(); ++i) {
 		if (id == tables_[i]->getId()) {
-			chiffreAffaire_ += tables_[i]->getChiffreAffaire();
-			double prixClient = 0.0;
-			for (unsigned int j = 0; j < tables_[i]->getCommande().size(); j++) {
-				if (tables_[i]->getCommande()[j]->getType() == Bio) {
-					PlatBio* platBio = static_cast<PlatBio*>(tables_[i]->getCommande()[j]);
-					prixClient += platBio->getPrix();
-					prixClient += platBio->getEcoTaxe();
+			if (tables_[i]->estOccupee()) {
+				switch (tables_[i]->getCliengtPrincipal()->getStatut()) {
+				case Occasionnel:
+					break;
+				case Fidele:
+					reduction += calculerReduction(tables_[i]->getCliengtPrincipal(), tables_[i]->getChiffreAffaire(), livraison);
+					break;
+				case Prestige:
+					if (tables_[i]->getId() == INDEX_TABLE_LIVRAISON) {
+						livraison = true;
+					}
+					reduction += calculerReduction(tables_[i]->getCliengtPrincipal(), tables_[i]->getChiffreAffaire(), livraison);
+					break;
 				}
-				if (tables_[i]->getCommande()[j]->getType() == Custom) {
-					PlatCustom* platCustom = static_cast<PlatCustom*>(tables_[i]->getCommande()[j]);
-					prixClient += platCustom->getPrix();
-					prixClient += platCustom->getSupplement();
-				}
-				else
-					prixClient += tables_[i]->getCommande()[j]->getPrix();
+				chiffreAffaire_ += (tables_[i]->getChiffreAffaire() - reduction);
+				tables_[i]->libererTable();
 			}
-			bool livraison = false;
-			if (id == INDEX_TABLE_LIVRAISON) {
-				livraison = true;
-			}
-			chiffreAffaire_ += calculerReduction(tables_[i]->getCliengtPrincipal(), prixClient, livraison);
-			tables_[i]->libererTable();
-			tables_[i]->setClientPrincipal(nullptr);
 			break;
 		}
 	}

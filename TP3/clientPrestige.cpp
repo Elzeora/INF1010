@@ -48,7 +48,8 @@ AddressCode ClientPrestige::getAddresseCode() const {
  * Retour: os
  ****************************************************************************/
 ostream & operator<<(ostream & os, ClientPrestige client) {
-	os << client << "Habite dans la " << client.getAddressCodeString() << endl;
+	os << client << "Habite dans la " << client.getAddressCodeString() << endl
+		<< "nombre de points :" << client.nbPoints_;
 	return os;
 }
 
