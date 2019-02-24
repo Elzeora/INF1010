@@ -6,8 +6,23 @@
 
 /*
 Questions:
-1.
-2.
+1.Pourquoi à t’on besoin de l’attribut type_ dans la classe Plat? Que ce serait-il
+passé s’il n’existait ?
+	L'attribut type_ nous permet de déterminer de quel type de plat il est question.
+	Puisque seulement certains types de plat ont accès à certaines méthodes et
+	fonctionnalités, il faut avoir un attribut pour déterminer le type de plat. Ainsi,
+	on peut utiliser pleinment l'héritage, car les classes dérivées ont des méthodes
+	non accessibles par la classe mère Plat. S'il n'y avait pas cet attribut, cel aurait
+	été beaucoup plus difficile de différencier les types de plats pour faire cetaines
+	actions.
+
+2.Quelle est l’importance du static_cast dans la classe Client et ses classes dérivées?
+	Le static_cast nous permet de pouvoir utiliser les méthodes et attributs spécifiques
+	d'une classe dérivée de Client dans un vecteur contenant seulement des pointeurs de
+	Client. Ainsi, par exemple, en appelant static_cast, on permet au programme d'avoir
+	accès aux attributs d'un PlatBio même si le vector qui contient le pointeur à ce plat
+	est formé de pointeurs de Plat.
+
 3.(bonus)Pourquoi est-il intéressant de dériver ClientPrestige de ClientRégulier?
 	C'est interessant, car ClientPrestige contient les mêmes attributs et méthodes
 	que ClientRégulier, en plus de d'autres. On peut donc voir ClientPrestige comme

@@ -21,6 +21,13 @@ Table::Table(int id, int nbPlaces) {
 	clientPrincipal_ = nullptr;
 }
 
+//destructeur
+Table::~Table() {
+	delete clientPrincipal_;
+	for (unsigned i = 0; i < commande_.size(); ++i)
+		delete commande_[i];
+}
+
 //getters
 int Table::getId() const {
 	return id_;
