@@ -28,7 +28,7 @@ Menu::Menu(const Menu & menu) : type_(menu.type_) {
 	for (unsigned i = 0; i < menu.listePlats_.size(); ++i){
 		switch (menu.listePlats_[i]->getType()) {
 		case Bio:
-			listePlats_.push_back(static_cast<PlatBio*>(menu.listePlats_[i]));
+			listePlats_.push_back(new PlatBio(*static_cast<PlatBio*>(menu.getListePlats()[i])));
 			break;
 		case Regulier:
 			listePlats_.push_back(new Plat(*menu.listePlats_[i]));
@@ -59,7 +59,8 @@ vector<Plat*> Menu::getListePlats() const {
 
 /****************************************************************************
  * Fonction: operateur<<
- * Description: surcharge de l'opérateur << pour afficher un menu
+ * Description: surcharge de l'opérateur << pour afficher un menu, les plats
+ *				custom n'apparaissent pas sur le menu
  * Paramètres:	- ostream& os
  *				- Menu& menu
  * Retour: os
@@ -69,8 +70,8 @@ ostream& operator<<(ostream& os, const Menu& menu) {
 		if (menu.listePlats_[i]->getType() == Regulier)
 			os << "\t" << *menu.listePlats_[i] << endl;
 		if (menu.listePlats_[i]->getType() == Bio) {
-			os << "comprend une taxe ecologique de : " << static_cast<PlatBio*>(menu.listePlats_[i])->getEcoTaxe()
-			   << '$' << endl;
+			os << "\t" << *menu.listePlats_[i] << "\t comprend une taxe ecologique de : " << static_cast<PlatBio*>(menu.listePlats_[i])->getEcoTaxe()
+			   << '$' << endl << endl;
 		}
 	}
 	return os;
@@ -109,7 +110,7 @@ Menu & Menu::operator=(const Menu & menu) {
 			if (menu.listePlats_[i]->getType() == Regulier)
 				listePlats_.push_back(new Plat(*menu.listePlats_[i]));
 			if (menu.listePlats_[i]->getType() == Bio) {
-				listePlats_.push_back(static_cast<PlatBio*>(menu.listePlats_[i]));
+				listePlats_.push_back(new PlatBio(*static_cast<PlatBio*>(menu.listePlats_[i])));
 			}
 		}
 	}

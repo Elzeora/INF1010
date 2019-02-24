@@ -157,8 +157,6 @@ ostream& operator<<(ostream& os, const Restaurant& restau)
 	os << "Soir : " << endl
 		<< *restau.menuSoir_ << endl << "Le plat le moins cher est : " << *restau.menuSoir_->trouverPlatMoinsCher() << endl;
 
-	//ajouter un affichage "contient X ingredients modifies pour un supplement de: X$"
-
 	return os;
 }
 
@@ -173,8 +171,6 @@ ostream& operator<<(ostream& os, const Restaurant& restau)
  * Retour: rien
  ****************************************************************************/
 void Restaurant::commanderPlat(const string& nom, int idTable, TypePlat type, int nbIngredients) {
-	///TODO
-	/// Modifier la fonction pour ajouter des plats customisés aux commandes
 	Plat* plat = nullptr;
 	int index;
 	for (unsigned i = 0; i < tables_.size(); i++) {
@@ -199,8 +195,7 @@ void Restaurant::commanderPlat(const string& nom, int idTable, TypePlat type, in
 		cout << "Erreur : table vide ou plat introuvable" << endl << endl;
 	}
 	else if (type == Custom) {
-		PlatCustom* platCustom = static_cast<PlatCustom*>(plat);
-		platCustom->setNbIngredients(nbIngredients);
+		PlatCustom* platCustom = new PlatCustom(nom, plat->getPrix(), plat->getCout(), nbIngredients);
 		tables_[index]->commander(platCustom);
 	}
 	else {
@@ -292,11 +287,6 @@ Restaurant& Restaurant::operator+=(Table* table) {
  * Retour: rien
  ****************************************************************************/
 void Restaurant::placerClients(Client* client) {
-
-	/// TODO 
-	///Modifier Afin qu'elle utilise un objet de la classe clients 
-	///voir Énoncé
-	//client->getTailleGroupe ajouter
 	int indexTable = -1;
 	int minimum = 100;
 
@@ -311,7 +301,12 @@ void Restaurant::placerClients(Client* client) {
 	}
 	else {
 		tables_[indexTable]->placerClients(client->getTailleGroupe());
-		tables_[indexTable]->setClientPrincipal(client);
+		if(client->getStatut() == Prestige)
+			tables_[indexTable]->setClientPrincipal(static_cast<ClientPrestige*>(client));
+		else if(client->getStatut() == Regulier)
+			tables_[indexTable]->setClientPrincipal(static_cast<ClientRegulier*>(client));
+		else
+			tables_[indexTable]->setClientPrincipal(client);
 	}
 }
 
@@ -324,19 +319,12 @@ void Restaurant::placerClients(Client* client) {
  ****************************************************************************/
 void Restaurant::livrerClient(Client * client, vector<string> commande)
 {
-	///TODO
-	///se réferer à l'énoncé 
-	///vérifier que le client a droit aux livraisons
-	///Si oui lui assigner la table des livraisons 
-	///Effectuer la commande
-
 	if (client->getStatut() == Prestige) {
 		cout << "Livraison en cours" << endl;
-		double fraisLivraison = 0.0;
-		ClientPrestige* clientPrestige = static_cast<ClientPrestige*>(client);
-		fraisLivraison = getFraisTransports(clientPrestige->getAddresseCode());
+		tables_[INDEX_TABLE_LIVRAISON]->setClientPrincipal(static_cast<ClientPrestige*>(client));
 		tables_[INDEX_TABLE_LIVRAISON]->placerClients(1);
-		tables_[INDEX_TABLE_LIVRAISON]->setClientPrincipal(clientPrestige);
+		
+
 		for (unsigned int i = 0; i < commande.size(); i++) {
 			commanderPlat(commande[i], tables_[INDEX_TABLE_LIVRAISON]->getId());
 		}
@@ -345,7 +333,6 @@ void Restaurant::livrerClient(Client * client, vector<string> commande)
 			<< *tables_[INDEX_TABLE_LIVRAISON] << endl
 			<< "Livraison terminee." << endl;
 
-		//ceci est la liberation systematique de la table, soit dès que la livraison a ete effectuée
 		tables_[INDEX_TABLE_LIVRAISON]->libererTable();
 	}
 	else {
@@ -407,22 +394,23 @@ void Restaurant::lireAdresses(const string & fichier)
  * Retour: double reduction
  ****************************************************************************/
 double Restaurant::calculerReduction(Client* client, double montant, bool livraison) {
+	double reduction = 0.0;
 	if (client->getStatut() == Fidele) {
 		ClientRegulier* clientReg = static_cast<ClientRegulier*>(client);
 		if (clientReg->getNbPoints() > SEUIL_DEBUT_REDUCTION) {
-			return montant * TAUX_REDUC_REGULIER;
+			reduction = (montant * TAUX_REDUC_REGULIER);
 		}
 
 	}
 	if (client->getStatut() == Prestige) {
 		ClientPrestige* clientP = static_cast<ClientPrestige*>(client);
 		if (livraison == true && clientP->getNbPoints() < SEUIL_LIVRAISON_GRATUITE) {
-			return montant * TAUX_REDUC_PRESTIGE + getFraisTransports(clientP->getAddresseCode());
+			reduction = (montant * TAUX_REDUC_PRESTIGE + getFraisTransports(clientP->getAddresseCode()));
 		}
 		else {
-			return montant * TAUX_REDUC_PRESTIGE;
+			reduction = (montant * TAUX_REDUC_PRESTIGE);
 		}
 	}
 
-	return 0;
+	return reduction;
 }

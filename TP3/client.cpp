@@ -91,7 +91,6 @@ string Client::getPrenom() const {
  * Retour: os
  ****************************************************************************/
 ostream& operator<<(ostream& os, const Client& client) {
-	os << "Le client principal est: " << endl;
 	os << "\t -" << client.getNom() << " " << client.getPrenom() << " statut: " 
 		<< client.convertirStatutString();
 	return os;

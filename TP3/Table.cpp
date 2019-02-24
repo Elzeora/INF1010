@@ -21,13 +21,6 @@ Table::Table(int id, int nbPlaces) {
 	clientPrincipal_ = nullptr;
 }
 
-//destructeur
-Table::~Table() {
-	delete clientPrincipal_;
-	for (unsigned i = 0; i < commande_.size(); ++i)
-		delete commande_[i];
-}
-
 //getters
 int Table::getId() const {
 	return id_;
@@ -69,20 +62,14 @@ Client* Table::getCliengtPrincipal() const {
  * Retour: double chiffre
  ****************************************************************************/
 double Table::getChiffreAffaire() const {
-	///TODO
-	///Modifier pour que le chiffre d'Affaire prenne en compte le type de plat
-	///voir Énoncé
 	double chiffre = 0.0;
 	for (unsigned i = 0; i < commande_.size(); ++i) {
 
 		if (commande_[i]->getType() == Bio) {
-			PlatBio* platBio = static_cast<PlatBio*>(commande_[i]);
-			chiffre += (platBio->getPrix()* (1 + platBio->getEcoTaxe())) - platBio->getCout();
-
+			chiffre += (commande_[i]->getPrix() + static_cast<PlatBio*>(commande_[i])->getEcoTaxe() - commande_[i]->getCout());
 		}
 		if (commande_[i]->getType() == Custom) {
-			PlatCustom* platCustom = static_cast<PlatCustom*>(commande_[i]);
-			chiffre += (platCustom->getPrix() - platCustom->getCout()) + platCustom->getSupplement();
+			chiffre += (commande_[i]->getPrix() + static_cast<PlatCustom*>(commande_[i])->getSupplement() - commande_[i]->getCout());
 		}
 		else
 			chiffre += (commande_[i]->getPrix() - commande_[i]->getCout());
@@ -102,16 +89,9 @@ void Table::setId(int id) {
  * Retour: rien
  ****************************************************************************/
 void Table::setClientPrincipal(Client* clientPrincipal) {
-	if (clientPrincipal->getStatut() == Fidele) {
-		ClientRegulier* clientRegulier = static_cast<ClientRegulier*>(clientPrincipal);
-		clientPrincipal_ = clientRegulier;
-	}
-	if (clientPrincipal->getStatut() == Prestige) {
-		ClientPrestige* clientPrestige = static_cast<ClientPrestige*>(clientPrincipal);
-		clientPrincipal_ = clientPrestige;
-	}
-	else
-		clientPrincipal_ = clientPrincipal;
+	Client* ptrClient = new Client(*clientPrincipal);
+	delete clientPrincipal_;
+	clientPrincipal_ = ptrClient;
 }
 
 void Table::libererTable() {
@@ -147,7 +127,7 @@ ostream& operator<<(ostream& os, const Table& table)
 	if (table.estOccupee())
 	{
 		os << " est occupee. ";
-		os << *table.getCliengtPrincipal() << endl;
+		os << "Le client principal est: \n" << *table.getCliengtPrincipal() << endl;
 		if (!table.commande_.empty())
 		{
 			os << "Voici la commande passee par les clients : " << endl;

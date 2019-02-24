@@ -16,6 +16,7 @@
  ****************************************************************************/
 PlatBio::PlatBio(string nom, double prix, double cout, double ecoTaxe) : Plat(nom,prix,cout){
 	ecoTaxe_ = ecoTaxe;
+	type_ = Bio;
 }
 
 /****************************************************************************
@@ -44,6 +45,6 @@ void PlatBio::setEcoTaxe(double ecoTaxe) {
  * retour os
  ****************************************************************************/
 ostream& operator<<(ostream& os, const PlatBio& plat) {
-	os << "      comprend une Taxe ecologique de : " << plat.ecoTaxe_ << "$" <<endl;
+	os << plat << "      comprend une Taxe ecologique de : " << plat.getEcoTaxe() << "$" <<endl;
 	return os;
 }
