@@ -1,3 +1,4 @@
+
 /*
 * Date : 25 février 2019
 * Auteur : AbdeB
@@ -15,16 +16,21 @@ using namespace std;
 class PlatBio: public Plat {
 public:
 	// constructeurs
-        PlatBio(string nom = "inconnu", double prix = 0,
-                double cout = 0, double ecotaxe = 0);//TODO
-        ~ PlatBio();
+    PlatBio(string nom = "inconnu", double prix = 0,
+            double cout = 0, double ecotaxe = 0); // TODO
+
+	//question: pourquoi constructeur par parametre deja fait//////////////////////////
+
+    ~ PlatBio();
 	//getters 
 	double getEcoTaxe() const;
 	//setters 
 	void setEcoTaxe(double ecoTaxe);
-        void afficherPlat(ostream& os) const; // TODO
-        double getPrixDeRevient(); //TODO
-        Plat * clone() const; // TODO
+    void afficherPlat(ostream& os) const override; // TODO fait
+    double getPrixDeRevient(); //TODO fait
+    Plat * clone() const; // TODO
+	// question: est ce que ca doit etre vraiment Plat* ou bien PlatBio*/////////////////
+
 protected:
 	double ecoTaxe_;
 

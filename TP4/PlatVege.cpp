@@ -6,11 +6,11 @@
 
 
 //TODO
-PlatVege::PlatVege(string nom, double prix, double cout,
-                   double vitamines, double proteines, double mineraux)
+PlatVege::PlatVege(string nom, double prix, double cout, double vitamines, double proteines, double mineraux)
 {
     //TODO
 }
+
 PlatVege::~ PlatVege(){}
 
 Plat* PlatVege::clone()const

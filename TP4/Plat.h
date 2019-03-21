@@ -1,3 +1,4 @@
+
 /*
 * Date : 25 février 2019
 * Auteur : AbdeB
@@ -29,9 +30,11 @@ public:
 
 	//methodes en plus
         double getPrixRevient();
-        Plat *  clone () const; // TODO
-	bool operator < (const Plat& plat) const;
-        void afficherPlat(ostream& os) const; // TODO
+        virtual Plat *  clone () const; // TODO fait
+		bool operator < (const Plat& plat) const;
+
+		// methode virtual car va etre override dans PlatVege et PlatBioVege
+        virtual void afficherPlat(ostream& os) const; // TODO fait
 
 
 protected:
@@ -41,3 +44,4 @@ protected:
 };
 
 #endif // !PLAT_H
+

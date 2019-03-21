@@ -1,3 +1,4 @@
+
 /*
 * Date : 25 février 2019
 * Auteur : AbdeB
@@ -38,7 +39,7 @@ void Vege::setMineraux(double mineraux)
 	mineraux_ = mineraux;
 }
 void Vege::afficherVege(ostream & os) const
-{   //TODO
+{   //TODO fait
+	os << "Vitamines " << vitamines_ << " Proteines " << proteines_ << " Mineraux " << mineraux_ << endl;
+	os << "(Apport nurtitif " << calculerApportNutritif() << "mg)" << endl;
 }
-
-

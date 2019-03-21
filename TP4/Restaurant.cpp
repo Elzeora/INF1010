@@ -1,3 +1,4 @@
+
 /*
 * Date : 25 février 2019
 * Auteur : AbdeB
@@ -233,3 +234,4 @@ string getNomTypeMenu(TypeMenu typeMenu)
 {
 	return string{nomsDesTypesDeMenu[static_cast<int>(typeMenu)]};
 }
+

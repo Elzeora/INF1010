@@ -39,4 +39,3 @@ void Client::afficherClient(ostream & os) const
 { // TODO
 
 }
-

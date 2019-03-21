@@ -1,3 +1,4 @@
+
 /*
 * Date : 25 février 2019
 * Auteur : AbdeB
@@ -19,8 +20,10 @@ public:
 	void setVitamines(double vitamines);
 	void setProteines(double proteines);
 	void setMineraux(double mineraux);
-    void afficherVege(ostream & os)const; // TODO
-    double calculerApportNutritif() const;//TODO
+    void afficherVege(ostream & os)const; // TODO fait
+
+	// methode virtuelle pure (donc classe Vege abstraite)
+    virtual double calculerApportNutritif() const = 0;//TODO fait
 
 protected: 
 	double vitamines_;

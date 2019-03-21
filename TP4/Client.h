@@ -1,3 +1,4 @@
+
 #ifndef CLIENT_H
 #define CLIENT_H
 
@@ -36,4 +37,3 @@ protected:
        Table * tableOccupee_;
 };
 #endif
-

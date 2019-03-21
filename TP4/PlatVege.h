@@ -1,3 +1,4 @@
+
 /*
 * Date : 25 février 2019
 * Auteur : AbdeB
@@ -15,9 +16,9 @@ public:
 	PlatVege(string nom = "inconnu", double prix = 0, double cout = 0, double vitamines = 0,
              double proteines = 0, double mineraux = 0);//TODO
      ~ PlatVege();
-     Plat * clone()const; // TODO
-     void afficherPlat(ostream & os) const;//TODO
-     double calculerApportNutritif() const; // TODO
+     Plat * clone() const override; // TODO
+     void afficherPlat(ostream & os) const override;//TODO
+     double calculerApportNutritif() const override; // TODO
 protected:
 
 };

@@ -1,3 +1,4 @@
+
 /*
 * Date : 25 février 2019
 * Auteur : AbdeB
@@ -43,13 +44,16 @@ bool Plat::operator < (const Plat& plat) const
 }
 
 void Plat::afficherPlat(ostream & os) const
-{ // TODO
-  
+{ // TODO fait
+	os << "PLAT " << "----" << nom_ << " - " << prix_ << "$ (" << cout_ << "$ pour le restaurant)" << endl;
 }
+
 double Plat::getPrixRevient()
 {  return prix_ - cout_;
     
 }
  Plat *  Plat:: clone () const
-{ //TODO
+{ //TODO fait
+	 Plat* copiePlat = new Plat(nom_, prix_, cout_);
+	 return copiePlat;
 }

@@ -1,3 +1,4 @@
+
 /*
 * Date : 25 février 2019
 * Auteur : AbdeB
@@ -17,7 +18,7 @@ public:
         ~PlatBioVege();
         Plat * clone() const; // TODO
         void afficherPlat(ostream & os) const;// TODO
-        double calculerApportNutritif() const; // TODO
+        double calculerApportNutritif() const override; // TODO
 
 };
 #endif
