@@ -10,7 +10,8 @@ ClientRegulier::ClientRegulier()
 }
 
 ClientRegulier::ClientRegulier(string_view nom, string_view prenom, int tailleGroupe, int npoints)
-{ // TODO
+	: Client(nom, prenom, tailleGroupe), nbPoints_(npoints)
+{ // TODO fait
 }
 ClientRegulier::~ClientRegulier() {}
 
@@ -27,11 +28,14 @@ void ClientRegulier::augmenterNbPoints(int bonus)
 
 
 void ClientRegulier::afficherClient(ostream & os) const
-{
-	//TODO
+{ // TODO fait
+	Client::afficherClient(os);
 }
 
 double ClientRegulier::getReduction(const Restaurant & res, double montant, bool estLivraison)
-{
-	//TODO
+{ // TODO fait
+	double reduction = 0.0;
+	if (nbPoints_ > SEUIL_DEBUT_REDUCTION)
+		reduction = (-montant * TAUX_REDUC_REGULIER);
+	return reduction;
 }

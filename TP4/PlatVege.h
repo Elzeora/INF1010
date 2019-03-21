@@ -16,8 +16,7 @@ public:
 	PlatVege(string nom = "inconnu", double prix = 0, double cout = 0, double vitamines = 0,
              double proteines = 0, double mineraux = 0);//TODO fait
      ~ PlatVege();
-     Plat * clone() const override; // TODO
-	 // question: est ce que ca doit etre vraiment Plat* ou bien PlatVege*/////////////////
+     Plat * clone() const override; // TODO fait
      void afficherPlat(ostream & os) const override; // TODO fait
      double calculerApportNutritif() const override; // TODO fait
 protected:

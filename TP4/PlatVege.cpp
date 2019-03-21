@@ -5,17 +5,16 @@
 #include "PlatVege.h"
 
 
-//TODO
+// TODO fait
 PlatVege::PlatVege(string nom, double prix, double cout, double vitamines, double proteines, double mineraux)
 	: Plat(nom, prix, cout), Vege(nom, vitamines, proteines, mineraux)
 {
-    //TODO
 }
 
 PlatVege::~ PlatVege(){}
 
 Plat* PlatVege::clone()const
-{ //TODO
+{ // TODO fait
 	PlatVege* copiePlat = new PlatVege(Plat::nom_, prix_, cout_, vitamines_, proteines_, mineraux_);
 	return copiePlat;
 }

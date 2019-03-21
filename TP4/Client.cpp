@@ -36,6 +36,10 @@ Table * Client:: getTable() const
 { return tableOccupee_;}
 
 void Client::afficherClient(ostream & os) const
-{ // TODO
-
+{ // TODO fait
+	os << prenom_ << " " << nom_;
+	if (tableOccupee_ == nullptr)
+		os << " n'occupe pas de place a une table";
+	else
+		os << " occupe la table " << tableOccupee_->getId();
 }
