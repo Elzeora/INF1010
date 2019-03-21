@@ -9,20 +9,21 @@ PlatBioVege::PlatBioVege(string nom, double prix, double cout, double ecotaxe, d
 	: PlatBio(nom, prix, cout, ecotaxe), Vege(nom, vitamines, proteines, mineraux) 
 { // TODO
 }
+
 PlatBioVege:: ~PlatBioVege(){}
 
-//TODO
+//TODO fait
 void PlatBioVege::afficherPlat(ostream & os) const
 {   //TODO fait
 	PlatBio::afficherPlat(os);
-	os << "ET PLAT VEGE ";
+	os << "ET ";
 	Vege::afficherVege(os);
 }
 
 Plat * PlatBioVege::clone() const
 { //TODO
 
-	Plat* copiePlat = new Plat(nom_, prix_, cout_);
+	Plat* copiePlat = new Plat(Plat::nom_, prix_, cout_);
 	return copiePlat;
 
 	//return Plat::clone();
@@ -31,5 +32,5 @@ Plat * PlatBioVege::clone() const
 double PlatBioVege::calculerApportNutritif() const
 {
    //TODO fait
-	return (vitamines_*proteines_ / mineraux_)*RAPPORT_NUTRITIF;
+	return (vitamines_*proteines_ / mineraux_)*RAPPORT_NUTRITIF*AVANTAGE_SANS_PESTICIDE;
 }

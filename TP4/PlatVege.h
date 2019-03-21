@@ -17,7 +17,8 @@ public:
              double proteines = 0, double mineraux = 0);//TODO
      ~ PlatVege();
      Plat * clone() const override; // TODO
-     void afficherPlat(ostream & os) const override;//TODO
+	 // question: est ce que ca doit etre vraiment Plat* ou bien PlatVege*/////////////////
+     void afficherPlat(ostream & os) const override; // TODO fait
      double calculerApportNutritif() const override; // TODO
 protected:
 
