@@ -22,14 +22,13 @@ void PlatBio::setEcoTaxe(double ecoTaxe)
 	ecoTaxe_ = ecoTaxe;
 }
 
-//TODO
+// TODO fait
 Plat * PlatBio:: clone () const
 {
-	Plat* copiePlat = new Plat(nom_, prix_, cout_);
+	PlatBio* copiePlat = new PlatBio(nom_, prix_, cout_, ecoTaxe_);
 	return copiePlat;
-
-	//return Plat::clone();
 }
+
 double PlatBio:: getPrixDeRevient()
 { //TODO fait
 	return prix_ - cout_ + ecoTaxe_;

@@ -17,9 +17,7 @@ class PlatBio: public Plat {
 public:
 	// constructeurs
     PlatBio(string nom = "inconnu", double prix = 0,
-            double cout = 0, double ecotaxe = 0); // TODO
-
-	//question: pourquoi constructeur par parametre deja fait//////////////////////////
+            double cout = 0, double ecotaxe = 0); // TODO fait
 
     ~ PlatBio();
 	//getters 
@@ -28,8 +26,7 @@ public:
 	void setEcoTaxe(double ecoTaxe);
     void afficherPlat(ostream& os) const override; // TODO fait
     double getPrixDeRevient(); //TODO fait
-    Plat * clone() const; // TODO
-	// question: est ce que ca doit etre vraiment Plat* ou bien PlatBio*/////////////////
+    Plat * clone() const; // TODO fait
 
 protected:
 	double ecoTaxe_;

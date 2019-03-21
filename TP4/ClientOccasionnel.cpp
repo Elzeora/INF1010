@@ -10,15 +10,15 @@ ClientOccasionnel::ClientOccasionnel(string_view nom, string_view prenom, int ta
 ClientOccasionnel::~ClientOccasionnel(){}
 
 int ClientOccasionnel::getNbPoints() const
-{
-        //TODO
+{ // TODO fait
+	return 0;
 }
 
 void ClientOccasionnel::afficherClient(ostream & os) const
-{
-        //TODO
-
+{ // TODO
+	Client::afficherClient(os);
 }
 double ClientOccasionnel::getReduction(const Restaurant & res, double montant, bool estLivraison)
 { // TODO
+	return 0.0;
 }

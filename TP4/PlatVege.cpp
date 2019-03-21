@@ -16,10 +16,8 @@ PlatVege::~ PlatVege(){}
 
 Plat* PlatVege::clone()const
 { //TODO
-	Plat* copiePlat = new Plat(Plat::nom_, prix_, cout_);
+	PlatVege* copiePlat = new PlatVege(Plat::nom_, prix_, cout_, vitamines_, proteines_, mineraux_);
 	return copiePlat;
-
-	//return Plat::clone();
 }
 
 
