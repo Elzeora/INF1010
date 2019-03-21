@@ -6,19 +6,30 @@
 #include "PlatBioVege.h"
 
 PlatBioVege::PlatBioVege(string nom, double prix, double cout, double ecotaxe, double vitamines, double proteines, double mineraux)
+	: PlatBio(nom, prix, cout, ecotaxe), Vege(nom, vitamines, proteines, mineraux) 
 { // TODO
 }
 PlatBioVege:: ~PlatBioVege(){}
 
 //TODO
 void PlatBioVege::afficherPlat(ostream & os) const
-{   //TODO
+{   //TODO fait
+	PlatBio::afficherPlat(os);
+	os << "ET PLAT VEGE ";
+	Vege::afficherVege(os);
 }
 
 Plat * PlatBioVege::clone() const
-{ //TODO}
+{ //TODO
+
+	Plat* copiePlat = new Plat(nom_, prix_, cout_);
+	return copiePlat;
+
+	//return Plat::clone();
+}
 
 double PlatBioVege::calculerApportNutritif() const
 {
-   //TODO
+   //TODO fait
+	return (vitamines_*proteines_ / mineraux_)*RAPPORT_NUTRITIF;
 }
