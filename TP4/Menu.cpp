@@ -10,19 +10,14 @@ using namespace std;
 
 // Constructeurs.
 
-Menu::Menu() :
-	type_{TypeMenu::Matin}
-{
+Menu::Menu() : type_{TypeMenu::Matin}{
 }
 
-Menu::Menu(string fichier, TypeMenu type) :
-	type_{type}
-{
+Menu::Menu(string fichier, TypeMenu type) :	type_{type} {
 	lireMenu(fichier); 
 }
 
-Menu::~Menu()
-{
+Menu::~Menu(){
 	//TODO
 }
 
@@ -31,21 +26,22 @@ Plat* Menu::allouerPlat(Plat* plat) {
 }
 
 
-Menu::Menu(const Menu & menu) : type_(menu.type_)
-{
-	//TODO
-  
+Menu::Menu(const Menu & menu) : type_(menu.type_) {
+	for (int i = 0; i < menu.listePlats_.size(); i++) {
+		listePlats_.push_back( new Plat( *(menu.listePlats_[i])));
+    }
+	for (int i = 0; i < menu.listePlatsVege_.size(); i++) {
+		listePlatsVege_.push_back( new Plat(*(menu.listePlatsVege_[i])));
+	}
 }
 
-Menu & Menu::operator=(const Menu & menu)
-{
+Menu & Menu::operator=(const Menu & menu){
         //TODO
 }
 
 // Getters.
 
-vector<Plat*> Menu::getListePlats() const
-{
+vector<Plat*> Menu::getListePlats() const {
 	return listePlats_;
 }
 
@@ -62,8 +58,7 @@ void Menu::lireMenu(const string& nomFichier) {
 		*this += lirePlatDe(fichier);
 }
 
-Plat* Menu::trouverPlatMoinsCher() const
-{
+Plat* Menu::trouverPlatMoinsCher() const{
 	assert(!listePlats_.empty() && "La liste de plats de doit pas etre vide pour trouver le plat le moins cher.");
 	Plat* minimum = listePlats_[0];
 	for (Plat* plat : listePlats_)
@@ -73,16 +68,14 @@ Plat* Menu::trouverPlatMoinsCher() const
 	return minimum;
 }
 
-Plat* Menu::trouverPlat(string_view nom) const
-{
+Plat* Menu::trouverPlat(string_view nom) const {
 	for (Plat* plat : listePlats_)
 		if (plat->getNom() == nom)
 			return plat; 
 
 	return nullptr; 
 }
-Plat* Menu::lirePlatDe(LectureFichierEnSections& fichier)
-{
+Plat* Menu::lirePlatDe(LectureFichierEnSections& fichier) {
     auto lectureLigne = fichier.lecteurDeLigne();
     
     string nom, typeStr;
