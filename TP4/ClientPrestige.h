@@ -22,7 +22,7 @@ public:
 	//Autres Fonctions
     void afficherClient(ostream & os) const; // TODO fait
 	string getAdressCodeString() const;
-    double getReduction(const Restaurant & res, double montant, bool estLivraison); // TODO
+    double getReduction(const Restaurant & res, double montant, bool estLivraison); // TODO fait
 
 private:
 	ZoneHabitation adresse_;
