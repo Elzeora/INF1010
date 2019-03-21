@@ -15,8 +15,7 @@ LectureFichierEnSections::LectureFichierEnSections(const string& nomFichier, cha
 	exceptions(ios::failbit);
 }
 
-LectureFichierEnSections& LectureFichierEnSections::allerASection(std::string_view titreSection)
-{
+LectureFichierEnSections& LectureFichierEnSections::allerASection(std::string_view titreSection){
 	//? On hérite d'ifstream, donc on peut utiliser directement seekg de la classe de base.
 	assert(titreSection[0] == separateurDeSections_ && "Le titre de section doit commencer par le séparateur de section."); //NOTE: Utiliser starts_with de C++20 lorsqu'il sera supporté.
 	while (!estFinFichier())
@@ -26,18 +25,15 @@ LectureFichierEnSections& LectureFichierEnSections::allerASection(std::string_vi
 	return *this; // On ne devrait jamais se rendre à cette ligne.
 }
 
-bool LectureFichierEnSections::estFinFichier()
-{
+bool LectureFichierEnSections::estFinFichier(){
 	return eof() || ws(*this).eof();
 }
 
-bool LectureFichierEnSections::estFinSection()
-{
+bool LectureFichierEnSections::estFinSection(){
 	return estFinFichier() || peek() == separateurDeSections_;
 }
 
-string LectureFichierEnSections::lireLigne()
-{
+string LectureFichierEnSections::lireLigne(){
 	string ligne;
 	//? Puisqu'on hérite de ifstream, si on écrit juste "getline" ça va tenter d'utiliser celui dans "istream", il faut donc faire "::getline" pour appeler la version globale.
     std::getline(*this, ligne,'\r');//pour mac
@@ -46,8 +42,7 @@ string LectureFichierEnSections::lireLigne()
 	return ligne;
 }
 
-istringstream LectureFichierEnSections::lecteurDeLigne()
-{
+istringstream LectureFichierEnSections::lecteurDeLigne(){
 	std::istringstream lectureLigne{lireLigne()};
 	lectureLigne.exceptions(ios::failbit);
 	return lectureLigne;

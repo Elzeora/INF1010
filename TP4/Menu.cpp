@@ -18,7 +18,9 @@ Menu::Menu(string fichier, TypeMenu type) :	type_{type} {
 }
 
 Menu::~Menu(){
-	//TODO
+	//à vérifier
+	delete &listePlats_;
+	delete &listePlatsVege_;
 }
 
 Plat* Menu::allouerPlat(Plat* plat) {
@@ -28,15 +30,21 @@ Plat* Menu::allouerPlat(Plat* plat) {
 
 Menu::Menu(const Menu & menu) : type_(menu.type_) {
 	for (int i = 0; i < menu.listePlats_.size(); i++) {
-		listePlats_.push_back( new Plat( *(menu.listePlats_[i])));
+		listePlats_.push_back( new Plat (*(menu.listePlats_[i])));
     }
 	for (int i = 0; i < menu.listePlatsVege_.size(); i++) {
-		listePlatsVege_.push_back( new Plat(*(menu.listePlatsVege_[i])));
+		//listePlatsVege_.push_back( new PlatVege (*(menu.listePlatsVege_[i].)));
 	}
 }
 
-Menu & Menu::operator=(const Menu & menu){
-        //TODO
+Menu & Menu::operator=(const Menu & menu) {
+	type_ = menu.type_;
+	for (int i = 0; i < listePlats_.size(); i++) {
+		listePlats_.push_back(allouerPlat(menu.listePlats_[i]));
+	}
+	for (int i = 0; i < listePlatsVege_.size(); i++) {
+		//listePlatsVege_.push_back(allouerPlat(menu.listePlatsVege_[i]));
+	}
 }
 
 // Getters.
@@ -102,7 +110,6 @@ Plat* Menu::lirePlatDe(LectureFichierEnSections& fichier) {
 
 // Fonctions globales.
 
-ostream& operator<<(ostream& os, const Menu& menu)
-{   
+ostream& operator<<(ostream& os, const Menu& menu){   
         //TODO
 }

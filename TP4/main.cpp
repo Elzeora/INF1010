@@ -14,8 +14,7 @@
 #include<vector>
 using namespace std;
 
-int main()
-{
+int main(){
 	initDebogageMemoire();
 
 	vector<pair<string, bool>> tests;
@@ -51,8 +50,8 @@ int main()
         poly.commanderPlat("Poisson" , clients[3]->getTable()->getId());
     if (clients[4]->getTable() != nullptr)
         poly.commanderPlat("Poisson" , clients[4]->getTable()->getId());
-    if (clients[5]->getTable() != nullptr)
-    {  poly.commanderPlat("Muffin" , clients[5]->getTable()->getId());
+    if (clients[5]->getTable() != nullptr){
+	   poly.commanderPlat("Muffin" , clients[5]->getTable()->getId());
        poly.commanderPlat("Pizza" , clients[5]->getTable()->getId());
     }
     
@@ -117,8 +116,8 @@ int main()
     double taxe;
     Boisson * b;
     PlatVege * v;
-    for (size_t i = 0; i < listeTaxable.size(); i++)
-    {   taxe =listeTaxable[i]->getTaxe();
+    for (size_t i = 0; i < listeTaxable.size(); i++){
+		taxe =listeTaxable[i]->getTaxe();
         b = dynamic_cast<Boisson *>(listeTaxable[i]);
         v = dynamic_cast<PlatVege *>(listeTaxable[i]);
         if (b)
@@ -128,8 +127,7 @@ int main()
     }
     cout << "la taxe a paye est "<<  sommeTaxe<< endl;
     
-	for (size_t i = 0; i < clients.size(); i++)
-	{
+	for (size_t i = 0; i < clients.size(); i++){
 		delete clients[i];
 	}
 	return 0;

@@ -9,17 +9,17 @@
 #include "Vege.h"
 #include "Plat.h"
 #include "def.h"
-class PlatVege :
-        public Vege, public Plat
-{
+class PlatVege : public Vege, public Plat, public Taxable{
 public:
 	PlatVege(string nom = "inconnu", double prix = 0, double cout = 0, double vitamines = 0,
-             double proteines = 0, double mineraux = 0);//TODO fait
+             double proteines = 0, double mineraux = 0);
      ~ PlatVege();
-     Plat * clone() const override; // TODO fait
-     void afficherPlat(ostream & os) const override; // TODO fait
-     double calculerApportNutritif() const override; // TODO fait
+     Plat * clone() const override;
+     void afficherPlat(ostream & os) const override; 
+     double calculerApportNutritif() const override; 
+	 void setTaxe() override;
+	 double getTaxe() const override;
 protected:
-
+	double taxe_
 };
 #endif
