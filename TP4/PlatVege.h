@@ -20,6 +20,6 @@ public:
 	 void setTaxe() override;
 	 double getTaxe() const override;
 protected:
-	double taxe_
+	double taxe_;
 };
 #endif

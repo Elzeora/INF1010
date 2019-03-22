@@ -32,7 +32,7 @@ int main(){
 	clients.push_back(new ClientPrestige("Marie", "C", 1, 225, ZoneHabitation::Zone1));
 	
       // placer les clients dans le restaurant
-    for  ( int i = 0 ; i< clients.size(); i++)
+    for  (unsigned int i = 0 ; i< clients.size(); i++)
         if (poly.placerClients(clients[i]))
             cout << clients[i]-> getNom()<< " a une place au resto "<<endl;
         else
@@ -59,7 +59,7 @@ int main(){
     cout << poly;
     
     // libŽrer les tables du restaurant
-    for ( int i = 0 ; i < clients.size(); i++)
+    for (unsigned int i = 0 ; i < clients.size(); i++)
         if (clients[i]->getTable() != nullptr)
             poly.libererTable(clients[i]->getTable()->getId());
     

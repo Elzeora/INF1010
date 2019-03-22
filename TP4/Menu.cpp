@@ -18,13 +18,13 @@ Menu::Menu(string fichier, TypeMenu type) :	type_{type} {
 }
 
 Menu::~Menu(){
-	//à vérifier//////////////////////////////////////////////////////////////
-	for (int i = 0; i < listePlats_.size(); i++) {
+	for (unsigned int i = 0; i < listePlats_.size(); i++)
 		delete listePlats_[i];
-	}
-	for (int i = 0; i < listePlatsVege_.size(); i++) {
+	listePlats_.clear();
+
+	for (unsigned int i = 0; i < listePlatsVege_.size(); i++)
 		delete listePlatsVege_[i];
-	}
+	listePlatsVege_.clear();
 }
 
 Plat* Menu::allouerPlat(Plat* plat) {
@@ -33,25 +33,52 @@ Plat* Menu::allouerPlat(Plat* plat) {
 
 
 Menu::Menu(const Menu & menu) : type_(menu.type_) {
-	for (int i = 0; i < menu.listePlats_.size(); i++) {
+	for (unsigned int i = 0; i < menu.listePlats_.size(); i++) {
 		listePlats_.push_back( new Plat (*(menu.listePlats_[i])));
     }
-	for (int i = 0; i < menu.listePlatsVege_.size(); i++) {
-		listePlatsVege_.push_back( new PlatVege(dynamic_cast<PlatVege*>(menu.listePlatsVege_[i])));
+	for (unsigned int i = 0; i < menu.listePlatsVege_.size(); i++) {
+		listePlatsVege_.push_back( new PlatVege(*dynamic_cast<PlatVege*>(menu.listePlatsVege_[i])));
 	}
 }
+
 
 Menu & Menu::operator=(const Menu & menu) {
 	if (&menu != this) {
 		type_ = menu.type_;
-		for (int i = 0; i < listePlats_.size(); i++) {
+
+		for (unsigned int i = 0; i < listePlats_.size(); i++)
+			delete listePlats_[i];
+		listePlats_.clear();
+
+		for (unsigned int i = 0; i < listePlatsVege_.size(); i++)
+			delete listePlatsVege_[i];
+		listePlatsVege_.clear();
+
+
+		for (unsigned int i = 0; i < menu.listePlats_.size(); i++)
 			listePlats_.push_back(allouerPlat(menu.listePlats_[i]));
-		}
-		for (int i = 0; i < listePlatsVege_.size(); i++) {
-			listePlatsVege_.push_back(allouerPlat(menu.listePlatsVege_[i]));
-		}
+
+		for (unsigned int i = 0; i < menu.listePlatsVege_.size(); i++)
+			listePlatsVege_.push_back(menu.listePlatsVege_[i]);
+			//listePlatsVege_.push_back(allouerPlat(dynamic_cast<Plat*>menu.listePlatsVege_[i]));
 	}
-}
+	return *this;
+}///////////////////////////////////////////////////////////////pas sur
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // Getters.
 
@@ -63,7 +90,24 @@ vector<Plat*> Menu::getListePlats() const {
 
 Menu& Menu::operator+=(owner<Plat*> plat) {
         //TODO
-}
+	listePlats_.push_back(new Plat(*plat));
+	listePlatsVege_.push_back(dynamic_cast<Vege*>(plat));
+
+	return *this;
+}///////////////////////////////////////////////////////////////////////pas sur
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 void Menu::lireMenu(const string& nomFichier) {
 	LectureFichierEnSections fichier{nomFichier};
@@ -118,12 +162,14 @@ Plat* Menu::lirePlatDe(LectureFichierEnSections& fichier) {
 
 ostream& operator<<(ostream& os, const Menu& menu){   
         //TODO
-	for (int i = 0; i < menu.listePlats_.size(); i++) {
+	for (unsigned int i = 0; i < menu.listePlats_.size(); i++) {
 		menu.listePlats_[i]->afficherPlat(os);
 	}
+
 	os << "MENU ENTIERREMENT VEGETARIEN" << endl;
-	for (int i = 0; i < menu.listePlatsVege_.size(); i++) {
+	for (unsigned int i = 0; i < menu.listePlatsVege_.size(); i++) {
 		menu.listePlatsVege_[i]->afficherVege(os);
 	}
+	return os;
 }
 /////////////////verif avec static_cast ou dynamic_cast
