@@ -13,7 +13,7 @@ class PlatVege : public Vege, public Plat, public Taxable{
 public:
 	PlatVege(string nom = "inconnu", double prix = 0, double cout = 0, double vitamines = 0,
              double proteines = 0, double mineraux = 0);
-     ~ PlatVege();
+     virtual ~ PlatVege();
      Plat * clone() const override;
      void afficherPlat(ostream & os) const override; 
      double calculerApportNutritif() const override; 

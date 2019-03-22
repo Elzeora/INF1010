@@ -15,7 +15,7 @@ class PlatBioVege :
 public:
 	PlatBioVege(string nom = "inconnu", double prix = 0, double cout = 0, double ecotaxe = 0,
                 double vitamines = 0, double proteines = 0, double mineraux = 0); // TODO fait
-        ~PlatBioVege();
+        virtual ~PlatBioVege();
         Plat * clone() const override; // TODO fait
         void afficherPlat(ostream & os) const override;// TODO fait
         double calculerApportNutritif() const override; // TODO fait

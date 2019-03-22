@@ -17,7 +17,7 @@ class Client
 public:
 	Client();
 	Client(string_view nom, string_view prenom, int tailleGroupe);
-    ~Client(){};
+    virtual ~Client(){};
 	//getters
 	int getTailleGroupe() const;
 	string getNom() const;

@@ -55,29 +55,27 @@ Menu & Menu::operator=(const Menu & menu) {
 		listePlatsVege_.clear();
 
 
-		for (unsigned int i = 0; i < menu.listePlats_.size(); i++)
-			listePlats_.push_back(allouerPlat(menu.listePlats_[i]));
+		for (unsigned int i = 0; i < menu.listePlats_.size(); i++) {
+			
+			if (dynamic_cast<PlatBio*>(menu.listePlats_[i]))
+				listePlats_.push_back(allouerPlat((dynamic_cast<PlatBio*>(menu.listePlats_[i]))));
+
+			else if (dynamic_cast<PlatVege*>(menu.listePlats_[i]))
+				listePlats_.push_back(allouerPlat((dynamic_cast<PlatVege*>(menu.listePlats_[i]))));
+
+			else if (dynamic_cast<PlatBioVege*>(menu.listePlats_[i]))
+				listePlats_.push_back(allouerPlat((dynamic_cast<PlatBioVege*>(menu.listePlats_[i]))));
+
+			else
+				listePlats_.push_back(allouerPlat(menu.listePlats_[i]));
+		}
 
 		for (unsigned int i = 0; i < menu.listePlatsVege_.size(); i++)
 			listePlatsVege_.push_back(menu.listePlatsVege_[i]);
-			//listePlatsVege_.push_back(allouerPlat(dynamic_cast<Plat*>menu.listePlatsVege_[i]));
+
 	}
 	return *this;
-}///////////////////////////////////////////////////////////////pas sur
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+}
 
 
 // Getters.
@@ -90,23 +88,25 @@ vector<Plat*> Menu::getListePlats() const {
 
 Menu& Menu::operator+=(owner<Plat*> plat) {
         //TODO
-	listePlats_.push_back(new Plat(*plat));
-	listePlatsVege_.push_back(dynamic_cast<Vege*>(plat));
+	//listePlats_.push_back(dynamic_cast<Plat*>(plat));
+	//listePlatsVege_.push_back(dynamic_cast<Vege*>(plat));
+
+	if (dynamic_cast<PlatBio*>(plat))
+		listePlats_.push_back(dynamic_cast<PlatBio*>(plat));
+
+	else if (dynamic_cast<PlatBioVege*>(plat))
+		listePlats_.push_back(dynamic_cast<PlatBioVege*>(plat));
+
+	else if (dynamic_cast<PlatVege*>(plat)) {
+		listePlats_.push_back(dynamic_cast<PlatVege*>(plat));
+		listePlatsVege_.push_back(dynamic_cast<PlatVege*>(plat));
+	}	
+
+	else
+		listePlats_.push_back(plat);
 
 	return *this;
-}///////////////////////////////////////////////////////////////////////pas sur
-
-
-
-
-
-
-
-
-
-
-
-
+}
 
 
 void Menu::lireMenu(const string& nomFichier) {
@@ -162,14 +162,24 @@ Plat* Menu::lirePlatDe(LectureFichierEnSections& fichier) {
 
 ostream& operator<<(ostream& os, const Menu& menu){   
         //TODO
-	for (unsigned int i = 0; i < menu.listePlats_.size(); i++) {
-		menu.listePlats_[i]->afficherPlat(os);
+	for (unsigned int i = 0; i < menu.listePlats_.size(); i++)
+	{
+		if (dynamic_cast<PlatBio*>(menu.listePlats_[i]))
+			dynamic_cast<PlatBio*>(menu.listePlats_[i])->afficherPlat(os);
+
+		else if (dynamic_cast<PlatVege*>(menu.listePlats_[i]))
+			dynamic_cast<PlatVege*>(menu.listePlats_[i])->afficherPlat(os);
+
+		else if (dynamic_cast<PlatBioVege*>(menu.listePlats_[i]))
+			dynamic_cast<PlatBioVege*>(menu.listePlats_[i])->afficherPlat(os);
+
+		else
+			menu.listePlats_[i]->afficherPlat(os);
 	}
 
-	os << "MENU ENTIERREMENT VEGETARIEN" << endl;
+	os << endl << "MENU ENTIERREMENT VEGETARIEN" << endl;
 	for (unsigned int i = 0; i < menu.listePlatsVege_.size(); i++) {
 		menu.listePlatsVege_[i]->afficherVege(os);
 	}
 	return os;
 }
-/////////////////verif avec static_cast ou dynamic_cast

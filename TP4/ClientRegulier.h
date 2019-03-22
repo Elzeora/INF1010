@@ -15,7 +15,7 @@ class ClientRegulier : public Client
  public:
 	ClientRegulier();
 	ClientRegulier(string_view nom, string_view prenom, int tailleGroupe, int nbPoints); // TODO fait
-    ~ClientRegulier();
+    virtual ~ClientRegulier();
 	//Accesseurs
      int getNbPoints() const ;
 
