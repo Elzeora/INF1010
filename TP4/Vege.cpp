@@ -35,3 +35,7 @@ void Vege::afficherVege(ostream & os) const{
 	os << "PLAT VEGE " << nom_ << "   Vitamines " << vitamines_ << " Proteines " << proteines_ << " Mineraux " << mineraux_ << endl;
 	os << "(Apport nurtitif " << calculerApportNutritif() << "mg)" << endl;
 }
+
+double Vege::calculerApportNutritif() const {
+	return 0.0;
+}

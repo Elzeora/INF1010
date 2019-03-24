@@ -38,3 +38,11 @@ void Client::afficherClient(ostream & os) const{
 	else
 		os << " occupe la table " << tableOccupee_->getId();
 }
+
+int Client::getNbPoints() const {
+	return 0;
+}
+
+double Client::getReduction(const Restaurant & res, double montant, bool estLivraison) {
+	return 0.0;
+}
