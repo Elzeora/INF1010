@@ -1,8 +1,3 @@
-
-/*
-* Date : 25 février 2019
-* Auteur : AbdeB
-*/
 #ifndef VEGE_H
 #define VEGE_H
 #include <iostream>
@@ -14,16 +9,14 @@ class Vege
 {
 public:
 	Vege(string nom, double vitamines, double proteines, double mineraux);
-	double getVitamines();
-	double getProteines();
-	double getMineraux();
+	double getVitamines() const;
+	double getProteines() const;
+	double getMineraux() const;
 	void setVitamines(double vitamines);
 	void setProteines(double proteines);
 	void setMineraux(double mineraux);
-    void afficherVege(ostream & os)const; // TODO fait
-
-	// methode virtuelle pure (donc classe Vege abstraite)
-    virtual double calculerApportNutritif() const = 0;//TODO fait
+	void afficherVege(ostream & os)const;  // TODO fait
+	virtual double calculerApportNutritif() const; // TODO fait
 
 protected: 
 	double vitamines_;

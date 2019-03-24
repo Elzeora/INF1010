@@ -1,9 +1,3 @@
-
-/*
-* Date : 25 février 2019
-* Auteur : AbdeB
-*/
-
 #include "Table.h"
 using namespace std;
 
@@ -18,45 +12,34 @@ Table::Table(int id, int nbPlaces) :
 
 
 // Getters.
+int Table::getId() const
+{	return id_;}
 
-int Table::getId() const{
-	return id_;
-}
+int Table::getNbPlaces() const
+{	return nbPlaces_;}
 
-int Table::getNbPlaces() const{
-	return nbPlaces_;
-}
+bool Table::estOccupee() const
+{	return nbClientsATable_ != 0;}
 
-bool Table::estOccupee() const{
-	return nbClientsATable_ != 0;
-}
+bool Table::estPleine() const
+{	return nbPlaces_ == 0;}
 
-bool Table::estPleine() const{
-	return nbPlaces_ == 0;
-}
+int Table::getNbClientsATable() const
+{	return nbClientsATable_;}
 
-int Table::getNbClientsATable() const{
-	return nbClientsATable_;
-}
+vector<Plat*> Table::getCommande() const
+{	return commande_;}
 
-vector<Plat*> Table::getCommande() const{
-	return commande_;
-}
-
-Client* Table::getClientPrincipal() const{
-	return clientPrincipal_;
-}
+Client* Table::getClientPrincipal() const
+{	return clientPrincipal_;}
 
 
 // Setters.
+void Table::setId(int id)
+{	id_ = id;}
 
-void Table::setId(int id){
-	id_ = id;
-}
-
-void Table::setClientPrincipal(Client * clientPrincipal){
-	clientPrincipal_ = clientPrincipal;
-}
+void Table::setClientPrincipal(Client * clientPrincipal)
+{	clientPrincipal_ = clientPrincipal;}
 
 void Table::libererTable(){
 	nbPlaces_ += nbClientsATable_;
@@ -72,9 +55,8 @@ void Table::placerClients(int nbClient){
 
 // Autres methodes.
 
-void Table::commander(Plat* plat){
-	commande_.push_back(plat);
-}
+void Table::commander(Plat* plat)
+{	commande_.push_back(plat);}
 
 double Table::getChiffreAffaire() const{
 	double chiffre = 0;
@@ -94,14 +76,24 @@ ostream& operator<<(ostream& os, const Table& table){
 			os << "Voici la commande passee par les clients :" << endl;
 			for (Plat* plat : table.commande_) {
 				os << "\t";
-				plat->afficherPlat(os);
+				if (auto platTemps = dynamic_cast<PlatBio*>(plat)) {
+					static_cast<PlatBio*>(plat)->afficherPlat(os);
+				}else if (auto platTemps = dynamic_cast<PlatBioVege*>(plat)) {
+					static_cast<PlatBioVege*>(plat)->afficherPlat(os);
+				}else if (auto platTemps = dynamic_cast<PlatVege*>(plat)) {
+					static_cast<PlatVege*>(plat)->afficherPlat(os);
+				}else {
+					plat->afficherPlat(os);
+				}								
 			}
-		}
-		else
+		}else {
 			os << "Mais ils n'ont rien commande pour l'instant." << endl;
-	}
-	else
+		}
+		
+	}else {
 		os << " est vide. " << endl;
+	}
+		
 
 	return os;
 }

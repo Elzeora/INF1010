@@ -1,9 +1,3 @@
-
-/*
-* Date : 25 février 2019
-* Auteur : AbdeB
-*/
-
 #ifndef PLAT_H
 #define PLAT_H
 
@@ -18,7 +12,7 @@ class Plat {
 public:
 	// constructeur
 	Plat(string_view nom = "inconnu", double prix = 0, double cout = 0);
-    virtual ~Plat();
+    ~Plat();
 	//getters 
 	string getNom() const;
 	double getPrix() const;
@@ -29,12 +23,10 @@ public:
 	void setPrix(double prix);
 
 	//methodes en plus
-        double getPrixRevient();
-        virtual Plat *  clone () const; // TODO fait
-		bool operator < (const Plat& plat) const;
-
-		// methode virtual car va etre override dans PlatVege et PlatBioVege
-        virtual void afficherPlat(ostream& os) const; // TODO fait
+    virtual double getPrixRevient() const; 
+    Plat* clone() const;  // TODO fait
+	bool operator<(const Plat& plat) const;
+    void afficherPlat(ostream& os) const; // TODO fait
 
 
 protected:
@@ -44,4 +36,3 @@ protected:
 };
 
 #endif // !PLAT_H
-

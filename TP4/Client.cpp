@@ -1,48 +1,37 @@
-/*
-* Date : 25 février 2019
-* Auteur : AbdeB
-*/
-
 #include "Client.h"
 
-Client::Client(){
-	tableOccupee_ = nullptr;
-}
+Client::Client()
+{ tableOccupee_ = nullptr;}
 
-Client::Client(string_view nom, string_view prenom, int tailleGroupe) :
-	nom_(nom), prenom_(prenom), tailleGroupe_(tailleGroupe){
-    tableOccupee_ = nullptr;
-}
+Client::Client(string_view nom, string_view prenom, int tailleGroupe) : nom_(nom), prenom_(prenom), tailleGroupe_(tailleGroupe)
+{    tableOccupee_ = nullptr; }
 
-int Client::getTailleGroupe() const{
-	return tailleGroupe_;
-}
+int Client::getTailleGroupe() const
+{	return tailleGroupe_;}
 
-string Client::getNom() const{
-	return nom_;
-}
+string Client::getNom() const
+{	return nom_;}
 
-string Client::getPrenom() const{
-	return prenom_;
-}
+string Client::getPrenom() const
+{	return prenom_;}
+
+Table * Client::getTable() const
+{	return tableOccupee_;}
+
+int Client::getNbPoints() const
+{	return 0;}
+
+double Client::getReduction(const Restaurant & res, double montant, bool estLivraison) const
+{	return 0;}
+
 void Client:: setTable(Table * ta)
 { tableOccupee_ = ta;}
 
-Table * Client:: getTable() const
-{ return tableOccupee_;}
 
-void Client::afficherClient(ostream & os) const{
-	os << prenom_ << " " << nom_;
-	if (tableOccupee_ == nullptr)
-		os << " n'occupe pas de place a une table";
+void Client::afficherClient(ostream & os) const { 
+	if (this->getTable() != nullptr)
+		os << this->getPrenom() << " " << this->getNom() << " a une place au resto.\n";
 	else
-		os << " occupe la table " << tableOccupee_->getId();
+		os << this->getPrenom() << " " << this->getNom() << " n'a pas une place au resto.\n";
 }
 
-int Client::getNbPoints() const {
-	return 0;
-}
-
-double Client::getReduction(const Restaurant & res, double montant, bool estLivraison) {
-	return 0.0;
-}

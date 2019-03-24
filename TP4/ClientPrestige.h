@@ -1,4 +1,3 @@
-
 /*
 * Date : 25 février 2019
 * Auteur : AbdeB
@@ -13,9 +12,8 @@ class ClientPrestige : public ClientRegulier
 {
 public:
 	ClientPrestige();
-	ClientPrestige(string_view nom, string_view prenom, int tailleGroupe, 
-		           int nbPoints, ZoneHabitation adresse); // TODO fait
-    virtual ~ClientPrestige(){};
+	ClientPrestige(string_view nom, string_view prenom, int tailleGroupe, int nbPoints, ZoneHabitation adresse); // TODO fait
+    ~ClientPrestige(){};
 	//Accesseur 
 	ZoneHabitation getAdresseCode() const;
 
@@ -26,7 +24,7 @@ public:
 
 private:
 	ZoneHabitation adresse_;
-
 };
 
 #endif
+

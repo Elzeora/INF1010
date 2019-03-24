@@ -1,23 +1,17 @@
-/*
-* Date : 25 février 2019
-* Auteur : AbdeB
-*/
 #include "ClientOccasionnel.h"
 
 ClientOccasionnel::ClientOccasionnel(string_view nom, string_view prenom, int tailleGroupe)
-	: Client(nom, prenom, tailleGroupe){
+	: Client(nom, prenom, tailleGroupe){ 
 }
 
 ClientOccasionnel::~ClientOccasionnel(){}
 
-int ClientOccasionnel::getNbPoints() const{
-	return 0;
-}
+int ClientOccasionnel::getNbPoints() const
+{	return 0;}
 
-void ClientOccasionnel::afficherClient(ostream & os) const{
-	Client::afficherClient(os);
-}
+double ClientOccasionnel::getReduction(const Restaurant & res, double montant, bool estLivraison)
+{	return 0;}
 
-double ClientOccasionnel::getReduction(const Restaurant & res, double montant, bool estLivraison){
-	return 0.0;
-}
+void ClientOccasionnel::afficherClient(ostream & os) const
+{	static_cast<Client>(*this).afficherClient(os);}
+

@@ -1,4 +1,3 @@
-
 /*
 * Date : 25 fevrier 2019
 * Auteur : AbdeB
@@ -15,9 +14,9 @@ class ClientRegulier : public Client
  public:
 	ClientRegulier();
 	ClientRegulier(string_view nom, string_view prenom, int tailleGroupe, int nbPoints); // TODO fait
-    virtual ~ClientRegulier();
+    ~ClientRegulier();
 	//Accesseurs
-     int getNbPoints() const ;
+    int getNbPoints() const ;
 
 	//Autres Methodes
 	void augmenterNbPoints(int bonus);

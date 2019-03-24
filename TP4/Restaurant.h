@@ -1,4 +1,3 @@
-
 /*
 * Titre : Restaurant.h - Travail Pratique #1
 * Date : 18 Janvier 2019
@@ -40,7 +39,7 @@ public:
 	string getNom() const;
 	TypeMenu getMoment() const;
 	double getFraisLivraison(int index) const;
-       double getChiffreAffaire();
+    double getChiffreAffaire();
 
 	// Autres methodes.
 

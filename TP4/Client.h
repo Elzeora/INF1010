@@ -1,4 +1,3 @@
-
 #ifndef CLIENT_H
 #define CLIENT_H
 
@@ -17,18 +16,18 @@ class Client
 public:
 	Client();
 	Client(string_view nom, string_view prenom, int tailleGroupe);
-    virtual ~Client(){};
+        ~Client(){};
 	//getters
 	int getTailleGroupe() const;
 	string getNom() const;
 	string getPrenom() const;
-      Table * getTable()const;
+	Table * getTable()const;
     // setters
     void setTable(Table * ta);
 	//affichage
-    virtual int getNbPoints() const = 0;
-    virtual void afficherClient(ostream & os) const = 0; // TODO fait
-    virtual double getReduction(const Restaurant & res, double montant, bool estLivraison) = 0;
+    virtual int getNbPoints() const;
+    virtual void afficherClient(ostream & os) const;  // TODO fait
+    virtual double getReduction(const Restaurant & res, double montant, bool estLivraison) const;
 
 protected:
 	string nom_;
@@ -37,3 +36,4 @@ protected:
     Table * tableOccupee_;
 };
 #endif
+

@@ -3,6 +3,15 @@
 * Auteur : AbdeB
 */
 
+
+/*
+QUESTIONS: -------------------------------------------------------------------------------------------------------------
+	Question 1. Le diagramme de classe est dans le dossier digramme de classe...
+
+	Question 2. Une classe abstraite est composée d'un minimum d'une méthode virtuelle alors qu'une interface est composée uniquement de méthodes pures virtuelles.
+	--------------------------------------------------------------------------------------------------------------------
+*/
+
 #include "Restaurant.h"
 #include "ClientOccasionnel.h"
 #include "ClientRegulier.h"
@@ -14,15 +23,17 @@
 #include<vector>
 using namespace std;
 
-int main(){
+int main()
+{
 	initDebogageMemoire();
 
 	vector<pair<string, bool>> tests;
 	vector<Client*> clients;
-	Restaurant poly("polyFood.txt", "PolyFood", TypeMenu::Soir);
+	Restaurant poly("polyFood.txt", "PolyFood", TypeMenu::Soir); // 1 - WE DIDNT TOUCH RESTAURANT - THE FIRST THING RELATED TO OUR WORK IN IT'S CONSTRUCTOR IS MENU'S CONSTRUCTOR = CHECK MENU
+
 	Menu* menu1 = new Menu(*poly.getMenu(TypeMenu::Matin));
 	cout << "================Exemple de menu===============" << endl;
-	cout << *menu1;
+	cout << *menu1 << "\n";
 	///creer plusieurs clients
    	clients.push_back(new ClientOccasionnel("Martin", "b", 1));
 	clients.push_back(new ClientOccasionnel("Amy", "wh", 15));
@@ -38,7 +49,8 @@ int main(){
         else
             cout << clients[i]-> getNom()<< " n'a  pas une place au resto "<<endl;
     
-    
+	cout << "\n";
+	
      // commander des plats
     if(clients[0]->getTable() != nullptr)
       poly.commanderPlat("Pates" , clients[0]->getTable()->getId());
@@ -50,8 +62,8 @@ int main(){
         poly.commanderPlat("Poisson" , clients[3]->getTable()->getId());
     if (clients[4]->getTable() != nullptr)
         poly.commanderPlat("Poisson" , clients[4]->getTable()->getId());
-    if (clients[5]->getTable() != nullptr){
-	   poly.commanderPlat("Muffin" , clients[5]->getTable()->getId());
+    if (clients[5]->getTable() != nullptr)
+    {  poly.commanderPlat("Muffin" , clients[5]->getTable()->getId());
        poly.commanderPlat("Pizza" , clients[5]->getTable()->getId());
     }
     
@@ -116,8 +128,8 @@ int main(){
     double taxe;
     Boisson * b;
     PlatVege * v;
-    for (size_t i = 0; i < listeTaxable.size(); i++){
-		taxe =listeTaxable[i]->getTaxe();
+    for (size_t i = 0; i < listeTaxable.size(); i++)
+    {   taxe =listeTaxable[i]->getTaxe();
         b = dynamic_cast<Boisson *>(listeTaxable[i]);
         v = dynamic_cast<PlatVege *>(listeTaxable[i]);
         if (b)
@@ -127,7 +139,8 @@ int main(){
     }
     cout << "la taxe a paye est "<<  sommeTaxe<< endl;
     
-	for (size_t i = 0; i < clients.size(); i++){
+	for (size_t i = 0; i < clients.size(); i++)
+	{
 		delete clients[i];
 	}
 	return 0;

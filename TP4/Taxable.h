@@ -8,10 +8,11 @@
 
 #ifndef TAXABLE_H
 #define TAXABLE_H
-class Taxable{
+class Taxable
+{
 public:
     virtual void setTaxe () = 0;
-    virtual double getTaxe()const = 0;
+    virtual double getTaxe() const = 0;
 };
 
 #endif /* Taxable_h */

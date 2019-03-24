@@ -1,35 +1,26 @@
-
-/*
-* Date : 25 février 2019
-* Auteur : AbdeB
-*/
 #include "PlatBio.h"
 
-PlatBio::PlatBio(string nom, double prix, double cout, double ecotaxe)
-	: Plat(nom, prix, cout), ecoTaxe_(ecotaxe){
+PlatBio::PlatBio(string nom, double prix, double cout, double ecotaxe): Plat(nom, prix, cout), ecoTaxe_(ecotaxe){
 }
 
 PlatBio::~ PlatBio(){}
 
-double PlatBio::getEcoTaxe() const{
-	return ecoTaxe_;
-}
+double PlatBio::getEcoTaxe() const
+{	return ecoTaxe_;}
 
-void PlatBio::setEcoTaxe(double ecoTaxe){
-	ecoTaxe_ = ecoTaxe;
-}
+void PlatBio::setEcoTaxe(double ecoTaxe)
+{	ecoTaxe_ = ecoTaxe;}
 
-
-Plat * PlatBio:: clone () const{
+Plat * PlatBio:: clone () const {
 	PlatBio* copiePlat = new PlatBio(nom_, prix_, cout_, ecoTaxe_);
 	return copiePlat;
 }
+double PlatBio:: getPrixDeRevient()
+{ 	return prix_ - cout_ + ecoTaxe_;}
 
-double PlatBio:: getPrixDeRevient(){
-	return prix_ - cout_ + ecoTaxe_;
+void PlatBio::afficherPlat(ostream& os) const {
+	static_cast<Plat>(*this).afficherPlat(os);
+    os << "BIO comprend une Taxe ecologique de : " << this->getEcoTaxe() << "$\n";
 }
 
-void PlatBio::afficherPlat(ostream& os) const{
-	Plat::afficherPlat(os);
-	os << "Plat Bio   comprend une Taxe ecologique de: " << ecoTaxe_ << "$" << endl;
-}
+

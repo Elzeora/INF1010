@@ -1,8 +1,3 @@
-/*
-* Date : 25 février 2019
-* Auteur : AbdeB
-*/
-
 #include "Menu.h"
 #include "LectureFichierEnSections.h"
 #include <cassert>  //? Contient "assert" qui permet de s'assurer qu'une expression est vraie, et terminer le programme avec un message d'erreur en cas contraire.
@@ -13,17 +8,19 @@ using namespace std;
 Menu::Menu() : type_{TypeMenu::Matin}{
 }
 
-Menu::Menu(string fichier, TypeMenu type) :	type_{type} {
+Menu::Menu(string fichier, TypeMenu type) : type_{type}{
 	lireMenu(fichier); 
 }
 
 Menu::~Menu(){
-	for (unsigned int i = 0; i < listePlats_.size(); i++)
-		delete listePlats_[i];
+	for (int i = 0; i < listePlats_.size(); i++) {
+		listePlats_.pop_back();
+	}
 	listePlats_.clear();
 
-	for (unsigned int i = 0; i < listePlatsVege_.size(); i++)
-		delete listePlatsVege_[i];
+	for (int i = 0; i < listePlatsVege_.size(); i++) {
+		listePlatsVege_.pop_back();
+	}
 	listePlatsVege_.clear();
 }
 
@@ -32,83 +29,53 @@ Plat* Menu::allouerPlat(Plat* plat) {
 }
 
 
-Menu::Menu(const Menu & menu) : type_(menu.type_) {
-	for (unsigned int i = 0; i < menu.listePlats_.size(); i++) {
-		listePlats_.push_back( new Plat (*(menu.listePlats_[i])));
-    }
-	for (unsigned int i = 0; i < menu.listePlatsVege_.size(); i++) {
-		listePlatsVege_.push_back( new PlatVege(*dynamic_cast<PlatVege*>(menu.listePlatsVege_[i])));
+Menu::Menu(const Menu & menu) : type_(menu.type_){
+	for (int i = 0; i < menu.listePlats_.size(); i++) {
+		listePlats_.push_back(menu.listePlats_[i]);
+	}
+
+	for (int i = 0; i < menu.listePlatsVege_.size(); i++) {
+		listePlatsVege_.push_back(menu.listePlatsVege_[i]);
 	}
 }
 
-
-Menu & Menu::operator=(const Menu & menu) {
-	if (&menu != this) {
+Menu & Menu::operator=(const Menu & menu){
+	if (this != &menu) {
+		for ( int i = 0; i < menu.listePlats_.size(); i++) {
+			listePlats_.push_back(allouerPlat(menu.listePlats_[i]));
+		}
+		for (int i = 0; i < menu.listePlatsVege_.size(); i++) {
+			if (auto platemps = dynamic_cast<PlatVege*>(menu.listePlatsVege_[i]))
+				listePlatsVege_.push_back(static_cast<PlatVege*>(allouerPlat(static_cast<PlatVege*>(menu.listePlatsVege_[i]))));
+			else
+				listePlatsVege_.push_back(static_cast<PlatVege*>(allouerPlat(static_cast<PlatBioVege*>(menu.listePlatsVege_[i]))));
+		}
 		type_ = menu.type_;
-
-		for (unsigned int i = 0; i < listePlats_.size(); i++)
-			delete listePlats_[i];
-		listePlats_.clear();
-
-		for (unsigned int i = 0; i < listePlatsVege_.size(); i++)
-			delete listePlatsVege_[i];
-		listePlatsVege_.clear();
-
-
-		for (unsigned int i = 0; i < menu.listePlats_.size(); i++) {
-			
-			if (dynamic_cast<PlatBio*>(menu.listePlats_[i]))
-				listePlats_.push_back(allouerPlat((dynamic_cast<PlatBio*>(menu.listePlats_[i]))));
-
-			else if (dynamic_cast<PlatVege*>(menu.listePlats_[i]))
-				listePlats_.push_back(allouerPlat((dynamic_cast<PlatVege*>(menu.listePlats_[i]))));
-
-			else if (dynamic_cast<PlatBioVege*>(menu.listePlats_[i]))
-				listePlats_.push_back(allouerPlat((dynamic_cast<PlatBioVege*>(menu.listePlats_[i]))));
-
-			else
-				listePlats_.push_back(allouerPlat(menu.listePlats_[i]));
-		}
-
-		for (unsigned int i = 0; i < menu.listePlatsVege_.size(); i++) {
-			if (dynamic_cast<PlatBioVege*>(menu.listePlats_[i]))
-				listePlatsVege_.push_back(dynamic_cast<PlatBioVege*>(menu.listePlatsVege_[i]));
-			else
-				listePlatsVege_.push_back(dynamic_cast<PlatVege*>(menu.listePlatsVege_[i]));
-		}
 	}
 	return *this;
 }
 
-
 // Getters.
 
-vector<Plat*> Menu::getListePlats() const {
-	return listePlats_;
-}
+vector<Plat*> Menu::getListePlats() const
+{	return listePlats_;}
 
 // Autres methodes.
 
 Menu& Menu::operator+=(owner<Plat*> plat) {
-	if (dynamic_cast<PlatBio*>(plat))
-		listePlats_.push_back(dynamic_cast<PlatBio*>(plat));
-
-	else if (dynamic_cast<PlatBioVege*>(plat)) {
-		listePlats_.push_back(dynamic_cast<PlatBioVege*>(plat));
-		listePlatsVege_.push_back(dynamic_cast<PlatBioVege*>(plat));
+	if (auto platTampon = dynamic_cast<PlatBioVege*>(plat)) {
+		listePlatsVege_.push_back(static_cast<PlatBioVege*>(plat)); 
+		listePlats_.push_back(static_cast<Plat*>(plat));			
 	}
-
-	else if (dynamic_cast<PlatVege*>(plat)) {
-		listePlats_.push_back(dynamic_cast<PlatVege*>(plat));
-		listePlatsVege_.push_back(dynamic_cast<PlatVege*>(plat));
-	}	
-
+	else if (auto platTampon = dynamic_cast<PlatVege*>(plat)) {
+		listePlatsVege_.push_back(static_cast<PlatVege*>(plat));	
+		listePlats_.push_back(static_cast<Plat*>(plat));			
+	}
 	else
-		listePlats_.push_back(plat);
-
+		listePlats_.push_back(static_cast<Plat*>(plat));
+	
 	return *this;
 }
-
 
 void Menu::lireMenu(const string& nomFichier) {
 	LectureFichierEnSections fichier{nomFichier};
@@ -127,14 +94,15 @@ Plat* Menu::trouverPlatMoinsCher() const{
 	return minimum;
 }
 
-Plat* Menu::trouverPlat(string_view nom) const {
+Plat* Menu::trouverPlat(string_view nom) const{
 	for (Plat* plat : listePlats_)
 		if (plat->getNom() == nom)
 			return plat; 
 
 	return nullptr; 
 }
-Plat* Menu::lirePlatDe(LectureFichierEnSections& fichier) {
+
+Plat* Menu::lirePlatDe(LectureFichierEnSections& fichier){
     auto lectureLigne = fichier.lecteurDeLigne();
     
     string nom, typeStr;
@@ -161,18 +129,16 @@ Plat* Menu::lirePlatDe(LectureFichierEnSections& fichier) {
 
 // Fonctions globales.
 
-ostream& operator<<(ostream& os, const Menu& menu){   
-        //TODO
-	for (unsigned int i = 0; i < menu.listePlats_.size(); i++)
-	{
+ostream& operator<<(ostream& os, const Menu& menu){
+	for (unsigned int i = 0; i < menu.listePlats_.size(); i++) {
 		if (dynamic_cast<PlatBio*>(menu.listePlats_[i]))
-			static_cast<PlatBio*>(menu.listePlats_[i])->afficherPlat(os);
+			dynamic_cast<PlatBio*>(menu.listePlats_[i])->afficherPlat(os);
 
 		else if (dynamic_cast<PlatVege*>(menu.listePlats_[i]))
-			static_cast<PlatVege*>(menu.listePlats_[i])->afficherPlat(os);
+			dynamic_cast<PlatVege*>(menu.listePlats_[i])->afficherPlat(os);
 
 		else if (dynamic_cast<PlatBioVege*>(menu.listePlats_[i]))
-			static_cast<PlatBioVege*>(menu.listePlats_[i])->afficherPlat(os);
+			dynamic_cast<PlatBioVege*>(menu.listePlats_[i])->afficherPlat(os);
 
 		else
 			menu.listePlats_[i]->afficherPlat(os);
