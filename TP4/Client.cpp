@@ -1,3 +1,8 @@
+/*
+* Titre : client.cpp - Travail Pratique #4
+* Date :  mars 2019
+* Auteur : Louis Roberge  && Jean-Sébastien Patenaude
+*/
 #include "Client.h"
 
 Client::Client()

@@ -1,3 +1,8 @@
+/*
+* Titre : Plat.cpp - Travail Pratique #4
+* Date :  mars 2019
+* Auteur : Louis Roberge  && Jean-Sébastien Patenaude
+*/
 #include "Plat.h"
 #include "PlatBio.h"
 #include "PlatVege.h"

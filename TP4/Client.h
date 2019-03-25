@@ -1,3 +1,8 @@
+/*
+* Titre : client.h - Travail Pratique #4
+* Date :  mars 2019
+* Auteur : Louis Roberge  && Jean-Sébastien Patenaude
+*/
 #ifndef CLIENT_H
 #define CLIENT_H
 

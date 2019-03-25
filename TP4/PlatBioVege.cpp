@@ -1,3 +1,8 @@
+/*
+* Titre : PlatBioVege.cpp - Travail Pratique #4
+* Date :  mars 2019
+* Auteur : Louis Roberge  && Jean-Sébastien Patenaude
+*/
 #include "PlatBioVege.h"
 
 PlatBioVege::PlatBioVege(string nom, double prix, double cout, double ecotaxe, double vitamines, double proteines, double mineraux) 

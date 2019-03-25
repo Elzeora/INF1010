@@ -1,3 +1,8 @@
+/*
+* Titre : clientOccasionnel.cpp - Travail Pratique #4
+* Date :  mars 2019
+* Auteur : Louis Roberge  && Jean-Sébastien Patenaude
+*/
 #include "ClientOccasionnel.h"
 
 ClientOccasionnel::ClientOccasionnel(string_view nom, string_view prenom, int tailleGroupe)

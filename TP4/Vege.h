@@ -1,3 +1,8 @@
+/*
+* Titre : Vege.h - Travail Pratique #4
+* Date :  mars 2019
+* Auteur : Louis Roberge  && Jean-Sébastien Patenaude
+*/
 #ifndef VEGE_H
 #define VEGE_H
 #include <iostream>

@@ -1,3 +1,8 @@
+/*
+* Titre : Vege.cpp - Travail Pratique #4
+* Date :  mars 2019
+* Auteur : Louis Roberge  && Jean-Sébastien Patenaude
+*/
 #include "Vege.h"
 
 Vege::Vege(string nom, double vitamines, double proteines, double mineraux)

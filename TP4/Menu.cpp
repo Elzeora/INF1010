@@ -1,3 +1,8 @@
+/*
+* Titre : Menu.cpp - Travail Pratique #4
+* Date :  mars 2019
+* Auteur : Louis Roberge  && Jean-Sébastien Patenaude
+*/
 #include "Menu.h"
 #include "LectureFichierEnSections.h"
 #include <cassert>  //? Contient "assert" qui permet de s'assurer qu'une expression est vraie, et terminer le programme avec un message d'erreur en cas contraire.

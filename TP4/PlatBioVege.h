@@ -1,3 +1,8 @@
+/*
+* Titre : PlatBioVege.h - Travail Pratique #4
+* Date :  mars 2019
+* Auteur : Louis Roberge  && Jean-Sébastien Patenaude
+*/
 #ifndef PLAT_BIOVEGE_H
 #define PLAT_BIOVEGE_H
 

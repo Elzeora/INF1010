@@ -1,3 +1,8 @@
+/*
+* Titre : plat.h - Travail Pratique #4
+* Date :  mars 2019
+* Auteur : Louis Roberge  && Jean-Sébastien Patenaude
+*/
 #ifndef PLAT_H
 #define PLAT_H
 

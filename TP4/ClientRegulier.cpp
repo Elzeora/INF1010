@@ -1,3 +1,8 @@
+/*
+* Titre : clientRegulier.cpp - Travail Pratique #4
+* Date :  mars 2019
+* Auteur : Louis Roberge  && Jean-Sébastien Patenaude
+*/
 #include "ClientRegulier.h"
 
 ClientRegulier::ClientRegulier()
@@ -21,7 +26,9 @@ void ClientRegulier::afficherClient(ostream & os) const
 {	static_cast<Client>(*this).afficherClient(os);}
 
 double ClientRegulier::getReduction(const Restaurant & res, double montant, bool estLivraison){
-	if (nbPoints_ > SEUIL_DEBUT_REDUCTION)
-		return (-1 * montant) * TAUX_REDUC_REGULIER;
-	return 0;
+	double reduction = 0.0;
+	if (nbPoints_ > SEUIL_DEBUT_REDUCTION) {
+		reduction = (-montant * TAUX_REDUC_REGULIER);
+	}
+	return reduction;
 }
