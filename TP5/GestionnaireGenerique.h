@@ -17,9 +17,19 @@ template<typename T, typename C>
 class GestionnaireGenerique
 {
 public:
-	C getConteneur() const; //TODO
-	void ajouter(T t);//TODO
-	int getNombreElements() const;//TODO
+	C getConteneur() const { //TODO
+		C conteneurCopy;
+		copy(conteneur_.begin(), conteneur_.end(), conteneurCopy.begin());
+		return conteneurCopy;
+	}
+
+	void ajouter(T t) {//TODO
+		pair<conteneur_.end(), bool>insert(t);
+	}
+
+	int getNombreElements() const {//TODO
+		return conteneur_.size();
+	}
 
 protected:
 	C conteneur_;
