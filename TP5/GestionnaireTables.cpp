@@ -14,17 +14,23 @@ Table* GestionnaireTables::getTable(int id) const {
 }
 
 Table* GestionnaireTables::getMeilleureTable(int tailleGroupe) const {
-	FoncteurMeilleureTable meilleureTable;
-
+	Table* meilleureTable = nullptr;
 	// si marche pas --> STL p15
 	for (set<Table*>::iterator it = conteneur_.begin(); it != conteneur_.end(); it++) {
-		FoncteurMeilleureTable foncteurMeilleureTable;
-		int meilleurePlace = foncteurMeilleureTable(it, tailleGroupe);
-		if(meilleurePlace > 0 && )
+		Table* table = *it;
+		if (table->estOccupee() && table->getId() != ID_TABLE_LIVRAISON) {
+			int placesACetteTable = table->getNbPlaces();
+			if (placesACetteTable >= tailleGroupe && (!meilleureTable || placesACetteTable < meilleureTable->getNbPlaces()))
+				meilleureTable = table;
+		}
 	}
+	return meilleureTable;
 
-
-} 
+		/*FoncteurMeilleureTable foncteurMeilleureTable;
+		int meilleurePlace = foncteurMeilleureTable(*it, tailleGroupe);
+		if(meilleurePlace > 0 && )*/
+}
+ 
 
 void GestionnaireTables::lireTables(const string& nomFichier) {
 	LectureFichierEnSections fichier{ nomFichier };

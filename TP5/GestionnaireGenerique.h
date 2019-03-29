@@ -24,7 +24,7 @@ public:
 	}
 
 	void ajouter(T t) {//TODO
-		pair<conteneur_.end(), bool>insert(t);
+		conteneur_.insert(t);
 	}
 
 	int getNombreElements() const {//TODO
