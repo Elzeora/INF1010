@@ -10,12 +10,20 @@
 #include "PlatVege.h"
 #include "PlatBioVege.h"
 
+using namespace std;
+
+GestionnairePlats(const std::string& nomFichier, TypeMenu type) { //TODO
+	lirePlats(nomFichier, type);
+}
+
+GestionnairePlats(GestionnairePlats* gestionnaire) { // TODO
+	copy(gestionnaire->conteneur_.begin(), gestionnaire->conteneur_.end(), conteneur_.begin());
+}
+
+~GestionnairePlats() { // TODO
 
 
-GestionnairePlats(const std::string& nomFichier, TypeMenu type); //TODO
-GestionnairePlats(GestionnairePlats* gestionnaire); // TODO
-
-~GestionnairePlats(); // TODO
+}
 
 TypeMenu getType() const; // TODO
 
