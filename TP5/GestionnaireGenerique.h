@@ -7,9 +7,9 @@
 #pragma once
 
 #include <algorithm>
+#include <iostream>
+#include <iterator>
 #include "Foncteur.h"
-
-using namespace  std;
 
 //              T   = pair<string, Plat*> ou Table*; 
 //              C   = map<string, Plat*> ou set<Table*>; 
@@ -23,11 +23,11 @@ public:
 		return conteneurCopy;
 	}
 
-	void ajouter(T t) {//TODO
+	void ajouter(T t) {//TODO fait
 		conteneur_.insert(t);
 	}
 
-	int getNombreElements() const {//TODO
+	int getNombreElements() const {//TODO fait
 		return conteneur_.size();
 	}
 

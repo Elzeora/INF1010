@@ -12,7 +12,24 @@
 
 
 
-void GestionnairePlats::lirePlats(const string& nomFichier, TypeMenu type)
+GestionnairePlats(const std::string& nomFichier, TypeMenu type); //TODO
+GestionnairePlats(GestionnairePlats* gestionnaire); // TODO
+
+~GestionnairePlats(); // TODO
+
+TypeMenu getType() const; // TODO
+
+Plat* allouerPlat(Plat*); // TODO
+
+Plat* trouverPlatMoinsCher() const; // TODO utiliser les min/max
+Plat* trouverPlatPlusCher() const; // TODO
+
+Plat* trouverPlat(const std::string& nom) const; // TODO
+vector<pair<std::string, Plat*>> getPlatsEntre(double borneInf, double borneSup); // TODO
+
+
+
+void GestionnairePlats::lirePlats(const std::string& nomFichier, TypeMenu type)
 {
 	LectureFichierEnSections fichier{ nomFichier };
 	fichier.allerASection(entetesDesTypesDeMenu[static_cast<int>(type)]);
@@ -20,11 +37,11 @@ void GestionnairePlats::lirePlats(const string& nomFichier, TypeMenu type)
 		ajouter(lirePlatDe(fichier));
 }
 
-pair<string, Plat*> GestionnairePlats::lirePlatDe(LectureFichierEnSections& fichier)
+pair<std::string, Plat*> GestionnairePlats::lirePlatDe(LectureFichierEnSections& fichier)
 {
 	auto lectureLigne = fichier.lecteurDeLigne();
 	Plat* plat;
-	string nom, typeStr;
+	std::string nom, typeStr;
 	TypePlat type;
 	double prix, coutDeRevient;
 	lectureLigne >> nom >> typeStr >> prix >> coutDeRevient;
@@ -46,7 +63,15 @@ pair<string, Plat*> GestionnairePlats::lirePlatDe(LectureFichierEnSections& fich
 	default:
 		plat = new Plat{ nom, prix, coutDeRevient };
 	}
-	return pair<string, Plat*>(plat->getNom(), plat);
+	return pair<std::string, Plat*>(plat->getNom(), plat);
 }
 
 
+
+void afficherPlats(ostream& os) { //TODO
+	map<std::string, Plat*>::iterator end = conteneur_.end();
+	copy(conteneur_.begin(), end, ostream_iterator<std::string, Plat*>(os, "\n"));
+
+
+
+}

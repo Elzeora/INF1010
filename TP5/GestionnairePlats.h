@@ -15,13 +15,14 @@
 #include <map>
 #include <algorithm>
 #include <functional>
+#include <string>
 
 using namespace std;
 
-class GestionnairePlats : public GestionnaireGenerique<pair<string, Plat*>, map<string, Plat*>>
+class GestionnairePlats : public GestionnaireGenerique< pair<std::string, Plat*>, map<std::string, Plat*>>
 {
 public:
-	GestionnairePlats(const string& nomFichier, TypeMenu type); //TODO
+	GestionnairePlats(const std::string& nomFichier, TypeMenu type); //TODO
 	GestionnairePlats(GestionnairePlats* gestionnaire); // TODO
 
 	~GestionnairePlats(); // TODO
@@ -30,13 +31,13 @@ public:
 
 	Plat* allouerPlat(Plat*); // TODO
 
-	Plat* trouverPlatMoinsCher() const; // TODO
+	Plat* trouverPlatMoinsCher() const; // TODO utiliser les min/max
 	Plat* trouverPlatPlusCher() const; // TODO
 
-	Plat* trouverPlat(const string& nom) const; // TODO
-	vector<pair<string, Plat*>> getPlatsEntre(double borneInf, double borneSup); // TODO
-	void lirePlats(const string& nomFichier, TypeMenu type);
-	pair<string, Plat*> lirePlatDe(LectureFichierEnSections& fichier);
+	Plat* trouverPlat(const std::string& nom) const; // TODO
+	vector<pair<std::string, Plat*>> getPlatsEntre(double borneInf, double borneSup); // TODO
+	void lirePlats(const std::string& nomFichier, TypeMenu type);
+	pair<std::string, Plat*> lirePlatDe(LectureFichierEnSections& fichier);
 
 	void afficherPlats(ostream& os);
 

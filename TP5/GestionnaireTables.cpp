@@ -9,11 +9,11 @@
 #include "LectureFichierEnSections.h"
 
 
-Table* GestionnaireTables::getTable(int id) const {
+Table* GestionnaireTables::getTable(int id) const { //TODO
 	return *find(conteneur_.begin(), conteneur_.end(), id);
 }
 
-Table* GestionnaireTables::getMeilleureTable(int tailleGroupe) const {
+Table* GestionnaireTables::getMeilleureTable(int tailleGroupe) const { //TODO
 	Table* meilleureTable = nullptr;
 	// si marche pas --> STL p15
 	for (set<Table*>::iterator it = conteneur_.begin(); it != conteneur_.end(); it++) {
@@ -26,9 +26,7 @@ Table* GestionnaireTables::getMeilleureTable(int tailleGroupe) const {
 	}
 	return meilleureTable;
 
-		/*FoncteurMeilleureTable foncteurMeilleureTable;
-		int meilleurePlace = foncteurMeilleureTable(*it, tailleGroupe);
-		if(meilleurePlace > 0 && )*/
+	//for_each(conteneur_.begin(), conteneur_.end(), FoncteurMeilleureTable(...));
 }
  
 
@@ -42,8 +40,7 @@ void GestionnaireTables::lireTables(const string& nomFichier) {
 	}
 }
 
-void GestionnaireTables::afficherTables(ostream& os) const {
-
-
-
+void GestionnaireTables::afficherTables(ostream& os) const { //TODO fait
+	set<Table*>::iterator end = conteneur_.end();
+	copy(conteneur_.begin(), end, ostream_iterator<Table*>(os, "\n"));
 }
