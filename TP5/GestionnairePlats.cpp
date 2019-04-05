@@ -9,35 +9,91 @@
 #include "PlatBio.h"
 #include "PlatVege.h"
 #include "PlatBioVege.h"
+#include <string>
 
 using namespace std;
 
-GestionnairePlats(const std::string& nomFichier, TypeMenu type) { //TODO
+GestionnairePlats::GestionnairePlats(const string& nomFichier, TypeMenu type)
+	: type_(type) { //TODO fait
 	lirePlats(nomFichier, type);
 }
 
-GestionnairePlats(GestionnairePlats* gestionnaire) { // TODO
+
+GestionnairePlats::GestionnairePlats(GestionnairePlats* gestionnaire) { // TODO fait
 	copy(gestionnaire->conteneur_.begin(), gestionnaire->conteneur_.end(), conteneur_.begin());
+	type_ = gestionnaire->type_;
 }
 
-~GestionnairePlats() { // TODO
 
-
+GestionnairePlats::~GestionnairePlats() { // TODO fait
+	for (map<string, Plat*>::iterator it = conteneur_.begin(); it != conteneur_.end(); it++) {
+		delete it->second;
+	}
+	conteneur_.clear();
 }
 
-TypeMenu getType() const; // TODO
 
-Plat* allouerPlat(Plat*); // TODO
-
-Plat* trouverPlatMoinsCher() const; // TODO utiliser les min/max
-Plat* trouverPlatPlusCher() const; // TODO
-
-Plat* trouverPlat(const std::string& nom) const; // TODO
-vector<pair<std::string, Plat*>> getPlatsEntre(double borneInf, double borneSup); // TODO
+TypeMenu GestionnairePlats::getType() const { // TODO fait
+	return type_;
+}
 
 
+Plat* GestionnairePlats::allouerPlat(Plat* plat) { // TODO fait
+	Plat* ptrPlat = new Plat(*plat);
+	return ptrPlat;
+}
 
-void GestionnairePlats::lirePlats(const std::string& nomFichier, TypeMenu type)
+
+Plat* GestionnairePlats::trouverPlatMoinsCher() const { // TODO fait utiliser les min/max
+	map<string, Plat*>::iterator plat;
+	plat = min_element(getConteneur().begin(), getConteneur().end(), FoncteurPlatMoinsCher(*plat));
+	return plat->second;
+}
+
+
+Plat* GestionnairePlats::trouverPlatPlusCher() const { // TODO
+	map<string, Plat*>::iterator plat;
+	// avec une fonction lambda en 3e parametre: [capture] (param) -> retour {body}
+	plat = max_element(getConteneur().begin(), getConteneur().end(),
+		[plat](pair<string, Plat*> platComparaison) {
+			return plat->second->getPrix() < platComparaison.second->getPrix(); });
+	return plat->second;
+}
+
+
+Plat* GestionnairePlats::trouverPlat(const string& nom) const { // TODO
+	map<string, Plat*>::iterator plat;
+	plat = find(getConteneur().begin(), getConteneur().end(), nom);
+	return plat->second;
+}
+
+
+
+
+
+
+
+
+
+
+///////////////////////////////////////verif si fonctionne
+vector<pair<string, Plat*>> GestionnairePlats::getPlatsEntre(double borneInf, double borneSup) { // TODO fait
+	vector<pair<string, Plat*>> vecteurPlat;
+	copy_if(getConteneur().begin(), getConteneur().end(), vecteurPlat.begin(), FoncteurIntervalle(borneInf, borneSup));
+	return vecteurPlat;
+}
+
+
+
+
+
+
+
+
+
+
+
+void GestionnairePlats::lirePlats(const string& nomFichier, TypeMenu type)
 {
 	LectureFichierEnSections fichier{ nomFichier };
 	fichier.allerASection(entetesDesTypesDeMenu[static_cast<int>(type)]);
@@ -45,11 +101,11 @@ void GestionnairePlats::lirePlats(const std::string& nomFichier, TypeMenu type)
 		ajouter(lirePlatDe(fichier));
 }
 
-pair<std::string, Plat*> GestionnairePlats::lirePlatDe(LectureFichierEnSections& fichier)
+pair<string, Plat*> GestionnairePlats::lirePlatDe(LectureFichierEnSections& fichier)
 {
 	auto lectureLigne = fichier.lecteurDeLigne();
 	Plat* plat;
-	std::string nom, typeStr;
+	string nom, typeStr;
 	TypePlat type;
 	double prix, coutDeRevient;
 	lectureLigne >> nom >> typeStr >> prix >> coutDeRevient;
@@ -71,15 +127,14 @@ pair<std::string, Plat*> GestionnairePlats::lirePlatDe(LectureFichierEnSections&
 	default:
 		plat = new Plat{ nom, prix, coutDeRevient };
 	}
-	return pair<std::string, Plat*>(plat->getNom(), plat);
+	return pair<string, Plat*>(plat->getNom(), plat);
 }
 
 
 
-void afficherPlats(ostream& os) { //TODO
-	map<std::string, Plat*>::iterator end = conteneur_.end();
-	copy(conteneur_.begin(), end, ostream_iterator<std::string, Plat*>(os, "\n"));
-
-
-
+void GestionnairePlats::afficherPlats(ostream& os) { //TODO fait
+	map<string, Plat*>::iterator plat;
+	for (map<string, Plat*>::iterator it = conteneur_.begin(); it != conteneur_.end(); it++) {
+		plat->second->afficherPlat(os);
+	}
 }
