@@ -14,22 +14,18 @@ using namespace std;
 
 class FoncteurPlatMoinsCher { // TODO fait
 public:
-	FoncteurPlatMoinsCher(pair<string, Plat*> plat)
-		: plat_(plat) {}
-	bool operator()(pair<string, Plat*> plat) {
-		return plat_.second->getPrix() < plat.second->getPrix();
+	FoncteurPlatMoinsCher() {}
+	bool operator()(pair<string, Plat*> plat1, pair<string, Plat*> plat2) {
+		return plat1.second->getPrix() < plat2.second->getPrix();
 	}
-
-private:
-	pair<string, Plat*> plat_;
 };
 
 class FoncteurIntervalle { // TODO fait
 public:
 	FoncteurIntervalle(double min, double max)
 		: min_(min), max_(max) {}
-	bool operator()(Plat* plat) {
-		return plat->getPrix() >= min_ && plat->getPrix() >= max_;
+	bool operator()(pair<string, Plat*> plat) {
+		return plat.second->getPrix() >= min_ && plat.second->getPrix() >= max_;
 	}
 
 private:

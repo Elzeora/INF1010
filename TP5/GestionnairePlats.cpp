@@ -46,12 +46,12 @@ Plat* GestionnairePlats::allouerPlat(Plat* plat) { // TODO fait
 
 Plat* GestionnairePlats::trouverPlatMoinsCher() const { // TODO fait utiliser les min/max
 	map<string, Plat*>::iterator plat;
-	plat = min_element(getConteneur().begin(), getConteneur().end(), FoncteurPlatMoinsCher(*plat));
+	plat = min_element(getConteneur().begin(), getConteneur().end(), FoncteurPlatMoinsCher());
 	return plat->second;
 }
 
 
-Plat* GestionnairePlats::trouverPlatPlusCher() const { // TODO
+Plat* GestionnairePlats::trouverPlatPlusCher() const { // TODO fait
 	map<string, Plat*>::iterator plat;
 	// avec une fonction lambda en 3e parametre: [capture] (param) -> retour {body}
 	plat = max_element(getConteneur().begin(), getConteneur().end(),
@@ -61,7 +61,7 @@ Plat* GestionnairePlats::trouverPlatPlusCher() const { // TODO
 }
 
 
-Plat* GestionnairePlats::trouverPlat(const string& nom) const { // TODO
+Plat* GestionnairePlats::trouverPlat(const string& nom) const { // TODO fait
 	map<string, Plat*>::iterator plat;
 	plat = find(getConteneur().begin(), getConteneur().end(), nom);
 	return plat->second;

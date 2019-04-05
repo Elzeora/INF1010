@@ -18,7 +18,7 @@ Table* GestionnaireTables::getMeilleureTable(int tailleGroupe) const { //TODO fa
 	// si marche pas --> STL p15
 	for (set<Table*>::iterator it = conteneur_.begin(); it != conteneur_.end(); it++) {
 		Table* table = *it;
-		if (table->estOccupee() && table->getId() != ID_TABLE_LIVRAISON) {
+		if (!(table->estOccupee()) && table->getId() != ID_TABLE_LIVRAISON) {
 			int placesACetteTable = table->getNbPlaces();
 			if (placesACetteTable >= tailleGroupe && (!meilleureTable || placesACetteTable < meilleureTable->getNbPlaces()))
 				meilleureTable = table;
