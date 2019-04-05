@@ -39,7 +39,7 @@ public:
 	void lirePlats(const string& nomFichier, TypeMenu type);
 	pair<string, Plat*> lirePlatDe(LectureFichierEnSections& fichier);
 
-	void afficherPlats(ostream& os);
+	void afficherPlats(ostream& os); // TODO
 
 private:
 	TypeMenu type_;

@@ -17,7 +17,7 @@ template<typename T, typename C>
 class GestionnaireGenerique
 {
 public:
-	C getConteneur() const { //TODO
+	C getConteneur() const { //TODO fait
 		C conteneurCopy;
 		copy(conteneur_.begin(), conteneur_.end(), conteneurCopy.begin());
 		return conteneurCopy;
