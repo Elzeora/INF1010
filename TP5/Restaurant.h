@@ -46,13 +46,11 @@ public:
 	GestionnaireTables* getTables() const; // TODO : À implémenter
 	GestionnairePlats* getMenu(TypeMenu typeMenu) const; // TODO: retourner un GestionnairePlats* a la place
 	double getFraisLivraison(ZoneHabitation zone) const;
-	string getNomTypeMenu(TypeMenu typeMenu);
+	string getNomTypeMenu(TypeMenu typeMenu) const;
 
 	// Autres methodes.
 	void lireAdresses(const string& fichier);
 	void libererTable(int id);
-
-	Restaurant& operator+=(owner<Table*> table); // TODO : À retirer, deplacer dans GestionnaireTables //? Le param�tre est indiqu� "owner" pour montrer que cette m�thode prend possession du pointeur qui lui est pass�, mais owner<Table*> est �quivalent � Table*; voir pointers.h .
 
 	void commanderPlat(string_view nom, int idTable);
 	bool operator <(const Restaurant& restau) const ;
@@ -67,9 +65,7 @@ public:
 	friend ostream& operator<<(ostream& os, const Restaurant& restaurent);
 
 private:
-	GestionnairePlats* menuActuel() const; // TODO : retourner GestionnairePlats 
-	Table* getTable(int id) const; // TODO : À retirer, utiliser GestionnaireTables
-
+	GestionnairePlats* menuActuel() const; // TODO : retourner GestionnairePlats
 	string nom_;
 	TypeMenu momentJournee_;
 	double chiffreAffaire_;

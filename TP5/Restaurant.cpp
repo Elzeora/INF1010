@@ -72,9 +72,6 @@ double Restaurant::getChiffreAffaire() {
 
 GestionnaireTables* Restaurant::getTables() const {
 	return tables_;
-
-
-
 }
 
 GestionnairePlats* Restaurant::getMenu(TypeMenu typeMenu) const
@@ -88,13 +85,13 @@ GestionnairePlats* Restaurant::getMenu(TypeMenu typeMenu) const
 	return nullptr;  // On ne devrait jamais se rendre � cette ligne.
 }
 
-double Restaurant::getFraisLivraison(int index) const
+double Restaurant::getFraisLivraison(ZoneHabitation zone) const
 {
-	return fraisLivraison_[index];
+	return fraisLivraison_[static_cast<int>(zone)];
 }
 
 
-string Restaurant::getNomTypeMenu(TypeMenu typeMenu)
+string Restaurant::getNomTypeMenu(TypeMenu typeMenu) const
 {
 	return string{ nomsDesTypesDeMenu[static_cast<int>(typeMenu)] };
 }
@@ -113,24 +110,17 @@ void Restaurant::lireAdresses(const string& nomFichier)
 
 void Restaurant::libererTable(int id)
 {
-	if (Table* table = getTable(id)) {
+	if (Table* table = tables_->getTable(id)) {
 		chiffreAffaire_ += table->getChiffreAffaire(); 
-		chiffreAffaire_ += calculerReduction(table->getClientPrincipal(), table->getChiffreAffaire(), id == tables_[INDEX_TABLE_LIVRAISON]->getId());
+		chiffreAffaire_ += calculerReduction(table->getClientPrincipal(), table->getChiffreAffaire(), id == ID_TABLE_LIVRAISON);
 		table->libererTable(); 
 	}
 }
 
-
-Restaurant& Restaurant::operator+=(owner<Table*> table)
-{
-	tables_.push_back(table);
-	return *this;
-}
-
 void Restaurant::commanderPlat(string_view nom, int idTable)
 {
-	if (Table* table = getTable(idTable); table && table->estOccupee())
-		if (Plat* plat = menuActuel()->trouverPlat(nom)) {
+	if (Table* table = tables_->getTable(idTable); table && table->estOccupee())
+		if (Plat* plat = menuActuel()->trouverPlat(string(nom))) {
 			table->commander(plat);
 			return;
 		}
@@ -145,17 +135,27 @@ bool Restaurant::operator <(const Restaurant& autre) const
 bool Restaurant::placerClients(Client* client)
 {
 	const int tailleGroupe = client->getTailleGroupe();
-	//TODO : trouver la table la plus adaptée pour le client. 
+	//TODO : trouver la table la plus adaptée pour le client.
 	//TODO : Si possible assigner la table au client sinon retourner false.
+	Table* meilleuretable = tables_->getMeilleureTable(tailleGroupe);
+	if (meilleuretable != nullptr) {
+		client->setTable(meilleuretable);
+		meilleuretable->placerClients(tailleGroupe);
+		meilleuretable->setClientPrincipal(client);
+		return true;
+	}
+	else
+		return false;
 }
 
 bool Restaurant::livrerClient(Client* client, const vector<string>& commande)
 {
 	if (dynamic_cast<ClientPrestige*>(client)) {
 		// TODO: Placer le client principal a la table fictive en utilisant la classe GestionnaireTables.
-		// tables_[INDEX_TABLE_LIVRAISON]->setClientPrincipal(client); // L'appel du TP4
+		Table* table = tables_->getTable(ID_TABLE_LIVRAISON);
+		table->setClientPrincipal(client);
 		// TODO: Placer client à la table fictive en utilisant la classe GestionnaireTables.
-		// tables_[INDEX_TABLE_LIVRAISON]->placerClients(1); // L'appel du TP4
+		table->placerClients(1);
 		// Placer la commande
 		for (unsigned int i = 0; i < commande.size(); i++)
 			commanderPlat(commande[i], INDEX_TABLE_LIVRAISON);
@@ -183,39 +183,22 @@ ostream& operator<<(ostream& os, const Restaurant& restaurent)
 
 	os << "-Voici les tables : " << endl;
 
-	for (Table* table : restaurent.tables_)
-		os << *table << endl;
+	restaurent.tables_->afficherTables(os);
 	os << endl;
 
 	os << "-Voici son menu : " << endl;
 	for (TypeMenu typeMenu : { TypeMenu::Matin, TypeMenu::Midi, TypeMenu::Soir }) {
-		Menu* menu = restaurent.getMenu(typeMenu);
-		os << getNomTypeMenu(typeMenu) << " : " << endl
-			<< *menu << endl
-			<< "Le plat le moins cher est : ";
+		GestionnairePlats* menu = restaurent.getMenu(typeMenu);
+		os << restaurent.getNomTypeMenu(typeMenu) << " : " << endl;
+			menu->afficherPlats(os);
+			os << "Le plat le moins cher est : ";
 		menu->trouverPlatMoinsCher()->afficherPlat(os);
 		os << endl;
 	}
 	return os;
 }
 
-double Restaurant::getFraisLivraison(ZoneHabitation zone) const
-{
-	return fraisLivraison_[static_cast<int>(zone)];
-}
-
-
 GestionnairePlats* Restaurant::menuActuel() const
 {
 	return getMenu(momentJournee_);
 }
-
-Table* Restaurant::getTable(int id) const
-{
-	for (Table* table : tables_)
-		if (table->getId() == id)
-			return table;
-	return nullptr;
-}
-
-
