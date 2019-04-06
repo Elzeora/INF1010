@@ -60,7 +60,6 @@ public:
 	bool livrerClient(Client* client, const vector<string>& nomPlats);
 	
 	double calculerReduction(Client* client, double montant, bool livraison);
-	friend ostream& operator<<(ostream& os, const Restaurant& restau);
 	
 	friend ostream& operator<<(ostream& os, const Restaurant& restaurent);
 

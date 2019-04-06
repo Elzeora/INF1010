@@ -20,8 +20,10 @@ GestionnairePlats::GestionnairePlats(const string& nomFichier, TypeMenu type)
 
 
 GestionnairePlats::GestionnairePlats(GestionnairePlats* gestionnaire) { // TODO fait
-	copy(gestionnaire->conteneur_.begin(), gestionnaire->conteneur_.end(), conteneur_.begin());
 	type_ = gestionnaire->type_;
+	for (map<string, Plat*>::iterator it = gestionnaire->conteneur_.begin(); it != gestionnaire->conteneur_.end(); it++) {
+		ajouter(*it);
+	}
 }
 
 
@@ -29,7 +31,6 @@ GestionnairePlats::~GestionnairePlats() { // TODO fait
 	for (map<string, Plat*>::iterator it = conteneur_.begin(); it != conteneur_.end(); it++) {
 		delete it->second;
 	}
-	conteneur_.clear();
 }
 
 
@@ -55,42 +56,26 @@ Plat* GestionnairePlats::trouverPlatPlusCher() const { // TODO fait
 	map<string, Plat*>::iterator plat;
 	// avec une fonction lambda en 3e parametre: [capture] (param) -> retour {body}
 	plat = max_element(getConteneur().begin(), getConteneur().end(),
-		[plat](pair<string, Plat*> platComparaison) {
-			return plat->second->getPrix() < platComparaison.second->getPrix(); });
+		[](const pair<string, Plat*>& plat1, const pair<string, Plat*>& plat2) -> bool {
+			return plat1.second->getPrix() < plat2.second->getPrix(); });
 	return plat->second;
 }
 
 
 Plat* GestionnairePlats::trouverPlat(const string& nom) const { // TODO fait
-	map<string, Plat*>::iterator plat;
-	plat = find(getConteneur().begin(), getConteneur().end(), nom);
-	return plat->second;
+	for (map<string, Plat*>::iterator it = getConteneur().begin(); it != getConteneur().end(); it++) {
+		if (it->second->getNom() == nom)
+			return it->second;
+	}
+	return nullptr;
 }
 
 
-
-
-
-
-
-
-
-
-///////////////////////////////////////verif si fonctionne
 vector<pair<string, Plat*>> GestionnairePlats::getPlatsEntre(double borneInf, double borneSup) { // TODO fait
 	vector<pair<string, Plat*>> vecteurPlat;
 	copy_if(getConteneur().begin(), getConteneur().end(), vecteurPlat.begin(), FoncteurIntervalle(borneInf, borneSup));
 	return vecteurPlat;
 }
-
-
-
-
-
-
-
-
-
 
 
 void GestionnairePlats::lirePlats(const string& nomFichier, TypeMenu type)
@@ -131,10 +116,8 @@ pair<string, Plat*> GestionnairePlats::lirePlatDe(LectureFichierEnSections& fich
 }
 
 
-
 void GestionnairePlats::afficherPlats(ostream& os) { //TODO fait
-	map<string, Plat*>::iterator plat;
 	for (map<string, Plat*>::iterator it = conteneur_.begin(); it != conteneur_.end(); it++) {
-		plat->second->afficherPlat(os);
+		it->second->afficherPlat(os);
 	}
 }

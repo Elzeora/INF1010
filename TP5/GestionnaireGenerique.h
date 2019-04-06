@@ -10,6 +10,7 @@
 #include <iostream>
 #include <iterator>
 #include "Foncteur.h"
+#include "debogageMemoire.hpp"
 
 //              T   = pair<string, Plat*> ou Table*; 
 //              C   = map<string, Plat*> ou set<Table*>; 
@@ -18,9 +19,7 @@ class GestionnaireGenerique
 {
 public:
 	C getConteneur() const { //TODO fait
-		C conteneurCopy;
-		copy(conteneur_.begin(), conteneur_.end(), conteneurCopy.begin());
-		return conteneurCopy;
+		return conteneur_;
 	}
 
 	void ajouter(T t) {//TODO fait
@@ -34,4 +33,3 @@ public:
 protected:
 	C conteneur_;
 };
-
