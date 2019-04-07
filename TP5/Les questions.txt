@@ -1,0 +1,9 @@
+Question 1 :
+	oui, on aurait pu utiliser un gestionnaire pour les clients puisqu'il existe plusieurs type de clients différents je conseillerais le conteneur vector, car l'odre ne serait pas importante.
+
+
+
+Question 2 :
+
+	le principe d'une classe générique est d'être utiliser par plusieurs objets différent et n'est pas spécifier à l'avance. Donc c'est pour cela qu'on ne fait pas de .h et de .cpp puisque lorsqu'on va vouloir utiliser la classe générique avec un objet spécifique le compilateur serait perdu si on ne lui donne pas l'implementation directement dans le .h.
+
