@@ -7,8 +7,6 @@
 #pragma once
 
 #include <algorithm>
-#include <iostream>
-#include <iterator>
 #include "Foncteur.h"
 #include "debogageMemoire.hpp"
 
@@ -18,18 +16,35 @@ template<typename T, typename C>
 class GestionnaireGenerique
 {
 public:
-	C getConteneur() const { //TODO fait
-		return conteneur_;
-	}
 
-	void ajouter(T t) {//TODO fait
-		conteneur_.insert(t);
-	}
+	C getConteneur() const; //TODO fait
 
-	int getNombreElements() const {//TODO fait
-		return conteneur_.size();
-	}
+	void ajouter(T t); //TODO fait
+
+	int getNombreElements() const; //TODO fait
+
 
 protected:
 	C conteneur_;
 };
+
+
+/********************************************************/
+/*              implementation                          */
+/********************************************************/
+template<typename T, typename C>
+C GestionnaireGenerique<T, C>::getConteneur() const
+{
+	return conteneur_;
+}
+
+template<typename T, typename C>
+void GestionnaireGenerique<T, C>::ajouter(T t) {
+	conteneur_.insert(t);
+}
+
+template<typename T, typename C>
+int GestionnaireGenerique<T, C>::getNombreElements() const
+{
+	return conteneur_.size();
+}

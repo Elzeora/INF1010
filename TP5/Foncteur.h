@@ -25,7 +25,7 @@ public:
 	FoncteurIntervalle(double min, double max)
 		: min_(min), max_(max) {}
 	bool operator()(const pair<string, Plat*>& plat) {
-		return plat.second->getPrix() >= min_ && plat.second->getPrix() <= max_;
+		return (plat.second->getPrix() < max_) && (plat.second->getPrix() > min_);
 	}
 
 private:

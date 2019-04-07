@@ -7,7 +7,12 @@
 
 #include "GestionnaireTables.h"
 #include "LectureFichierEnSections.h"
+#include <iostream>
 
+GestionnaireTables::~GestionnaireTables(){
+	for (Table* table : conteneur_)
+		delete table;
+}
 
 Table* GestionnaireTables::getTable(int id) const { //TODO fait
 	for (set<Table*>::iterator it = conteneur_.begin(); it != conteneur_.end(); it++) {
@@ -18,17 +23,20 @@ Table* GestionnaireTables::getTable(int id) const { //TODO fait
 }
 
 Table* GestionnaireTables::getMeilleureTable(int tailleGroupe) const { //TODO fait
-	Table* meilleureTable = nullptr;
-	// si marche pas --> STL p15
-	for (set<Table*>::iterator it = conteneur_.begin(); it != conteneur_.end(); it++) {
-		Table* table = *it;
-		if (!(table->estOccupee()) && table->getId() != ID_TABLE_LIVRAISON) {
-			int placesACetteTable = table->getNbPlaces();
-			if (placesACetteTable >= tailleGroupe && (!meilleureTable || placesACetteTable < meilleureTable->getNbPlaces()))
+	Table* meilleureTable = new Table(-1, 9999);
+	bool meilleurTableTrouvee = false;
+	for (Table* table : conteneur_) {
+		if ((!table->estOccupee()) && (table->getId() != ID_TABLE_LIVRAISON)) {
+			if ((table->getNbPlaces() >= tailleGroupe) && (table->getNbPlaces() < meilleureTable->getNbPlaces())) {
 				meilleureTable = table;
+				meilleurTableTrouvee = true;
+			}
 		}
 	}
-	return meilleureTable;
+	if (meilleurTableTrouvee)
+		return meilleureTable;
+	else
+		return nullptr;
 }
  
 
