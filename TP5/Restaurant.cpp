@@ -132,6 +132,12 @@ bool Restaurant::operator <(const Restaurant& autre) const
 	return chiffreAffaire_ < autre.chiffreAffaire_;
 }
 
+/****************************************************************************
+ * Fonction: Restaurant::placerClients(Client* client)
+ * Description: retourne un bool selon si le client est placer ou pas
+ * Paramètres: (Client*) client
+ * Retour: bool
+ ****************************************************************************/
 bool Restaurant::placerClients(Client* client)
 {
 	const int tailleGroupe = client->getTailleGroupe();
@@ -148,6 +154,13 @@ bool Restaurant::placerClients(Client* client)
 		return false;
 }
 
+
+/****************************************************************************
+ * Fonction: Restaurant::livrerClient(Client* client, const vector<string>& commande)
+ * Description: retourne un bool selon si le client est livrer ou pas
+ * Paramètres: (Client*) client, (const vector<string>&) commande
+ * Retour: bool
+ ****************************************************************************/
 bool Restaurant::livrerClient(Client* client, const vector<string>& commande)
 {
 	if (dynamic_cast<ClientPrestige*>(client)) {

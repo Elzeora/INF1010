@@ -16,11 +16,28 @@ template<typename T, typename C>
 class GestionnaireGenerique
 {
 public:
-
+/****************************************************************************
+ * Fonction: getConteneur()
+ * Description: retourne une copie du conteneur_
+ * Paramètres: rien
+ * Retour: rien
+ ****************************************************************************/
 	C getConteneur() const; //TODO fait
 
+/****************************************************************************
+ * Fonction: ajouter(T t)
+ * Description: permet d’ajouter unélément au conteneur conteneur_
+ * Paramètres: (IN) l'élement qu'on souhaite ajouter
+ * Retour: rien
+ ****************************************************************************/
 	void ajouter(T t); //TODO fait
 
+/****************************************************************************
+ * Fonction: getNombreElements()
+ * Description:  retourne la taille du conteneu
+ * Paramètres: rien
+ * Retour: rien
+ ****************************************************************************/
 	int getNombreElements() const; //TODO fait
 
 

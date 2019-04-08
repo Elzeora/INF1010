@@ -11,7 +11,10 @@
 
 using namespace std;
 
-
+/****************************************************************************
+ * Class: FoncteurPlatMoinsCher
+ * Description: Un foncteur prédicat binaire permet  de  comparer  les plats deux à deuxdu conteneur ma
+ ****************************************************************************/
 class FoncteurPlatMoinsCher { // TODO fait
 public:
 	FoncteurPlatMoinsCher() {}
@@ -20,6 +23,11 @@ public:
 	}
 };
 
+/****************************************************************************
+ * Class: FoncteurPlatMoinsCher
+ * Description:   Un  foncteurprédicatunaireayantla  borne  inférieure  et  la borne supérieure comme attributs.
+ *    Ce foncteurprend en entrée un plat uniquedu conteneur mapet vérifiesison prix est compris entre les bornes
+ ****************************************************************************/
 class FoncteurIntervalle { // TODO fait
 public:
 	FoncteurIntervalle(double min, double max)
