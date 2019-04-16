@@ -9,7 +9,7 @@
 #include <qobject.h>
 /*
 * Date : 3 avril 2019
-* Auteur : Pierre-Olivier Côté
+* Auteur : Pierre-Olivier Cote
 *
 namespace Ui {
 class MainWindow;

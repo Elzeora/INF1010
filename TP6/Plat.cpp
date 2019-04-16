@@ -1,5 +1,5 @@
 /*
-* Date : 25 février 2019
+* Date : 25 fevrier 2019
 * Auteur : AbdeB
 */
 #include "Plat.h"

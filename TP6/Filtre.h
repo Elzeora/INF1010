@@ -1,6 +1,6 @@
 /*
 * Date : 3 avril 2019
-* Auteur : Pierre-Olivier Côté
+* Auteur : Pierre-Olivier Cote
 */
 #ifndef FILTRE
 #define FILTRE

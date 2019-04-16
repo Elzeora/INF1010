@@ -2,7 +2,7 @@
 
 /*
 * Date : 3 avril 2019
-* Auteur : Pierre-Olivier Côté
+* Auteur : Pierre-Olivier Cote
 */
 
 Commande::Commande() {
@@ -19,7 +19,10 @@ void Commande::ajouterPlat(QString nomPlat) {
 void Commande::retirerPlat(QString nomPlat) {
     if(commande_.removeOne(nomPlat)){
         emit commandeModifie();
-    } //TODO
+    } //TODO gestion erreur done
+    else {
+        throw ErreurPlatIntrouvable(LABEL_MEAL_NOT_FOUND);
+    }
 }
 
 void Commande::viderCommande(){

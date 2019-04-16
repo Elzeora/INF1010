@@ -182,38 +182,21 @@ void MainWindow::mettreAJourPlatsCommande(){
     }
 }
 
-
-
-
-
-
-//TODO
+//TODO done
 void MainWindow::insererPlatsChoisisDansCommande() {
-    foreach (Plat plat, commande_->getCommande()) {
-        commande_->ajouterPlat(plat.getNom());
-    }
+    commande_->ajouterPlat(widgetPlatsFiltres_->currentItem()->text());
     mettreAJourPlatsCommande();
     mettreAJourPrix();
 }
 
-//TODO
+//TODO gestion erreur done
 void MainWindow::retirerPlatsChoisisDeCommande() {
-    //widgetCommande_->selectedItems();
-    foreach (widgetCommande_->selectedItems(), commande_->getCommande()) {
-       // commande_->retirerPlat(widgetCommande_->selectedItems());
+    try {
+        commande_->retirerPlat(widgetPlatsFiltres_->currentItem()->text());
+    } catch (ErreurPlatIntrouvable erreur) {
+        message(erreur.what());
     }
-    mettreAJourPlatsCommande();
-    mettreAJourPrix();
 }
-
-
-
-
-
-
-
-
-
 
 void MainWindow::mettreAJourPrix() {
 

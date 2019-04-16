@@ -25,12 +25,12 @@ DEFINES += QT_DEPRECATED_WARNINGS
 CONFIG += c++17
 
 SOURCES += \
-    Commande.cpp \
     Filtre.cpp \
     main.cpp \
     mainwindow.cpp \
     Menu.cpp \
-    Plat.cpp
+    Plat.cpp \
+    Commande.cpp
 
 HEADERS += \
     Commande.h \

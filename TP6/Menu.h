@@ -1,6 +1,6 @@
 /*
 * Date : 3 avril 2019
-* Auteur : Pierre-Olivier Côté
+* Auteur : Pierre-Olivier Cote
 */
 #ifndef MENU
 #define MENU
@@ -24,7 +24,7 @@ public:
     Plat* getPlat(QString nomPlat) const;
 
 private:
-	//autres méthodes
+	//autres methodes
     void lirePlats(QString nomFichier, TypeMenu type, map<QString, Plat*>& menu);
 	void ajouterPlat(TypeMenu typeMenu, Plat* plat);
     void supprimerPlatsDuMenu(map<QString, Plat*> menu);
